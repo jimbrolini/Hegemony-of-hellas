@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com;">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Hegemony of Hellas</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0904;--gold:#c9943a;--gold2:#e8b85a;--gold3:#f5d080;
+  --stone:#1e1710;--stone2:#2c2218;--stone3:#3d3020;
+  --parch:#c8a870;--parch2:#9a7a48;
+  --text:#e0cfa0;--dim:#9a8860;
+  --red2:#c0392b;--green2:#27ae60;
+  --br:rgba(201,148,58,0.2);--br2:rgba(201,148,58,0.45);
+  --gcol:#4a8acc;--pcol:#cc7a2a;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{width:100%;min-height:100%;background:var(--bg);font-family:'Crimson Text',serif;color:var(--text);overflow-x:hidden;}
+button,select,input{font-family:'Crimson Text',serif;}
+.scr{display:none;min-height:100vh;flex-direction:column;} .scr.on{display:flex;}
+#sTitle{align-items:center;justify-content:center;text-align:center;padding:48px 24px;
+background:radial-gradient(ellipse at 50% 25%,#1c1408,#0c0904);position:relative;overflow:hidden;}
+#sTitle::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c9943a' fill-opacity='0.04'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z'/%3E%3C/g%3E%3C/svg%3E");}
+.eyebrow{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--gold);opacity:.6;margin-bottom:14px;position:relative;}
+h1.mt{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,8vw,3.6rem);color:var(--gold3);text-shadow:0 0 50px rgba(201,148,58,.5),0 2px 0 rgba(0,0,0,.8);line-height:1.1;margin-bottom:6px;position:relative;}
+.tsub{font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;color:var(--parch2);margin-bottom:30px;position:relative;}
+.trule{width:180px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 22px;position:relative;}
+.tlore{font-size:1rem;font-style:italic;color:var(--text);opacity:.65;line-height:1.8;margin-bottom:36px;max-width:340px;position:relative;}
+.gbtn{font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;padding:15px 36px;border:1px solid var(--gold);background:transparent;color:var(--gold3);position:relative;overflow:hidden;transition:color .3s;display:inline-block;}
+.gbtn::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-101%);transition:transform .3s;z-index:0;}
+.gbtn span{position:relative;z-index:1;}
+.gbtn:active::before{transform:translateX(0);} .gbtn:active{color:#1a1206;}
+#sSetup{background:var(--bg);overflow-y:auto;}
+.setup-hdr{padding:20px 18px 14px;background:linear-gradient(180deg,#1c1408,var(--bg));text-align:center;flex-shrink:0;}
+.setup-hdr h2{font-family:'Cinzel Decorative',serif;font-size:1.2rem;color:var(--gold3);margin-bottom:3px;}
+.setup-hdr p{font-size:.86rem;color:var(--dim);font-style:italic;}
+.char-section{padding:10px 14px 4px;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:3px;color:var(--gold);opacity:.6;text-transform:uppercase;}
+.char-list{padding:4px 14px 20px;display:flex;flex-direction:column;gap:9px;}
+.ccard{border:1px solid var(--br);padding:14px;background:var(--stone);cursor:pointer;transition:border-color .2s;position:relative;}
+.ccard:active,.ccard.sel{border-color:var(--gold2);background:var(--stone2);}
+.ccard.sel::after{content:'CHOSEN';position:absolute;top:9px;right:11px;font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:2px;color:var(--gold);}
+.cc-name{font-family:'Cinzel',serif;font-size:.95rem;color:var(--gold2);margin-bottom:1px;}
+.cc-role{font-size:.7rem;color:var(--dim);font-style:italic;margin-bottom:5px;}
+.cc-side{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.cc-g{color:var(--gcol);} .cc-p{color:var(--pcol);}
+.cc-stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:5px;}
+.cs{font-size:.73rem;color:var(--dim);} .cs b{color:var(--gold3);}
+.cc-bonus{font-size:.76rem;color:var(--parch);font-style:italic;margin-bottom:3px;}
+.cc-desc{font-size:.75rem;color:var(--dim);line-height:1.5;}
+.setup-foot{padding:14px;border-top:1px solid var(--br);}
+#sGame{background:var(--bg);overflow-y:auto;}
+.topbar{background:var(--stone);border-bottom:1px solid var(--br);padding:6px 10px;display:flex;align-items:center;gap:5px;flex-shrink:0;position:sticky;top:0;z-index:20;}
+.tb-rd{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:1px;color:var(--dim);white-space:nowrap;flex-shrink:0;}
+.tb-who{font-family:'Cinzel',serif;font-size:.68rem;padding:3px 6px;border:1px solid;flex:1;text-align:center;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis;}
+.tb-ph{font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.5px;color:var(--dim);white-space:nowrap;flex-shrink:0;}
+.tb-map{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:1px;background:none;border:1px solid var(--br);color:var(--gold2);padding:3px 6px;flex-shrink:0;white-space:nowrap;}
+.tb-map:active{background:rgba(201,148,58,.15);}
+.scorebar{display:flex;align-items:center;gap:0;border:1px solid var(--br);flex-shrink:0;overflow:hidden;}
+.sb-gk{font-family:'Cinzel',serif;font-size:.55rem;padding:3px 5px;background:rgba(74,138,204,0.18);color:#7fc4e8;white-space:nowrap;}
+.sb-div{font-size:.55rem;color:var(--br2);padding:0 1px;}
+.sb-pr{font-family:'Cinzel',serif;font-size:.55rem;padding:3px 5px;background:rgba(204,122,26,0.18);color:#e8a86a;white-space:nowrap;}
+.resbar{display:flex;gap:5px;padding:8px 13px;background:var(--stone2);border-bottom:1px solid var(--br);overflow-x:auto;flex-shrink:0;}
+.resbar::-webkit-scrollbar{display:none;}
+.rc{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 8px;border:1px solid var(--br);background:var(--stone);min-width:50px;flex-shrink:0;}
+.rc-n{font-family:'Cinzel',serif;font-size:.48rem;letter-spacing:1px;color:var(--dim);text-transform:uppercase;}
+.rc-v{font-size:.9rem;color:var(--gold3);}
+.rc.mil{border-color:rgba(192,57,43,.3);} .rc.nav{border-color:rgba(42,96,144,.3);}
+.phbar{display:flex;padding:6px 13px;gap:2px;border-bottom:1px solid var(--br);background:var(--stone);flex-shrink:0;}
+.ph{flex:1;text-align:center;font-family:'Cinzel',serif;font-size:.46rem;letter-spacing:.4px;padding:4px 1px;text-transform:uppercase;color:var(--dim);border-bottom:2px solid transparent;transition:all .2s;}
+.ph.dn{color:var(--gold);opacity:.4;border-bottom-color:var(--stone3);}
+.ph.ac{color:var(--gold3);border-bottom-color:var(--gold);}
+.ph.pe{opacity:.2;}
+.gcont{flex:1;padding:13px;display:flex;flex-direction:column;gap:11px;}
+.gcard{border:1px solid var(--br);background:var(--stone);padding:12px;}
+.gc-t{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:3px;color:var(--gold);opacity:.7;text-transform:uppercase;margin-bottom:8px;border-bottom:1px solid var(--br);padding-bottom:5px;}
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:7px;} .ag.one{grid-template-columns:1fr;}
+.ab{font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:.8px;text-transform:uppercase;padding:11px 7px;border:1px solid var(--br2);background:transparent;color:var(--gold3);transition:background .2s;text-align:center;line-height:1.3;width:100%;}
+.ab:active{background:rgba(201,148,58,.15);}
+.ab.p{border-color:var(--gold2);background:rgba(201,148,58,.07);}
+.ab.d{border-color:var(--red2);color:#e87c7c;} .ab.d:active{background:rgba(192,57,43,.14);}
+.ab.s{border-color:var(--green2);color:#7de8a0;} .ab.s:active{background:rgba(39,174,96,.1);}
+.ab.off{opacity:.28;pointer-events:none;}
+.ab-sub{display:block;font-family:'Crimson Text',serif;font-size:.68rem;font-style:italic;color:var(--dim);letter-spacing:0;margin-top:2px;text-transform:none;}
+.ai-feed{background:var(--stone2);border:1px solid var(--br);padding:12px;display:flex;flex-direction:column;gap:6px;max-height:280px;overflow-y:auto;}
+.ai-feed::-webkit-scrollbar{width:3px;} .ai-feed::-webkit-scrollbar-thumb{background:var(--stone3);}
+.af-who{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:2px;margin-bottom:4px;}
+.af-entry{font-size:.8rem;line-height:1.6;padding:3px 0;border-bottom:1px solid rgba(201,148,58,.06);animation:fadeIn .4s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+.af-battle{background:var(--stone);border:1px solid var(--br);padding:8px;margin:4px 0;border-radius:2px;}
+.af-dice{display:flex;align-items:center;gap:8px;font-size:1.2rem;margin:4px 0;}
+.af-result{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:1px;}
+.af-result.win{color:#7de8a0;} .af-result.lose{color:#e87c7c;} .af-result.tie{color:var(--gold3);}
+.chron{max-height:155px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.chron::-webkit-scrollbar{width:3px;} .chron::-webkit-scrollbar-thumb{background:var(--stone3);}
+.ce{font-size:.78rem;line-height:1.6;padding:2px 0;border-bottom:1px solid rgba(201,148,58,.05);}
+.c-ev{color:var(--gold);font-style:italic;} .c-pl{color:#7fc4e8;} .c-ai{color:var(--dim);}
+.c-ba{color:#e87c7c;} .c-tr{color:#7de8a0;} .c-sy{color:var(--parch2);opacity:.75;} .c-dp{color:#c39bd3;}
+.plist{display:flex;flex-direction:column;gap:4px;}
+.prow{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--br);background:var(--stone2);}
+.prow.cur{border-color:var(--gold2);}
+.pdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.pri{flex:1;} .pr-n{font-family:'Cinzel',serif;font-size:.76rem;}
+.pr-d{font-size:.66rem;color:var(--dim);margin-top:1px;} .pr-s{font-family:'Cinzel',serif;font-size:.7rem;color:var(--gold);}
+.city-row{display:flex;gap:4px;flex-wrap:wrap;margin-top:3px;}
+.city-tag{font-size:.6rem;padding:2px 5px;border:1px solid;font-family:'Cinzel',serif;}
+.rellist{display:flex;flex-direction:column;gap:4px;}
+.relrow{display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid var(--br);}
+.relrow:last-child{border-bottom:none;} .rel-n{font-size:.78rem;flex:1;}
+.rel-b{flex:2;height:5px;background:var(--stone3);} .rel-f{height:100%;transition:width .4s;}
+.rel-v{font-family:'Cinzel',serif;font-size:.7rem;min-width:24px;text-align:right;}
+.trow{display:flex;align-items:center;gap:6px;margin-bottom:7px;}
+.tinp{width:46px;padding:6px 4px;background:var(--stone2);border:1px solid var(--br2);color:var(--text);font-size:.86rem;text-align:center;}
+.tinp:focus{outline:none;border-color:var(--gold);}
+.ov{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.88);display:none;align-items:flex-end;justify-content:center;}
+.ov.on{display:flex;}
+.osh{width:100%;max-width:480px;max-height:92vh;overflow-y:auto;background:var(--stone);border-top:2px solid var(--gold2);padding:17px;display:flex;flex-direction:column;gap:11px;}
+.os-t{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--gold3);text-align:center;}
+.os-s{font-size:.82rem;color:var(--dim);text-align:center;font-style:italic;}
+#ovMap{align-items:center;justify-content:center;}
+.map-sheet{width:100%;max-width:500px;height:92vh;background:#04101c;border:1px solid var(--gold2);display:flex;flex-direction:column;overflow:hidden;}
+.map-hdr{padding:10px 14px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:rgba(4,16,28,0.97);}
+.mh-t{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;}
+.mh-s{font-size:.7rem;color:var(--dim);font-style:italic;}
+.mh-c{font-family:'Cinzel',serif;font-size:.65rem;background:none;border:1px solid var(--br);padding:4px 10px;color:var(--gold3);}
+.map-svg-wrap{flex:1;overflow:hidden;}
+#mapSvg{width:100%;height:100%;display:block;touch-action:none;}
+.map-leg{padding:7px 13px;border-top:1px solid var(--br);font-size:.7rem;color:var(--dim);font-style:italic;flex-shrink:0;text-align:center;background:rgba(4,16,28,0.97);}
+.b-sides{display:grid;grid-template-columns:1fr 36px 1fr;gap:7px;align-items:start;}
+.bsd{border:1px solid var(--br);padding:10px 8px;text-align:center;}
+.bsd-who{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.bsd-u{font-size:1.8rem;color:var(--gold3);font-family:'Cinzel',serif;}
+.bsd-l{font-size:.62rem;color:var(--dim);margin-top:2px;}
+.bvs{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--gold);opacity:.35;align-self:center;text-align:center;}
+.droll{display:grid;grid-template-columns:1fr 32px 1fr;gap:6px;align-items:center;padding:10px;background:var(--stone2);border:1px solid var(--br);margin:4px 0;}
+.dr-s{text-align:center;}
+.dr-face{font-size:2rem;animation:df .45s ease;}
+@keyframes df{from{transform:scale(.4) rotate(-15deg);opacity:0;}to{transform:scale(1);opacity:1;}}
+.dr-tot{font-family:'Cinzel',serif;font-size:1.05rem;color:var(--gold3);margin-top:2px;}
+.dr-mod{font-size:.65rem;color:var(--dim);}
+.bres{text-align:center;padding:9px;border:1px solid;font-family:'Cinzel',serif;font-size:.84rem;letter-spacing:.8px;margin:3px 0;}
+.bres.win{color:#7de8a0;border-color:var(--green2);}
+.bres.lose{color:#e87c7c;border-color:var(--red2);}
+.bres.tie{color:var(--gold3);border-color:var(--gold);}
+#sVictory{align-items:center;justify-content:center;padding:36px 20px;text-align:center;background:radial-gradient(ellipse at 50% 30%,#1c1408,#0c0904);}
+.v-t{font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,7vw,2.8rem);margin-bottom:10px;text-shadow:0 0 30px rgba(201,148,58,.5);}
+.v-rule{width:160px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 18px;}
+.stbl{border:1px solid var(--br);width:100%;max-width:340px;margin-bottom:22px;}
+.srow{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--br);font-size:.84rem;}
+.srow:last-child{border-bottom:none;} .spts{font-family:'Cinzel',serif;color:var(--gold3);}
+.toast-el{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--stone2);border:1px solid var(--gold);color:var(--text);padding:9px 18px;font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:1px;z-index:999;pointer-events:none;transition:opacity .3s;white-space:nowrap;}
+.spec-hdr{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:2px;color:var(--pcol);opacity:.8;margin-bottom:6px;margin-top:10px;border-top:1px solid var(--br);padding-top:8px;}
+.spec-hdr.gk{color:var(--gcol);}
+</style>
+</head>
+<body>
+<!-- TITLE -->
+<div id="sTitle" class="scr on">
+  <div class="eyebrow">490 BCE &mdash; The Persian Wars</div>
+  <h1 class="mt">Hegemony<br>of Hellas</h1>
+  <div class="tsub">Grand Strategy &middot; Ancient Greece</div>
+  <div class="trule"></div>
+  <p class="tlore">Six commanders. History in the balance. Will Greece stand united, or fall to the Persian tide?</p>
+  <button class="gbtn" onclick="this.textContent='JS WORKS';if(window.G){G.goSetup();}else{alert('G not defined');}"><span>Choose Your Commander</span></button>
+</div>
+
+<!-- SETUP -->
+
+<div id="sSetup" class="scr">
+  <div class="setup-hdr"><h2>Choose Your Commander</h2><p>Greeks start with their home city. Persians invade from the Aegean.</p></div>
+  <div class="char-section">Greek Commanders</div>
+  <div class="char-list" id="greekList"></div>
+  <div class="char-section">Persian Commanders</div>
+  <div class="char-list" id="persianList"></div>
+  <div class="setup-foot"><button class="gbtn" id="startBtn" style="width:100%;padding:15px;" onclick="G.startGame()" disabled><span>March to Glory</span></button></div>
+</div>
+
+<!-- GAME -->
+
+<div id="sGame" class="scr">
+  <div class="topbar">
+    <div class="tb-rd" id="tbRd">Round 1</div>
+    <div class="tb-who" id="tbWho"></div>
+    <div class="tb-ph" id="tbPh"></div>
+    <div class="scorebar" id="scorebar">
+      <div class="sb-gk" id="sbGk">GK 0</div>
+      <div class="sb-div">/</div>
+      <div class="sb-pr" id="sbPr">PR 0</div>
+    </div>
+    <button class="tb-map" onclick="G.openInspectMap()" title="View Map">Map</button>
+  </div>
+  <div class="resbar" id="resbar"></div>
+  <div class="phbar" id="phbar"></div>
+  <div class="gcont" id="gcont"></div>
+</div>
+
+<!-- VICTORY -->
+
+<div id="sVictory" class="scr">
+  <div class="eyebrow">The War Ends</div>
+  <div class="v-t" id="vTitle">Greece Triumphant!</div>
+  <div class="v-rule"></div>
+  <div class="stbl" id="vScores"></div>
+  <button class="gbtn" onclick="location.reload()"><span>Play Again</span></button>
+</div>
+
+<!-- MAP OVERLAY -->
+
+<div class="ov" id="ovMap">
+  <div class="map-sheet">
+    <div class="map-hdr">
+      <div><div class="mh-t" id="mapTitle">Select City</div><div class="mh-s" id="mapSub">Gold = land &bull; Blue = sea</div></div>
+      <button class="mh-c" onclick="G.closeMap()">Cancel</button>
+    </div>
+    <div class="map-svg-wrap"><svg id="mapSvg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <div class="map-leg" id="mapLeg">Tap a highlighted city</div>
+  </div>
+</div>
+
+<!-- BATTLE OVERLAY -->
+
+<div class="ov" id="ovBattle">
+  <div class="osh">
+    <div class="os-t" id="bTitle">Battle</div>
+    <div class="os-s" id="bSub"></div>
+    <div class="b-sides" id="bSides"></div>
+    <div id="bRoll"></div>
+    <div id="bRes"></div>
+    <div id="bActs" style="display:flex;flex-direction:column;gap:7px;"></div>
+  </div>
+</div>
+
+<!-- DIPLOMACY OVERLAY -->
+
+<div class="ov" id="ovDip">
+  <div class="osh">
+    <div class="os-t">Diplomacy</div>
+    <div class="os-s">Build relations with Greek factions. Allied cities share defenders.</div>
+    <div id="dipCont"></div>
+    <button class="ab" onclick="G.closeOv('ovDip')">Cancel</button>
+  </div>
+</div>
+
+<!-- CITY INFO OVERLAY -->
+
+<div class="ov" id="ovCityInfo">
+  <div class="osh">
+    <div class="os-t" id="ciName"></div>
+    <div id="ciBody"></div>
+    <button class="ab" onclick="G.closeOv('ovCityInfo')">Close</button>
+  </div>
+</div>
+
+<!-- UNITS OVERLAY (move / deploy / garrison / ultimatum) -->
+
+<div class="ov" id="ovUnits">
+  <div class="osh">
+    <div class="os-t" id="unitsTitle">Units</div>
+    <div class="os-s" id="unitsSub"></div>
+    <div id="unitsCont"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+
+/* ═══════════════════════════════════════════════
+   LAND PATHS  (exact SVG paths from gr.svg)
+═══════════════════════════════════════════════ */
+var LP=[
+  "M171.9 241.8l1.6-4 1.1-2.1 0.4-1.1 0.4-1.7-0.1-1.4-0.4-3.7 0.2-1.2 0.9-1 2.1-0.5 0.9-0.5 0.9-1.4 0.4-1.3 0.5-1.1 1.4-0.9 2.7-0.1 2.4 1.1 2.3 0.6 2.5-1.8 1-1.4 0.4-0.6 0.3-0.8-0.1-1.7 0.6-1.2 1.1-0.7 1.3-0.4 0.7-1.4 1-0.8 0.9-0.5 0.7-0.8 0.6-1.3 0.1-1.1 0.1-1.1 0.1-1.6 1.1-4.7 0.4-2.5-0.1-2.6-0.7-2.4-1.1-1.9-2.7-3.3-2.9-2.8-0.5-1-0.2-1.1-0.4-1.1-1-0.8 1.8-2.1 0.6-2.9-0.1-6.4 15-0.6 7.3-2.2 2.7 0.1 3.8 0.8 1.5 0.3 3.6 0 3.5-0.7 1.6-0.9 3.7-3.7 2.4-1.1 2.5-0.1 7.9 1.1 0.4 0.1 4.5 4 2.9 0.6 0.9-0.6 2.4-2.4 1-0.8 0.6-0.1 1.5 0.1 0.5-0.2 0.4-0.8 0.2-1.7 0.2-0.6 2.9-1.3 5.3 1.2 2.1-0.4 0.7 4.7 3.5 1.7 1.6 1.7-0.3 1.8-1.8 1.6-2 0.8-3.9 0.9-3.7-0.2-0.7 1.7 1.6 1.8 1.6 6.2 1.1 2 3.6 1.3 0 1.9-2.4 5.9 1.7 0.6 1.9 0 4.3 1.4 1.8-0.1 1.7 1 2.3 0-2.5 5.9 0.1 3.8 2.8 3.7-1.4 3.5 0.1 1.9 1.6 1.4 2.3 4.4 1.5 1.7 3.8 1.8 3.4 2.3 0 1.9 1.7 1 5.8-0.9 0.8 2-0.3 1.8 0.4 1.9 3.4 3.9 0.5 3.8 1.1 2 4.8 2.3-1.6 3-0.3 4-1.4 1.6-4.1 2-0.7 2 0.3 2.7-2.4 2.9-0.9 3.5-3.1 5-5 5.1-0.9 3.5-2.1 3.7-4.1 2.3-4.9 4.7-2.1 1.5 3.4 2.1 0.7 1.9-0.3 1.8 0.9 3.8-0.3 1.8-1.3 1.2-5.4-0.8-7.7 1.7-3.7-0.2-10.3-2.8-15.1-2-4 1.6-2.1 1.5-2.4 3.3-2 1.2-4.3 1.5-1.9 0.1-1.3-1.3 0-1.8-6.8-4-3.6-0.2-5.8 1.3-3.9 1.6-1.8-0.6-1.9-4-1.4-7.5-3.2-3 2.7-5.5 0.2-4-1.6-1.3-4 1.9-2.8-3.7-1.3-5.7-1.6-1.3 2.6-4.8 0.3-2.1-1.3-5.7-2.8-6-4.4-5.4-2-6.2-1.5-2.1-3.9 0.9-1.3 1.7-2.1 1.1-1.9 0.1-1.2-0.9-0.3-0.5z",
+  "M171.9 241.8l0.3 0.5 1.2 0.9 1.9-0.1 2.1-1.1 1.3-1.7 3.9-0.9 1.5 2.1 2 6.2 4.4 5.4 2.8 6 1.3 5.7-0.3 2.1-2.6 4.8 1.6 1.3 1.3 5.7 2.8 3.7 4-1.9 1.6 1.3-0.2 4-2.7 5.5 3.2 3 1.4 7.5 1.9 4 1.8 0.6 3.9-1.6 5.8-1.3 3.6 0.2 6.8 4 0 1.8-2.8-0.8-1.9 0.8-1.1 1.7-2 1.1-1 2-0.7 1.8 1.7 7.9 0.1 3.7-1.8 0.1-1.6-1.4-4.1-0.2-2 1.1-1.3 1.6 1.1 4.2 0.2 3.7 1.5 2.1 1.7 0.6 1.2 2-0.6 3.5 0.9 3.8-1.4 1.6-0.3 1.8 1.6 2 0.7 2.3-0.4 2.2 0.8 2.3 4.8 4 1.5 4.6 3.6 2.7 5.4 0.8 1.9-0.4 2.4 2.9 1.6 3.9-5.4 10.4 0.4 2.2 2.7 4-2.4 0.8-5.4 4.6-4 1.9-1.9 0.4-12.8 0.2-2 0.8-1.7 1.6-1 3.5 0.1 1.4-0.5 0.3-1.8 2 2.1 1.7-5.7-0.8 0-0.9-1.2-0.3-1.2-0.8-1-0.9-0.4-0.3-1.2 0.7-1-0.6-0.7-1.2-0.3-1.2 0.2 0 0.3-0.6 0.9-0.2 0-0.9-0.7 0-1 0.6-1.2 0.1-1.1-0.6-0.8-1.1-0.8 0-0.6 1.3-1.8 1.1-0.4 0.8 0.5 1.3 1.1 0.3 0.5 0.6-4.3-0.1 1.5-0.7-0.2-0.9 0-1.3-0.3-0.9-0.9 0.4 0-0.5-0.1-0.3 0-0.3 0.2-0.1-0.1-0.7-0.9-0.1-0.5 0.1-0.3 0.5-0.4 0.5 1.3-2.9-0.4-2.2-1.2-0.8-1.2 1.3-0.6-0.9-0.4 0.9-0.6 0.8-0.8 0.5-1.1 0.5 0 1 1.5 0.3-0.4 1.1 0 1.5-0.4 1.6-0.7 1-0.8 0.5-0.8 0.7-0.4 1.4-1.5-1 0.1 1.4 0.2 0.6 0.4 0.1 0.8-0.2 4.8 4 2 0.9 0.6 1 0.2 0.9-0.3 0.4-0.9-0.2-1.8-1.1-3-1-0.7 0.1-0.9 0.4 0 0.6-1.1 1.6-1.2 1-0.6-1-0.3-1.2-0.7-0.9-0.8-0.7-0.3-0.7-0.1-0.8-0.2-0.4-0.3-0.3-0.1-0.4 0.2-0.8 0.5-0.6 0.5-0.4 0.2-0.4-1-4.4-2-3.2-2.7-2.3-3.3-1.9-3.3-2.6-8-10.2-3.1-2.1-0.9-1.1 0.3-1.2-0.5-1.2-0.2-1.6 0.1-1.5 0.6-1.1 0-1-1.2 0.5-1 0.2-0.8-0.4-0.5-1.2-1.5 0.8-1.5 0-1.3-0.7-1.3-1.1-2.9 1.2-4.1-2.1-3.3-4-0.3-4.1-1.3-1.4-0.8-1.6-1.1-1.4-2.4-0.2 0-0.9 0.7 0 0-0.9-0.8-1-1.2-2.1-0.8-0.6 1.8-0.6 2.1 0.1 1.4-0.4-0.3-1.8-1-1.1-4-2.6 0-0.9 1.8 0.1 1.3 0.4 1-0.1 0.9-1.3 0-0.9-1.1-0.7-1.8-0.9-1.4-0.1 0 1.7-0.9-0.8-1.2-0.7-1.1-0.2 1.1-1.1-1.9-0.5-1.8-0.2-1.7 0.2-1.6 0.5 0.8-1.1 0.4-1.2 0.2-1.4-0.1-1.7 0.8 0.9 0.7-0.1 0.7-0.7 0.7-1 0-0.4 0-1.7 0-0.7 0.2-0.1 1-0.7 0.2 0-0.6-2.7-1.8-1.2-1.7-0.6-0.8-0.6-0.3-0.6-1.7-1.3-0.5-0.3-1.2-0.3-0.8-0.7-0.8-0.9-4.5-1-2.4-1-1.2-0.7-0.6 0.1-0.4-0.1 1.6-1.1 3.5 1.2 4.1 1.3 4.7 2.5 2.9 2.6 2.1 1 1.6-0.4 0.4-0.7-0.1-1 0.1-1 0.9-0.9 0.8-0.3 0.9 0 0.8 0.3 0.9 0.6 0.4-3 1.5-1.5 1.9-1.1 1.4-1.7 0.3-1.5-0.3-0.7-0.5-0.6-0.4-1.1-0.2-0.4-0.7-1-0.3-0.4 0.1-0.4 0.7-1.6 0.1-0.7-0.3-1.1-0.6-0.5-0.3-0.6 0.7-1 0.9-0.3 1 0.1 0.2 0.1 3.8 1.4 1.8 1.1 1.8 0.2 1.7-1.8 0.9-2.7-0.4-2.3-4.8-7.9-2.4-2.4-0.6-0.8-1.5-8.2-0.5-1 1.2-0.4 5.2-0.2 1.7-0.3 0.4-2.4 0.8-2.4 1.2-2.1 1.4-1.6 1.9-0.9 3.4 0.4 1.7-0.9 1.8-0.5 5.5 0.8 2.5-0.3 3.9-1.8 2.6-1.2 0.7-0.6 0.4-0.9 1.6-4.4 0.1-0.6-0.5-2.5 0-0.7-0.3-1.5 0-0.8 0.5-0.7 1.5-0.5 0.6-0.4 1.1-3.2 0.1-2.8-0.3-2.7 0.5-3.1 0.8-1.3 1.1-0.8 1.2-0.5 0.8-0.8 0.3-0.7z",
+  "M311.1 260.9l-0.3-2.7 0.7-2 4.1-2 1.4-1.6 0.3-4 1.6-3-4.8-2.3-1.1-2-0.5-3.8-3.4-3.9-0.4-1.9 0.3-1.8-0.8-2-5.8 0.9-1.7-1 0-1.9-3.4-2.3-3.8-1.8-1.5-1.7-2.3-4.4-1.6-1.4-0.1-1.9 1.4-3.5-2.8-3.7-0.1-3.8 2.5-5.9-2.3 0-1.7-1-1.8 0.1-4.3-1.4-1.9 0-1.7-0.6 2.4-5.9 0-1.9-3.6-1.3-1.1-2-1.6-6.2-1.6-1.8 0.7-1.7 3.7 0.2 3.9-0.9 2-0.8 1.8-1.6 0.3-1.8-1.6-1.7-3.5-1.7-0.7-4.7 0.9-0.2 1.3-1.4 0.3-1.5 0.1-1.5 0.1-1.1 1.1-1.3 3.8-2.7 0.1 0 1.3-2.6 3.7-3.5 1.4-2.1 0.2-1 0-0.5 0.1-2.3 0.4-1.2 0.8-1 1.7-1.2 1-0.7 3.1-1.7 6.6-2 0.4-0.3 1.1-1.2 0.4-0.3 0.8 0.3 0.3 0.6 0.2 0.7 0.2 0.4 3.4 1.9 0.8 0.3 2.1-0.8 3.7-3.4 2.4-1.1 2.3-0.2 0.8 0.1 1.2 0.2 3.9 1.2 3.1 0.4 1 0.3 0.2 0.5 0.2 1.8 0.2 0.5 0.6 0.1 0.9-0.6 1.9-0.1 2.6-0.4 1.3 0.1 1 0.4 2.1 1.5 1.2 0.4 3.1 0.1 1.6-0.2 1.4-0.3 2-0.6 1.7 0 3.3 0.5 2.3-0.2 1.5-0.6 0.4-0.1 1.8-1.5 1.7-2.3 0.3-1.1-0.1-1.2 0.3-1 1.6-0.5 1.2 0.3 0.1 0.2 0.5 0.6 0.4 1.1 0.8 1.1 1.9 1.6 1.3 0.7 1.1-0.8 1.2-2.8 1-5.3 0.4-10.8 0.1-0.4 1-3.9 1.1-1 1.9-1.7 1.6-0.3 3-0.5 9.4 0.7 20.4 3.1 4.3-0.5 2.3-0.6 1.1-0.7 0.9-0.9 0.6-1.4 0.1-2.5 0.4-1 1.5-1.4 2.3-1.5 2.4-1 1.8-0.2 1.9 1.4 1 1.6 1 1 2.2-0.3 1.8-1 3.2-2.3 1.9-0.6 10.1 0.3 6.8 3.5 3.5 0.2 1.2-0.9 0.1 0.3-0.7 2.8 1.6 5.9 8.7 4.3 0 1.8-1.1 1.7-0.7 3.7 0.8 2 4.8 4.3 6.2 7.5 5.3 4 5.4 1.3 3.2 3.3 1.8-1.9 2-0.4 1.8 0.3 2 1.5 2.2 4.2 4.9 4.3 2.4 1.2-0.7 1.7 1.1 4-0.4 1.8-1.1 1.7 0 1.8-1.4 1.6-5.8 4.6-2.2 3.3-5.4 4.6-2.1 1.1-8.8 2-0.3 0.8 0 0.2-1.3-0.3-3.3 0.4-5.7 2.3-2.3 1.5-2.2 2-1.4 2.2-0.5 3.5 0.9 2.9 1.8 2.1 2.4 0.7 1.5 1 1.7 2.5 1.4 2.9 0.7 2.4 0.6 0.2 3.6 3.1 1.3 0.5 1.6 0.1 1.6-0.1 1.2-0.5 0.6 1.5 2 1.9 0.1 1.2-0.9 0.6-7 0.9-1.6 1.6-0.4 2.6 0.8 3.6 4.2 6.4 1 1 3.3 1.6 0.6 0.7 3.9 0.9 1.1 0.4 1.1-0.5 2.8-0.4 0.2-0.2 0.2 0.4-0.1 3.4 0.1 2.3-0.1 1.8-0.4 1.3-0.8-0.6-3.7-3.9-2.1-1.7-1.5-0.5-3.8 0.5-3.8-1-1.5 0.1-5.3 2.6-2.3 0.5-3-1.3-0.3 0.7-0.7 1.2-0.4-0.1-1.8 2.6-0.6 2.3 0.2 2.2 1.6 4.3 0.5 0.7 0.8 0.9 3.5 2.3 0.7 2.2 1.4 1.7 1.5 0.9 0.7-0.2 7 3.3 1.3-0.4 1.7 0.6 1.7 1.4 1.3 1.5 1.5 1.1 4 1.5 1.2 1.6-0.2 1.2-1.3 1.3 0.1 1.3 0.6 0.8 1.8 1.3 0.4 1-0.4 1.2-0.7 0.2-0.7-0.1-0.3 0.6 0.2 1.5 0.7 0.6 0.9-0.1 1-0.7 0 1.4 0 0.9 0.3 0.7 0.4 0.7-2.7 2.3-0.5 1.2 1.1 1.1 0 0.9-2 0.1-0.9 0.8 0.3 0.9 1.9 0.1 0 1-5.3 0.1-2.1-0.5 0.3-1.6 0-0.9-0.7 0-0.8 0.7-0.7-0.2-0.3-0.9 0.5-1.4-3.7-2.1-0.6-0.2-0.5-1.5-1.2-1-1.4-0.3-0.7 0.6-0.1 0.6 0.4 1.2-3.8-6.4-0.5-1.5 0.7-2.2 0.1-1.3-0.4-0.6-1.1-0.5-0.6-1.1-0.4-1.2-0.4-1-9.2-12.3-3.4-2.4-2-0.6-8.5-0.6-5.7-3.4-4.7-1.3-4.2 0.2-3.4 2.2-2.5 4.5-0.3 2.6 0.8 2.3 1 2.2 0.6 2.5 0.3 0.8 0.8 0.5 2.1 0.1 0.9 0.3 0.6 0.7 0.9 1.7 5.5 7.9 3.1 3.4 10.7 5.9 6.9 1.6 0.3 0.8 0 1.2 0.3 1.4 0.9 1.6 1.3 1.1 1.6 0.7 2.1 0.2 1.5 0.5-0.8 0.9-1.9 1-1.9 0.5-8.9-1.5-15-6.4-2.5-0.5-7.6 1.3-1.2 0.6 0.5-1.5 1.3-2.6 0.3-1.5-0.3-1.1-1.5-2.1-0.3-0.9-0.8-3.2-1.8-2.3-1.9-2-1.1-2.1 1.4-4.3 0.5-5.1-0.6-4.8-2-3.4-4.2-2.4-2.3-0.8-3.8-0.9-1.7-1.1-1.7-0.8-1.8 0.5-5.3-4-1.1-0.1-1.1-1-2.4-0.6-2.4-1-1.9-3.4-4.8-3.8-1.9-0.9-1.8-0.3-4.1 0.3 1-2.1-0.8-2.2-3-4 0.3-0.1 0.3 0 0.1-0.1 0-0.6-3.8-4.3-0.9-2.3 2.2-0.9 6.6-0.4 3.5-0.7 1.5-1.2 0.7-1.2 1.3-1 0.8-1.4-0.7-2.4-2.5-1.6-0.6-0.3-0.5-0.4 0.2-0.9 0.6-1.5-1.6-3.5-2.4-1.8-2.8-0.4-3 1.1 0.7 2.5-0.2 2.1-0.8 1.6-1.1 1.2-1.6 0.9-1 0.7 0.1 0.3-2.1 0-0.9-0.3-0.9-0.7-2 1.4-1.3 1.7-0.3 2 0.8 2.4-0.7 0-0.7-1 0 2-0.7 0 0-1-0.7 0-0.5 1.6-0.8-0.1-1.1-0.9-1.1-0.6-0.1-0.7-1.5 0.1-1.6 1.4-0.2 1.6 2 1.2-1 0.1-0.6 0.3-0.4 0.7-0.1 1.3-0.5 0.7-0.9-0.2-1.5-1-2.5 0.1-1.3 0.5-1.1 1.2 1.4 1.4 1.1 1.9 0.5 2.1-0.2 2 1.2 1.1 1 1.6 1.2 1.3 1.9 0.6 0.3 1.4-1.4 3.1-2.8 4.8-3.1 9.3 0.1 1.5-4 8.6-0.3 3 0.8 2.3 1.1 2.2 0.5 3.1-0.4 3 0.3 1.5 1.2 0.6 0.5 0.6 1.2 3.9 5.4 4.6 1 0.5 0.5 0.5 2.5 0.8 0.5 0.5 0.3 0.5 0.9-0.1 0.2 0.6-0.1 2.4 0.1 0.6-1.1 0.2-5.3 0.9-1.6-1.4-1.8-0.3-8.2 2.3-3.9-1.4-3.1-3.1-2.3-4.1-6.9-4.8-3.1-3.5-1.2-3.9 0.2-5.8-0.7-2-3.4-2-4.3 1.5-1.8 1.5-2.1 3.4-2.1 1.8-1.8-0.6-0.8-2 0.4-2.1-0.4-2 1-1.6 0.3-1.8-5.3-1.3-2.1 1.2-1 1.6-0.8-1.9z",
+  "M491.9 178l0-0.2 0.3-0.8 8.8-2 2.1-1.1 5.4-4.6 2.2-3.3 5.8-4.6 1.4-1.6 0-1.8 1.1-1.7 0.4-1.8-1.1-4 0.7-1.7-2.4-1.2-4.9-4.3-2.2-4.2-2-1.5-1.8-0.3-2 0.4-1.8 1.9-3.2-3.3-5.4-1.3-5.3-4-6.2-7.5-4.8-4.3-0.8-2 0.7-3.7 1.1-1.7 0-1.8-8.7-4.3-1.6-5.9 0.7-2.8-0.1-0.3 0.3-0.2 2.6-2.6 2-0.7 3.4 0 3.4 0.7 1.6-0.4 2.4-3.9 1.5-0.7 1.8 0.1 2.2-0.3 2.1-0.5 1.7-0.8 2.8-2.6 0.8 0.1 4.8 3.5 1.5-0.1 1.8-1.7 0.5-0.4 0.6-0.1 0.5-0.3 0.3-1 2.3 1.5 1.2 0.3 1.2-0.6 0.6-1 0.1-1.2-0.3-3-0.3-4.4 3-1.5 4.1 0.4 3.1 0.9 0.8 0.6 0.5 0.8 0.4 0.6 0.8 0.1 0.3-0.5 0.4-2.2 0.4-0.8 1.5-1.4 0.2-0.1 1.7-1.1 1.9-0.8 1.8-0.2 1.7 1.9 2 1.2 0.1 1.2-0.2 1.2 0.1 0.8 1 0.3 0.7-0.2 0.7-0.4 0.9-0.2 2.7 0.4 0.9-0.1 3.5-1.1 1.6-0.1 2.1 0.3 1.6-0.3 2.1-3 2.2-0.5 3-1.2 2.1 2 1.3 3.6 0.3 3.8 0.3 1.1 0.5 0.6 0.5 0.6 0.5 0.8 0.4 0.4 1 0.6 0.4 0.4 0.1 0.7-0.3 1.5 0.1 0.5 1.6 1.5 1.4 0.4 3.6-0.1-0.7 1.4 2.4 0 2 0.3 1.9 0.9 2 1.8 3.5 4.5 2.2 2 2.1 0.1 0.9-2-0.3-2.4 0.3-1.8 4-0.3 2.1-0.8 1.1-0.2 1.3 0.2 3.2 2 16.8 7.1 1.7-0.3 0.5 0 0.3 0.3 0.8 1.4 0.4 0.4 3.8 1.9 0.4 0.1 2 1.7 4.4 6.1 2 1.2 2.4 0.3 2.4-0.1 17.2-5.6 2.7-0.5 1 0.1 0.8 0.3 0.8 0 1-0.4 0.9-1.1 0.7-1.5 0.8-1.3 1.4-0.5 9.1 0.7 1 0.3 2.1 1.3 1 0.3 1.1-0.2 0.7-0.5 0.8-0.7 1.2-1 1.2-0.4 3.6-0.2 3.8-2.6 1.1-0.4 2.2 0.8 3.1 3.4 2 0.8 1.4-0.3 2.6-1.3 1.4 0 1.4 0.3 1.1-0.2 2.4-1.1 2.7-1.9 1.3-0.6 8.8-2.1 0.8 0.2 0.6-0.3 1.2-1.9 1.6-3.5 1.1-3.4 0.6-0.8 0.6-0.3 0.5-0.3 0.2-1.1-0.3-0.8-1.4-1.4-0.5-0.6-1-2.4 0.1-0.9 1.2-1.3 0.4-1.7 0.2-1.5-0.2-1.6-0.5-1.8-0.6-0.7-1.6-0.3-0.5-0.4-0.2-1 0.1-2.1 0-1.1-1-3.5-0.6-1.1-0.9-1.1-1.1-0.5-1.5-0.3-1.5-0.7-0.7-1.2-0.5-0.6-0.5-1.7-0.2-1.9 0-2 0.6-1.7 0.7-0.8 0.7-0.2 0.7-0.1 0.7-0.3 2.8-2.2 2.8-0.8 5.6-0.2 2.2-2.1 1.5 0.1 0.9 0.5 2.7 3.1 1.3 1.2 2.2 0.6 3.9-0.4 2.7-0.2 1.9 0.5 2.7 2.6 4 1 1.8 0.8 1.6 0.4-0.3 2.1-0.9 1.7 5.8 4.4 4.7 2.4 1 1.1 2-3-0.1 1.1 0.1 1 0.3 0.9 0.4 0.8-0.5 1.6 0.4 3.6-0.6 1.4 1.1 1.9 0.5 2.4 0.5 5.1 1.6 6.7 0.5 2.7 0 2.9-0.5 2.9-0.9 2.4-1.4 1.3-1.9 0.2-2.2-0.6-2-1.1-1-1.4-5.2 5.6-1.1 0.2-0.5 0.4-0.2 0.6-0.6 0.7-2.9 1.8-2.7 2.5-1.7 0.9-6.5 0.7-1.2 1 1.6 2.4-1.1 3-0.4 2.6 0.3 2.5 1.2 2.3-1.9 3 0 1.2 1.5 0.4 0.8 0.6-1.8 3.6 0.3 1.9 1.4 3.1 0.9 1.4 2.7 1.4 0.1 1.6-0.7 1.6-0.9 0.7-1.5 0.2-0.9 0.5-0.3 0.9 0.3 1.2 1.1 1.4 1 0.5 0.3 0.4-1.1 1.4-1.4 1.1-2.9 1.4-1.3 1.3 0.3 0.6 0.6 0.9 0.1 0.9-1.4 0.4-0.8-0.2-0.8-0.4-0.5-0.6-0.3-0.8-0.7 0-0.8 2.7-0.6 1.3-0.7 0.8-0.7 0-0.2-0.6-0.5-1.3 0 1.4-0.1 0.8-0.4 0.3-1 0.2 0 0.7 0.1 0.2 0.3 0 0.3 0.1-1 0.5-0.3 0.5-0.1 0.9 0.8 1.5-5.6 4.8-1.5 2.4-0.9 3.7-2.3 2.7-3.1 1.5-3.9-0.3 0.3-0.6-1.1-2.1-0.3-2.7-0.6-2.5-2.2-1 0-1 1.4 0.1 1.9-0.3 1.6-0.5 0.7-0.6-0.7-1.4-1.5-0.2-1.7 0.4-1.1 0.7-0.4-0.9-0.2-1.1-0.8 0 0 1.1 0.5 0.7 0.3 1.2-0.8 0-1.6-1.9-3.2-2-3.4-1-2.2 1.1-1.8-0.5-5.5-0.1-1.2-0.8-1.1-0.2-7.3 0.7-4.3-0.9-4.5-1.6-4.4-0.8-3.8 1.4-0.9-0.2-2.1-0.5-2.2-1.1-1.5-1.5-1.6-1-5.1-1.1-1.8-0.1-3.7-1.8-4.4-3.1-4.2-1.3-3.4 3.4-0.7 0-0.1-0.7-8-1.5-2.2-1.2-1.3-1-0.9-0.2-0.4-0.3 0.2-1.7 0.4-1.1 0.9-0.9 1-0.6 1.2-0.2-1.9-1.3-1.4-0.7-8.3 0.1-1.9 0.5 0.1 2.2-2.1 2-1.3 0.7-1.5 0.2 0.7 2.5-0.9 1.1-1.8 0.2-1.9-0.1-1.4 0.5-3.3 1.9-1.7 0.4-2.9 2.1-3 4.2-3.3 2.8-3.7-1.6-3.9 1.7-2 0.2-1.9-1 0.5-0.3 0-0.1 0.2-0.5-3.5-1.9-2.2 2-0.6 0.8-0.7 0-1-2.1-1-1.9-1.4-1.7 0.5-1.8-1.5-0.7-1.1-1-0.7-1.5-0.2-1.9-5-0.9-1.3-0.5-1 0.8-1.2 0.2-1.1 0.4-0.9 1.4-2.2-0.9-2.8 0.3-2.5 1.3-2 3-4.6 3.8-1.5 0.9 1.2 1 0.8 1.3-0.1 1-2.2 0.6-0.4 0.5 0 0.7 0.4 0.9 0.6 0.4 1.7-0.1 0.9 0.3-13.3 7.8-10.4 6.2-3.8 0.9-4.4-0.3-4.5-1.2-11.6-6.2-2-0.4z m188.7 45.1l0.5 2-1.3 1.3-9.6 3.4-2.3-0.2-3.6-2.1-6.8-5.5-1.4-1.7-0.9-1.8 1.9 0 6-3.5 2.7-1 3 0 8.3 2.6 1.6 1.1 1.7 1.7 0.9 1.9-0.7 1.8z m-92.9-38.9l-2.2 0.1-0.6 1.5 0.7 1.6 2.1 0.5 0 2.7-1.8 0.6-0.3 1.9 0.7 4.1 0.7 1.5 0.3 1.1-0.3 1.1-0.7 0.1-1.8-1.2-0.3 0.6-0.8 1-1.8 0.7-3.4 0.6-1.3 0.5-2.5 2.4-1.5 0.9-0.5-1.3-0.7-0.9-1.6-1.6-0.4-0.1-0.8 0.2-0.3-0.1 0-0.4 0.1-1.1-0.1-0.3-1.4-1.4-0.7-0.4-2.8-0.7-2.3-0.1-1.4-1.1-0.5-3.7 0.6-3.5 1.6-3.5 3.4-5.1 7.8-6.5 3.3 1.6 4.2 0.5 1.7 0.6 0.4 0.9 0.2 1.3 0.6 1.1 1.2 0.5 1.1 0.3 0.9 0.7 0.8 0.9 0.4 0.9z",
+  "M507 240.4l0.4-1.3 0.1-1.8-0.1-2.3 0.1-3.4-0.2-0.4 0.8-0.6 0-1.3-0.7-1.7-1.4-2.7 0.7-0.9-0.7-0.9 2-0.2 1.8 2.3 2.5 5.4 1.3 1.5 2.1 2 2.4 1.2 2-1.1 1 0.6 3.2 1.1 1.1 0.2 0.7 0.6 1.1 3.1 0.6 0.9 3.1 0 3.3 3.8 5.6 8.2 6.5 6.6 1 3.6-3.3 2.7-4.4 1-1.9-0.4-0.8-2-0.6-2.4-1.5-1.4-1.8-1-1.6-1.2-2.8-4.1-1.9-4.2-2.5-3.6-4.1-1.9-8.3-1.5-3-1.3-1.8-1.2z",
+  "M228.5 309.5l1.3 1.3 1.9-0.1 4.3-1.5 2-1.2 2.4-3.3 2.1-1.5 4-1.6 15.1 2 10.3 2.8 3.7 0.2 7.7-1.7 5.4 0.8 1.3-1.2 0.3-1.8-0.9-3.8 0.3-1.8-0.7-1.9-3.4-2.1 2.1-1.5 4.9-4.7 4.1-2.3 2.1-3.7 0.9-3.5 5-5.1 3.1-5 0.9-3.5 2.4-2.9 0.8 1.9 1-1.6 2.1-1.2 5.3 1.3-0.3 1.8-1 1.6 0.4 2-0.4 2.1 0.8 2 1.8 0.6 2.1-1.8 2.1-3.4 1.8-1.5 4.3-1.5 3.4 2 0.7 2-0.2 5.8 1.2 3.9 3.1 3.5 6.9 4.8 2.3 4.1 3.1 3.1 3.9 1.4 8.2-2.3 1.8 0.3 1.6 1.4 5.3-0.9 1.1-0.2 0 0.1 1.4 4.8 0.7 1.7 1.1 1.4 3.9 3.4 2.3 1.2 1.4 1.5 2.6 3.5 1 1.7 0.9 2.3 0.6 2.7 0.3 2.9 0.4 2.1 3.1 7.6 2.4 7.9 1.5 2.5 1.4 1.4 5.3 3.6 5.3 2.1 3.9 3.1 0.3 0.3 0.5 0.6 1.2 4.1 1.2 1.6 8.8 10 1.3 2.8 4.9 4.7 2.2 7.2 5.1 10.1 0.1 1.7-1 0.7-3.3 3.1-2 0.7-3.9 0.6-2 0.6-1.5 0.7 0.5 0.3 0.4 0.3 0.5 0.2 0.7 0.1 0 0.9-0.9 0.3-0.8 0.4-0.6 0.5-0.5 0.6-1.2-0.5-2.3 0.2-2.4 0.7-1.5 0.9-1.6 0.8-2.4-0.1-4.1-1.1 0.9-1.9 1.2-1.7-0.5-1.8 1.4-1.2 3.3-1.5 0 1.6-1.3 5.6 7.3-4 1.1-1.5-0.7-1.3 0.6-0.4 0.9 0.1 0.6 0.3 0.3 0.6 0.7-0.8 0.8-1.4 0.3-1.6-0.5-1.4-2.6-4.5-1.1-1.3 0.4-2.2-1.1-2.4-1.8-2.1-1.7-1.6-2-1.4-1.8-0.7-8-0.7 0-0.4 0.1-0.6-0.3-0.7-0.5-0.8-1-2.1-0.6-0.6-0.7-0.2-2.8 0.2-2.3-0.6-0.6 0.1 0.8 1.3 0 0.9-1.1 1.1-0.4 1.5 0.3 1.6 1.2 1.2-2.5 0.6-4 0.5-3.9 0.9-1.6 2.2-0.2 5.1 0.2 1.6 2.8 8.3 0.7 0 0.8-1.5 1.3-1.3-0.4-1.4 0.5-0.1 0.8 0.9 0.5 1.5 0.7-0.9 1 2.2 0.3 2.6 0.7 2.5 1.6 1.8-0.1-0.7 0.2-0.1 0.2 0 0.4-0.1-0.5-0.9-0.2-0.9 2.5 1.7 1.3 2.2 0.9 2.3 1.6 2-0.6 1.6 0.1 0.4 0.5 0.7-3.2 1.9-0.8 1.3 0.5 2.1 5.3-3.2 2.8-0.9 3.1-0.3 0 0.8-0.8 1-3.4 1.8-0.9 0.9-0.4 0.9-0.8 2.7-0.4 1-0.8 0.9-0.3 0.5-0.3-0.2-0.7-0.3-2.2-1-4 1.9-5.9 0.4-3.1-3.1-1.7-0.6-3.7 0.4-5.6-1.7-1.8 0.1-6.5-4.4-2.1-0.7-7.8 0.8-4-0.3-1.7-1-0.7-1.9-0.4-5.9 0.5-3.2-6.7 0.7-1.6-1.3-0.8-6-1.6-1.3-3.6-2.4-7.2-2.7-5-3-9.1 10.5-3.1 7.4-2.2 1.9-3.8 0.8-2 1.1-2.7 3.2-4.4 2.2-3.8 0.8-1.8-0.3-0.4-1.8 0.7-1.7-0.5-3.7-1.5-2.1-3.4-1.3-3.6-2.7-1.8 0.1-5.9 4.1-1.9 0.8-1.8-0.3-1.6-1.3-0.8-2 1-3.5-0.8-1.9-3.3-2-0.6-5.5-0.8-1.9-1.6-1.4-8.8 2.3-2 1.5-0.7 1.7-1.7 1.5-3.2-2.7-1.9 0.5-3.7 2.7-4.9 5-1.3-0.6-2.7-4-0.4-2.2 5.4-10.4-1.6-3.9-2.4-2.9-1.9 0.4-5.4-0.8-3.6-2.7-1.5-4.6-4.8-4-0.8-2.3 0.4-2.2-0.7-2.3-1.6-2 0.3-1.8 1.4-1.6-0.9-3.8 0.6-3.5-1.2-2-1.7-0.6-1.5-2.1-0.2-3.7-1.1-4.2 1.3-1.6 2-1.1 4.1 0.2 1.6 1.4 1.8-0.1-0.1-3.7-1.7-7.9 0.7-1.8 1-2 2-1.1 1.1-1.7 1.9-0.8 2.8 0.8z m220.5 87.7l-1.2-0.4-1.1-0.1-1 0.1-1 0.4 0.4-2.3 1.2-0.9 1.3-0.3 0.6-0.5 0.5-1.4 1.1-1.6 1.4-1.3 1.3-0.7 1.6 1 1.8 1.6 0.9 2.1-0.8 2.6-1.6-1.3-1.5 1.4-1.5 3.5-0.7-0.2-0.9-1.2-0.8-0.5z m23.9 3.7l-1-0.7-3.3-3.2-0.6-1.1-0.4-1.8-3.1-5.1 1.4-0.8 0.1 0.7 0.3 0.1 0.4 0 0.6 0 2.4 2.7 2.8 2.4 3.2 1.9 3.5 1.2-0.4 1.9 2 0.4 2.7-0.1 2.1 0.6 0 0.9-3.4 3.6-1.9 1.4-2.5 0.4-1-0.3-1.5-1.3-2.7-0.5-0.9-0.6 0.1-0.9 1.1-0.9 0-0.9z m27.5-13.7l-1.6 4.1-2.6 3.8-3.2 2.4-3.2-0.3 1.4-1.9 1.4-1.2 1.2-1.4 1.7-5 5.2-8.3 1.8-1.2-0.2 0.5 0 0.4-0.2 0.5-0.3 0.5 2.2 0.4-0.5 2.7-1.8 3-1.3 1z m14.8-17.4l1 0.5 0.4 0.4-0.1 2.1-1.2 3.3-1.9 1.1-1-1.1 0.1-1 0.5-0.3-0.4-0.5-1-0.6-0.5-1 0.4-1.4 0.6-1.4 0.8-1.3 0.9-0.2 0.2 1.3 0 1 0.5-0.4 0.7-0.5z",
+  "M235.9 396.1l1.3 0.6 4.9-5 3.7-2.7 1.9-0.5 3.2 2.7 1.7-1.5 0.7-1.7 2-1.5 8.8-2.3 1.6 1.4 0.8 1.9 0.6 5.5 3.3 2 0.8 1.9-1 3.5 0.8 2 1.6 1.3 1.8 0.3 1.9-0.8 5.9-4.1 1.8-0.1 3.6 2.7 3.4 1.3 1.5 2.1 0.5 3.7-0.7 1.7 0.4 1.8 1.8 0.3 3.8-0.8 4.4-2.2 2.7-3.2 2-1.1 3.8-0.8 2.2-1.9 3.1-7.4 9.1-10.5 5 3 7.2 2.7 3.6 2.4 1.6 1.3 0.8 6 1.6 1.3 6.7-0.7-0.5 3.2 0.4 5.9 0.7 1.9 1.7 1 4 0.3 7.8-0.8 2.1 0.7 6.5 4.4 1.8-0.1 5.6 1.7 3.7-0.4 1.7 0.6 3.1 3.1 5.9-0.4 4-1.9 2.2 1 0.7 0.3 0.3 0.2-0.5 0.5-0.8 0.6-0.6 0.2-1.5-0.3-0.8 0.1-0.6 0.7-0.6 0.3-0.8 0 0.4 1.4 0.3 0.5-1.5 0.2-2.1 1.2-1 0.3-1.3-0.2-1.3-0.6-1.4-0.3-1.3 0.2-0.5 1-0.6 3-0.7 0.6-2.5 0.1-0.9 0.5-0.5 1.2-1.4 0-2.4 0.6-2.2 0.2-1-1.3-0.5-1-1.1 0.3-1.9 1.2-0.9-0.3-1.7-1.2-0.6-0.3-0.2-0.3-3.6-2.7-0.8 0.2-1.9 1.4-0.6 0.6-0.8 0.6-1.2 0.2-1 0.1-0.8 0.2-0.7 0.6-0.7 0.9-0.4-0.3-1-0.7 0 3.7 4.9-0.9 0 0.9-1.9 1.3 1 1.5 2 0.6 1-1.6 0.7 0-0.7 1.8 1.6 0 1.3-0.5 1.2-0.1 0.8 0.6 5.1-2.6 1.3-0.1 2.5 4.1 2.1 2.7 1.2 0.7 1 1.2 0.9 0.4 0.9-0.1 2-0.7 1-0.2 1.4 0.5 1.7 1 1.4 1.5 0.8 1.5 2.1-2.1 1.1-0.5 1.7-0.1 1.1 0.5 2 1.8 1.5 0.4 5.8 0.1 2.6 1 1.8 2.5 3.2 10.4 1.5 1.4 1.9 0.2 1-0.4 1.2-1.2 1.2-0.6 1.3 0.2 1.4-0.2 1.4-1.7-2-1.3-0.9-0.4 1.9-0.9 1.9 0.5 3.3 2.1 1.7 0.6 3.4 0.5 2 0.7 1.5 1.3 1.1 1.7 0.4 1.8-0.2 1.6-1.3 1.3-1.5 0.7-1.3 1.3-0.9 3 1.1-1.6 1.2 0 1.3 0.8 1 1.3 1.1 0.9 2.8 0.7 1.4 0.6 0 0.9-0.9 0.4-2.3 0-1 0.5-0.9 0.9-0.2 0.9 0.5 0.6 1.6 0.2 7-0.3 10.4 1.8 1.3-1 1.1-1.7 2.5 1.3 3.5 3.6-2.1 1.4-0.8 0.3 0 1 1.3 0.3 1.1 0.6 0.4 0.8-0.6 1 0 0.9 3.1 1.6 5 7.5 3.8 2.6 1.5 0.1 4.3-0.7-0.4 0.7-2.8 1.3-5.8 1.8-3.5 3.3-2.1 3.5-0.9 12.4-2.8 3.1-3.7 2.5-1.8-0.3-1.5-1.3-3.5-0.7-1.6-1-4-5.7-1.6-1-1.9 0.4-1.8-0.3-1.5-1.4 0.3-1.7 1-1.6-1-2.4-1.6-1-3.8 1.1-2 1.1-1.4 1.6-0.8 5.9-1.3 1.6-3.5-0.7-5.8 0 4.5 1.4 0.2 0.9-0.5 0.2-7.1-0.9-1.6-0.7 2.1-1.8-2.7-2.9-1.3-0.2-3.3 3.2-1.1 0.3-3.6-0.4 0-0.9 2.1 0-1.4-2-1.4-1.1-1.5-0.4-6-0.7-1.9 0.4-1.2 2 1.4-0.5 1.5 0.1 1.3 0.8 0.7 1.4-1.8 0-3-0.6-1.5 0.6-1.4-6.3-0.7 0-0.7 1.9-0.2-0.6-0.3-0.7-0.2-0.6-1.8 0.6-3.8 0.5-1.4 0.8-4.2-2.8 0.8-1.3 1.9-1.6 0.8-1.5-2-0.9-3.9-1.1-2.3-1.7-1.7-0.5-0.7-0.4-0.5-0.7-1.6-2.8 0.9-2.3-1.5-2.7-2.4-1.1-2 2.4 1.8 0.3 0.2 1-1 0.7-1.3-0.6-1.2-0.4-1.2 1.1-0.9 1.5-0.5 1 0 0.8 0.5 0.3 0.3 0.3 0.4 0.2 0.8 0.2 0 0.8-0.8 0.5-0.1 0.3 0.2 0.3 0 0.8-1.1 1.2-1.3 0.4-1.4-0.4-1.8-1.2 0-0.4-1.2-2.3-0.2 0-0.3-0.8-0.3-0.3 0.3-0.3 1-0.4-1.4-2.9-4.9-6.1-0.9-2.1-0.5-0.6-0.5-0.3-1.1-0.3-4.8-3 0.2 1.4 0.4 2.3 0.1 1.3-2.8 2.2-0.7 0.9 0.7 1 0.5 0.5 0.4 0 0.5-0.6 0.4 1.2-0.2 1-0.7 0.8-0.9 0.5 0.7 0.9-0.5 1.1-1.6 0.1-1.9-0.7-2.7-0.5-3.9 0.5-0.5-0.7-1.4-0.8-1.4-0.3-0.9 0.4-0.7 0-1.2-0.3-1.6 1-1.4 1.7-0.7 2.2-0.8-0.9-0.6-1.8-0.7-1-0.9-0.4-0.9 0.2-0.6-0.2 0.2-1.3-1.5-1.1-3.3-1-5.3-2.4-2-0.1-1.9 1-2.4-2.5-3.1-0.1-2.9 1.1-4.2 3.1-0.9 0.2-1.6 0-0.8-0.4-0.5-0.9 0.7-2.2-0.3-2.6 2.1-3.9 4.2-3.6 3.8-0.9 2-1.1 1-1.6-0.4-4 1.7-3.7-3.1-3.4 0-1.8 1.3-1.5-0.4-4.1 1.3-3.4-0.4-3.6 1.6-3.4 0-1.8-4-2.4-0.1-1.1-4.4 1.8-1.7 1.5-3.9 1.9-5.4-0.5-0.6 1.7 0.1 3.6-3.8 3-2.2 0.4 0.3-1.8-1.2-1.9-5.5 0.9-3.6-0.2-3.4-1.6-5.6-3.8-1.5-1.7-1.6-3.8 0-1.8 0.7-2.1 1.7-1.5 5.9-3 0-1.9-3.4-1.6-5.6-1.2-1.6-1.3-1.8-0.3-1.6-1.3-0.4-1.9 0.6-3.5-0.8-2.3-10.2-6.3-0.5-1.9 2.7-5-0.1-1.8 0.6-1.7-0.7-1.9-2.7-3.7 0-4.4z m340.5 45.5l0.2 0.4 0.2 0.3 0.2 0.6 0.1 1-0.1 1.1-0.3 0.1-0.4-0.1-0.6 0.3-0.6 0.9-0.7 0.8-0.7 0.1-0.8-1-0.7 0-1.1 0.9-1.2-0.5-0.9-1.3-0.4-1.3-0.6 0.1-1.3 0.6-1.3 1.2-0.3 2.1-3.5-4.5 4.2-1.8-1-3.8-0.7-0.9-1.1 1.1-0.6 0-0.4-1.4-0.8-0.5-1.2 0.3-1.2 0.7 0-1.4-2.3-1.1-0.5-2-0.4 0.3-0.3 0.6-0.8-1.2-0.9-0.6-1 0.1-0.9 0.8-0.1-1.3 0.4-1.2 0.7-0.8 0.8-0.4 0.9-0.6 0-1.5-0.5-2.4 0-1.9 0.4-1.7 1-1.2 2.1-0.6 7.1 4.9 1.3 1.5 0.3 1.3-0.4 3.2 0.1 1.7 0.5 1.4 0.6 0.6 1.7 0.8 4.3 3 2.1 2 1.4 2.2z m-9.1 85.4l-0.9 6.5 0.1 3.3 1.5 2.9-0.9 1.8-1.1 5.7-0.9 2.2-1.5 1.3-2.1 1.1-2.3 0.9-2.2 0.3-1.1-0.3-0.4-0.8-0.2-1.5-2.4-4-0.4-0.1-1.5-1.3-2.7 1.3-1.7 2 1.6 1.1 0 1-1.6 1.3-1.5-0.2-1.5-1.1-1.9-2.2-0.5-0.8-0.7-1.6-0.7-1-0.7-0.8 0-0.8 1.4-0.9-1.3-3-0.9-0.9-1.4 0.3-0.6-2.1-1.8-1.2-2.1-0.2-1.7 0.8-1.5-0.8-0.5 0.1-0.9 0.7 0-0.6 0.1-0.2 0.2-0.1 0.4-0.1 0-3.4-0.8-0.8-1.7 0.4-0.3-1 0.4-0.9 1.9-2 0.5-1.2-0.2-1.6-1.5-1.8-0.9-3.4-1.3-1.1-1.6-0.4-1.5 0.4 0.7 1.8-2.4-0.6 0.5-2.4 1.8-2.7 1.5-1.5-1-1.7-0.8 0-0.8 0.9-0.9 0.8-0.2 0.4 0 0.6-0.1 0.6-0.8 0.2-0.9-0.3 0-0.5 0.3-0.7 0.3-0.3 0-1-1.5 0 2.2-4.4-2.1-1.2-2.3-0.9-2.5-0.5-3-0.2 2.5-0.8 1-0.6 0.7-1.3-0.8-1.2-0.2-1.1 0.1-0.9 0.2-0.3-1.1-2.2-0.7-0.9-0.3 0.8-6-0.4-7 0.9-2.1-0.3-3.5-1.3-1.5-0.2-2 0.2-3.1 0.7-1.5 0-7.1-1.8-1.6 0.1-3.2 1-1.5-0.2-1.1-1.3-2.4-6-0.4 0.5-0.4 0.5-0.5 0.1-0.8-0.1 1-2 1.9-2.1 1.3-2.1-0.7-1.9 0-0.9 0.7 0 0-0.9-2.2-3.8-1.4-1.8-1.7-0.7-4.5-0.7-2.2-0.9-1.4-1.1-0.3-1-0.1-2.3-0.3-1.1-2.4-2-0.4-0.4-0.4-0.4-0.7-0.2-0.7-0.6-0.3-1.5-0.5-0.9-0.9-0.9-3.1-2-2.6-1.2-2.9-3.1-1-0.5-0.6-0.5-1-2.6-0.5-0.5-2.3-1.3-10.1-7.6-3.5-1.9-2.5-0.9-1.3-0.1-1.8 0.1-3.1 0.7-1.5-0.1-1.3-1.1-2-2.6-0.8-0.4-1.4-0.1-1.7-0.3-1.6-0.7-1.4-0.4-1.4 0.4 0 1 1.5 0.1 1.4 0.5 0.8 1.2-0.1 1.8-1 0.8-1.6 0.5-11.3 1.1-2.3 1.3-0.1-1.5 0.1-1.5 0.4-1.2 0.6-0.4 0.9-0.5 2.4-1.8 1-0.4 2.3-0.5 4.7-2.6 3.1-0.8 2.9-1.6 2.5-0.9 0.4-0.4 0.4-1.8 0.2-0.5 1.2-0.4 2.1 0 0.9-0.6 0.8-1 0.3-1.3 0-1.2-0.3-0.9 1.5-0.5 1.9-1.9 1.1-0.4 6.3 0 2.2-0.7 5.4-3.2 2.7-0.5 1 0.6 1.5 1.7 0.6 0.4 1.4 0.2 1.5 0.5 1.4 0.8 1 1.2-0.7 2.5 1 2 2.1 1.3 2.2 0.4 0 1.4 1.7 6 0.8 1.7 0 1.5 1.2 2.5 1.9 2.3 4.5 2 4.5 3.8 2.7 0.6 0 1-0.3 1 0.3 0.5 0.6 0 0.8-0.7 1.2 1.4 3 0.5 1.4 0.8 1-0.7 1.1 0.7 2-1.3 2.1 0.4 1.6 1.7 0.7 2.4 0.9 1.6 2 1.4 4.1 1.9 4.5 1.5 5 0.4 2.2 0.5 2.1 0.8 1.9-0.1 1.9-2.1 2.2 1.1 2.3 0 2.4-0.3 2.2 0.1 6.5 2.3 2 1.2-1.1 0.4-1.1 0.8-0.9 1.1-0.4 1.4-0.1 2.2 0.6 1.2 9.2 7.8 1.6 2.3-2.6 2-1.9 4.3-0.4 4.5 2 2.8 0 0.8-1.9 0.6 0.3 1.2 2.3 2.7 0.2 1.6 0.1 2.1 0.1 1.7 2.5 3.1 0.2 1.3 0.5 0.7 0.5 0.4 0.2 0.3-0.1 2.3 0.1 1.2 0.6 0.9-1.1 1.7-0.2 0.6 0.7 1.7 1.3 1.6 2.8 2.1 3.6 1.8 0.3 0.8 0.3 1.2 0.5 1.1 0.7 0.4 3.5-0.7 1.4 0.1 2.9 2.2 4.1 0.4 1.8 0.7 1.9-1 9.4-1.7z",
+  "M426 526.9l0.5-0.2-0.2-0.9-4.5-1.4 5.8 0 3.5 0.7 1.3-1.6 0.8-5.9 1.4-1.6 2-1.1 3.8-1.1 1.6 1 1 2.4-1 1.6-0.3 1.7 1.5 1.4 1.8 0.3 1.9-0.4 1.6 1 4 5.7 1.6 1 3.5 0.7 1.5 1.3 1.8 0.3 3.7-2.5 2.8-3.1 0.9-12.4 2.1-3.5 3.5-3.3 5.8-1.8 2.8-1.3 0.4-0.7 1.6-0.3 2.3 1.5 1.2 0.2 9.9 4.2 2.1 0.4 1.8 0.6 1.7 1.5 2.5 3.3 4.8 4 0.8 0.9 0.5 0.8 1.9 0.8 0.4 1.1-0.2 1-0.3 1 0.1 1 1.2 0.9-1.1 0.5-0.6 1-0.4 1.4-0.1 1.7-0.7-1.8-1.5 0.1-5.1 2.8 0.1 2.7 1.6 5.6 0.4 2.4 1 1.8 1 1.4 0.4 1.1-0.2 1.2-1.4 2.8-0.5 1.3 0 1.1 0.3 1.3 0.1 1.5-0.4 1.6 1.1-0.1 1.2 0.4 0.9 0.8 0.3 1.4-0.4 0.6-3.1 1.2 0.7 0.9 0.9 0.6 1.2 0.3 1.4 0-0.7 1 0.6 0.1 1.5 0.7-0.6 1.1-0.1 0.9 0.2 0.8 0.5 0.7-0.5 0.3-0.4 0.4-0.3 0.4-0.2 0.8 2.5 1.5 0.8 1.2 0.3 2.2-0.2 2.8-0.4 1.4-2.3 2.5 1.4 0.8 0 1-1.4 0 0 0.8 0.6 0.1 0.1 0.4-0.1 0.6 0.1 0.7-0.1-0.3 0-0.4-0.2 0-0.4 0.7 1.3 1.3-0.9 1.4-1.8 1.7-1.4 1.8-1.1-0.8-4-1.6-1.6-0.3-1.8-0.6-0.7-1.6 0.1-4.9-0.7 0-1.5 0.8-0.9-2.4-1.1-5.5-0.4 0.3-1 0.7-0.8-2.2-1.6-2.1-1.9-1.4-1.4 0.3-0.5-0.5-0.4-0.2-0.3-0.4-0.3-0.7-0.6 0-0.6 2.7-1.1 0-1.1-0.4-0.7 1.3-0.2-0.9-0.1-0.7-0.3-0.3-0.9 0.1 0.6-1.6-0.4-1.4-2.2-2.4-0.3-2.5-4.3-6.3-0.4-1.9-1.7-0.8-1.7 0.3-1.8 0.9-1.8 0.5-0.1-0.7 0.1-0.2 0.9-0.5 0.4-0.3 0.1-0.9-1.6 0.7-0.9-0.8-0.8-1.2-1.3-0.6-1.4 0-1.3-0.2-1.1-0.5-0.8-1 3.7-3.4 1-1.9-0.8-2.4-0.9-0.9-0.7-0.1-0.7 0.3-0.9 0.3-3.9 0-1 0.2-0.7 0.7-0.5 0.6-0.6 0.2-2.4 0.2-1.1 0.3-1 0.5-4 3.5-1.7 0.9 3.5 1-2.1 0.8-8.1-0.8-10.6 0.8-3.8 2-3.1 2.4 0-0.4-0.4-0.7-1.4-3.8-3.2-5.9-3.5-4.7 0-0.1 2.5-0.3 7.4-2.3 1.7-1.9 1.8-0.5 1-0.7-0.7-1.5-1.6-1.6-1.9-0.5-0.1-0.7 0.1-1.1 1.3-0.2 2.3-0.5 1.3-0.2 0-1-1.1-0.1z m-2.7 71.8l0.4 0.2 4.1 3.2 0.7-1 3.8 3.8 0.5 0.1 0.5 0.1 0.9 0.4 2 1.8 1.1 0.6 1.4 0.3 2.4-1.6-0.1-3.4-1.9-3.4-2.9-1.3 0-0.9 1.7-1.4 2-0.8 5.2-0.5 1 1.6-0.4 3.4-1.4 3.6-1.7 2 1 1.1 1.1 0.8 1.3 0.5 1.5 0.3 0 1-2 0.7-0.8 0.1 0 0.8 0.7 0 0.9 0.4 2.7 0.5 2.3 1.6 2.1 0.7 4.7 4-0.5 0.6-0.2 0.3 0.2 0.2 0.5 0.7 0 0.9-2 1.1-6.1 2-0.5 0.1 0-2.2 0-1.1-1.1-1.6-4 0-2 1-5.1-1.3-1.8 0.4-3-3-1.8-0.3-3.1-2.3-5.1-1.6-1.5-1.7-0.7-1.9 0.7-3.5 2.2-5.5 0.1-0.5 0-0.1z m9.4 219.5l1.8 1.4 2.1 0.8 1.5 1.9 0.3 4.5-0.7 0-0.6-1.2-2.6-2.6-0.9-1.4-0.6-1.5-1-2.8 0.5 0 0.1 0.1 0 0.4 0.1 0.4z m-27.4-52.3l6.7 4.8 1.8 2.1 1 2.2-0.6 0.5-1.6 0.1-1.7 0.8-0.8 1.2-0.4 1.7-0.2 7.4-0.6 0.2-1.5-0.1-1.8-0.5-1.2 0.2-1.2 1.2-0.4-1.8-1-0.8-2.9-0.9-0.1-0.4 0.1-0.6 0.1-0.5-0.4-0.2-1.4 0.1-0.4-0.1-0.5-0.8-1-2-0.6-0.7 0.9-7.2-0.1-2.9-0.8-3-0.5-1.4-0.4-1.1 0.2-1.3 3.2-5.5 1.2-1 1.2 0.7 4.1 7.6 1.6 2z m12-125.7l0.6 0.4 1.7 1 0.8 0.7 0.4 1 0.2 1.3-0.2 1.3-1.1 0.5-2.1-0.5-1.3-1.2-1-1.4-1.5-1.4 0.7-0.8 0.9-0.6 0.9-0.3 1 0z m47.2-10.7l-1.7 1.6-2.4 1.1-2.5 0.4-1.9-0.4 0.4 2.6-1.2 1.3-2.2 0.4-2.3 0-5.8 1.7-2.3 0.1 0-0.9 9.2-6.2 2.4-0.8 4.6 0 2.1-0.9 3.6 0z m-11.3-24l0.4 0 0.2 0.2 0 0.3 0.1 0.4 0.8 1.3 0.9 0.9 1.1 0.4 1.4 0.2 0 0.8-1.9 1.1-2.6 0.4-2.6-0.3-2-1.2 0-0.8 2.9-0.8 1.1-0.9 0.2-2z m7-28.3l1.8 0.8-0.7 1.4-1.2 1.6 0.1 1.5-1.4 1.1-0.3 1.4 0.1 1.5-0.5 1.3-0.8 0.6-2.4 0.6-1 0.6-0.8-0.8-0.5-0.4-1.5-0.6 0-0.9 1.2-0.7-0.1-1.2-0.9-1.2-1.3-0.5-1.2-0.8-0.8-1.9-0.3-1.8 0.2-0.8 12.3-0.8z m-14.1-16.2l-0.7-0.9 0-0.8 0.7-1.3 1.5-1.5 1.7-0.8 3 1 1.3-1.3 1.1-1.9 0.6-1.4-1.3 0.1-0.9 0.7-0.8 0.7-0.9 0.4-0.9-0.2-1.9-0.8-1.1 0 3.6-1.8-1.3-0.7-1.6-1.1 1.2-0.1 1.1 0 1.1 0.4 0.9 0.7 0.2-1 0.2-0.2 0-0.1-0.4-0.5 0.8-0.6 0.8-0.3 0.9-0.1 2.4 0.3 1.2 0.6 0.7 0.9-0.5 1 0.1 0.7 0.2 0.9 0.6 0.7 0.6 0.5-0.1 0.1 0 0.7 2.8 0-3.5 1.7 0.5 1.4-2.3 1.9-0.3 2-0.7 0-1.1-1-0.9 0.8-1.1 1.4-1.5 0.7-1.5-0.2-3.2-0.9-1.3-0.8z m48.9 136.4l0.3 0.7 0.2 0.5-0.5 0.3-0.8-0.6 0-0.9 0.8 0z m-43.6-10l0.4 0.6 0.3 1.4-0.3 0.3-0.6-0.3-0.3-0.9-0.1-0.3-0.2-0.1 0.1-0.7-0.4-1 0.7 0.2 0.4 0.8z",
+  "M412 540l0 0.1 3.5 4.7 3.2 5.9 1.4 3.8 0.4 0.7 0 0.4-1.8 1.3-4.9 2.5-4.3-1.8-1 0.4-0.8-0.1-0.9-0.2-1.1-0.1-0.4 0.6 0 1.5-0.1 1.5-0.9 0.7-0.7 1.3 0.5 2.5 1.3 2 2-0.5 1.8 1 2.5 0.3 2.4-0.3 1.7-1 3.3 3.3 1.9 1.4 1.9 0.8-0.5 1.2-0.1 1.3 0.1 1 0.5 1-1.4 0.2-1.9 1.2-2.3 0.4-0.3 0.4-0.1 0.8-0.4 1.3 2.6 2 1.4 0.6 1.7 0.2-1 2.9-0.2 2 0.3 2 0.9 2.8-1.4 0 0.2 2.8 0.4 1.2 1.9 0.7 0 0.1-0.1 0.5-2.2 5.5-0.7 3.5 0.7 1.9 1.5 1.7 5.1 1.6 3.1 2.3 1.8 0.3 3 3 1.8-0.4 5.1 1.3 2-1 4 0 1.1 1.6 0 1.1 0 2.2-12.2 0.6-1.7-0.3 0.1 0.4 0.1 0.4 0.1 0.5 0.3 0.5-3.7-0.6-1.4 0.2 0.2 1.3-3.5 0.8 0 1.3 0.7 0.6 1 0.1 1.1-0.2-0.7 0.9 0 0.8 0.8 0.2 2 0.8-1.6 0.8-1.9 0.2-3.8-0.2-2.2 0.4 0 1.1 0.9 1.7 0.9 2.1-2.1 0.4-1.5 0-1.2-0.5-1.5-0.8 0-0.9 2.1 0 0-0.8-1.2-0.4-1.5 0.3-1.3-0.1-1-1.5 2.2 0.9-0.5-1.3-0.8-0.8-2.2-1.6-0.8 0.9-1.1 0-1-0.6 0-0.3-0.3-4 0.3-1.6 1.1 0.8 1.2 0.7 1-1 0.8-1.8 0.1-1.9 2.3 1.3 0.6 0.5 0-0.8-0.5-1.2-0.2-0.8 0-1.2-0.3-0.8-0.7-0.3-0.8-0.2-0.6-0.5-1.5-0.7-3.6 0.9-1.7-0.6 1.4-0.9-1.4-2.6-2.5 1.5-1 0.8-0.7 1.2-1.4-4.7-1.1-1.7-1.7-1.6-0.5-0.2-1.2 0.2-0.4 0-0.4-0.4-0.2-0.6-0.1-0.6 0-0.2-1.5-0.6-0.9-0.2-1.2 0 1.3 0.4 0.4 0.4 0.4 1-2-0.9-1.8 0.2-1.6 1-1.6 1.3-0.7-0.7-2.8-1.9 0.2-0.5 0.5-1.3-1.3-0.5-1.2-1-0.6-1.1 0.3-0.9-1.1-1.6-1.1-1.1-2.2 1-1.9 1.1-1.2 1.9-0.3 3.2 0.2 0.6 1 1.6 0.2 0.8-0.2 0.8-0.4 1.6-0.1 0.7 0.5 1.4 0.5 0.8 0.6 0.6 0.5 0.8 0.1 0.7-0.1 2.4 0.2 0.4 1.3 1-0.1 1.3-0.7 1.8 0.1 1.3 5.3 6.4 1 0.6-0.7 1.9 1.4 0 0 0.8-0.7 0 0 0.8 1 1.1 2.5 4.4 0.7 2.4 3.5 6.3 0.4 0.4 0.8 1.2 0.5 1.4-0.6 0.6-0.5 0.8-0.3 1.6-0.3 3.4 0.9 1.6 1.9 0.4 2.1-0.2 1.4-0.5 0.1 0.6 0.2 0.3 0.2 0.3 0.3 0.5-0.7 0.5 0.1 0.1 0.6 0.3-0.8 1 1.8 0.6 0.8 1.1-0.2 0.6-1.6-0.7 0.9 2.3 2.8 4.1-0.2 1.6 0.9 2.1 0.5 2.3-0.5 0-1.1 0.1-0.5-0.1 0.2 0.7 0.8 1.3 0.4 0.6 0.2-0.4 0.1-0.1 0.1-0.1 0.3-0.2 0.4 1.2 0.1 1.1-0.1 1-0.4 1.1 1.1 1.7 2 5.2 0.8 1.1-0.4 1 1.4 2.2 2.8 2.9 0.7 1.4 0.2 1.4-0.3 1.1-1.2 0.5 0 0.8 1.1 0 0.8 0.2 1.5 0.7-0.4 1-1.2 0.9-0.4 0.8-0.1 0.7 0 0.4 0.1 0.4 0 0.6-0.6 1.4-1.3-0.1-1.4-0.8-1-0.9-0.9 1.4-1.3 1.4-0.5 1.2 1.3 1.3-0.2 0.4-0.3 0.9-0.2 0.4 2.8 0-2.5 2.3 0.1 3.3 1.5 3.4 2 3.2 1.1 2.3 0.4 0.4 2.1 0.9 1.1 0.9 2 0.9 0.4 0.6 0.2 0.6 0.5 0.5 1 0.1-1 0.7-0.4 0.2 0 0.8 0.6 0.7 0 0.7-0.4 0.6-0.9 0.6 1.7 2.6 3.1 1.9 2.2 2.1-0.7 3-3.5-1.8-1.1 1.4-1.3 0.2-4.5-1.2-1-1.3-0.7-1.5-1.3-1.1 0-0.8 0.6-1.7-0.7-2-1.4-1.7-1.6-0.7-4.4 0.9-2.1 0.1-0.9-1.4-0.5-2.1-2.3-5-0.8-1.3-1.1-1.1-4.5-3.3 1.5-1.5-0.5-1.5-4.3-3.9-0.5-0.2-0.4 1-1.4 1.7-0.5-0.7-0.1-1.1 0.6-3-0.3-2-0.9-2.7-0.7-4.7-1.5-2.2-2.2-1.4-2.9-0.6-5.3-0.1-6.5 0.8-4.6 2.6 0.2 5.5-3.4 2.4-1.3 1.8-0.9 2.9 1.6-0.1 1 0.9 0.4 1.6-0.2 1.9-0.7 0-0.2-0.9-0.3-0.9-0.7-0.7-0.9-0.1-0.8 0.7-0.6 1.2-0.1 1.1 0.4 0.5 1.7 1.5-0.5 2.6-1.3 1.2-0.9-2.7-1.5 0.9-0.6 1.3 0 7.5 0.3 2.9 0.6 2.4 1.9 5.1-0.4 0.7 0.4 1.1-1.3 0.9-0.5 1.4 0.3 1.5 0.8 1.5 0 0.8-0.9-0.1-0.3 0.4 0 0.7-0.2 0.8-1.1-1.4-0.4-2.2-0.1-2.4-0.5-1.9-1.5-1.2-3.6-1.5-1.3-1.7-0.7 0-1 1.1-1-0.3-1-0.9-0.8-1.2-1-1.9 0.1-1.4 0.6-1.4 0.6-1.8 1.7 0.5 0.5-1.5-0.5-2.1-1-1.3 0.5-0.7 0.9-1.9-2.1 0 0.2-1.6-0.1-2 0.3-1.5 1.7-0.2 0-0.9-2-0.7 0.3-2.2 1.7-4.1-3 0.5-2-3.1-1.6-4.1-1.8-2.2 0.1-2.5-1.6-3.3-7.2-9.9-2.2-1.1-2.5 1.9-2.8-2-1.1-1.3-0.4-1.9 0.2 0 0.5-0.7 0.5-1.1 0.2-1.3 0.2-1.5 0.5-2.5 0.1-3.5-0.2-0.9-6.9-1.6-3.9-0.2-1.8 0.5-3.9 2.5-3.9 1.1-1.2 1.3-0.6 1.7-1 12.3-0.5 1.5-0.1 1.2 0.5 1.5 0.6 1.1 0.3 1.1-0.7 1.6 1.8 1.7 1.1 0.7 1.4 0.2 0 0.9-1.4 0.1-1.2 0.5-0.6 0.9 0.3 1-0.6 1.2-4.3 4-0.6 0.6-0.6 0.4-0.9 0-1.7-3.6-0.4-0.3-3.1-6.6-1.9 0.1-1.5 0.4-2.7 1.3-1.2-1.3-2.4-1-0.6-1.2-0.7 0-0.9 0.5-0.6-1-0.5-1.6-0.8-1.4 0.4-1.3-0.1-1-0.3-1.3 0-1.8 0.3-1.2 1.3-2.1 0.5-1.1 0.1-2.2-0.8-1.9-1.5-0.9-2 0.6 0.9-0.4 0.3-0.5 0.2-0.8-1-0.1-0.5 0.4-0.6 1.4-0.7-4.5-2.6-3.4-3.1-3.2-2.1-3.9-0.9-5.1-0.3-5.2 0.7-4.7 1.9-3.5 6.4-5.3 2.8-3 1.4-4.2-0.4-5.2-1-2.9 1.6-0.7 6.9 1.4 3.7-0.8 3.4 0.9 1.9-1.1 3.7-4.7-0.8-1.9 0.7-1.6 2.6-3.1 1.7-1.5 2.2 1.7 1.9-0.7 1-1.6-2.9-3.7-9.5-7.5-3.3-1.3-1.9 0.4-1.7-0.2-0.2-14.2-2.1-6.4 0.5-5.2 5.9-9.7 3.8-0.8 0.8 3.6 3.7 1.3 3.2 2.3 7 3.3 1.8-0.1 2.6-3.1 2-0.7 3.5 0.2 0.4 1.8 1.7 0.7 1.9-0.8 2.7-3.1 5.8-2.2 0.7-2.1-0.8-1.9-1.5-1.6 0.3-3.5 1-1.7 0.3-2-0.3-2.2 0.6-1.7 7.8-3.3 2-1.5 1-1.6 0.7-1.7 0-1.8 2.9-6.6-2.5-4.4 0.6-3.6 0.4-1.5 0-0.1 0.6 0.6 3.2 1.3 1 0.9 1.1 0.5 1.1-0.5 0.7-0.2 8.1 1.8 11.2 6 6.2 2.2 0.9 1 0.9 0.3 8.2 7.3 1.9 3.1 0.6 0.4 2 0.6 3.2 2.9 1.5 1 1.6 0.2 1.6-0.2 2.4-0.9 0.8 0 0.9 0.1 0.8-0.1 0.7-0.4 2.1-3.2 0.2-0.7-1-1.5-1.5-1.5-1.2-0.7-1.6-0.5-2.5-2.1-1.9-0.2 0.3-0.4 0.4-0.2-3.5-0.2 2.2-1.8 1-0.7 1.4-0.2 1.3-0.5 2.3-2.4 1-0.7 2.7 0.2 5.1 2.2 2-0.6 3.1 1.4 0.8-0.1z m-134.9 168.9l1.7 0.9 0.1 1.4-0.3 2-0.1 2.7-0.6-0.8-0.4-0.3-0.2-0.4-0.2-1.1-1.4 1 0.6-3.7 0.4-1.4 0.4-0.3z m-7 1.8l0.1-4.6 0.4-1.9 0.9-1.4 0.5 0.3 0.4 0.4 0.5 0.2 0.7 0 0 0.8-0.5 0.2-0.5 0.4-0.4 0.3 0 1.4-0.6 1.1-0.8 1.3-0.7 1.5z",
+  "M338.1 526.5l0 0.1-0.4 1.5-0.6 3.6 2.5 4.4-2.9 6.6 0 1.8-0.7 1.7-1 1.6-2 1.5-7.8 3.3-0.6 1.7 0.3 2.2-0.3 2-1 1.7-0.3 3.5 1.5 1.6 0.8 1.9-0.7 2.1-5.8 2.2-2.7 3.1-1.9 0.8-1.7-0.7-0.4-1.8-3.5-0.2-2 0.7-2.6 3.1-1.8 0.1-7-3.3-3.2-2.3-3.7-1.3-0.8-3.6-3.8 0.8-5.9 9.7-0.5 5.2 2.1 6.4 0.2 14.2 1.7 0.2 1.9-0.4 3.3 1.3 9.5 7.5 2.9 3.7-1 1.6-1.9 0.7-2.2-1.7-1.7 1.5-2.6 3.1-0.7 1.6 0.8 1.9-3.7 4.7-1.9 1.1-3.4-0.9-3.7 0.8-6.9-1.4-1.6 0.7-0.7-2.2-7-13.3-3.9-6-2-2.1-8.8-6.3-2.2-1.1-1.1-1.2-2-2.6-1.1-1-6-1.8-2 0.6-0.5 3.5-0.7 0-0.2-1.2 0-1.3-0.2-1.2-1-0.8 1.3-2.7 0.4-2.1-0.3-2.2-1.7-5.9-1.1-1.7-1.4-1.1-4.5-2.4-10.8-3.3-1-0.8-0.5-1.6 0.4-1.9-0.6-1 2.8-8.9 0.7 0 2.5 2.2 4.5-2.2 4.5-3.9 2.6-3.2 1.5 0.5 1.2-0.8 1.1-1.3 1.2-1.1 0-1-0.4-0.2-0.1-0.1 0-0.2-0.2-0.3-1 0.5-1 0.7-0.9 0.7-0.7 0.7 4.7-7.1 0.2-0.9 3.6-5.8 0.5-1.4 0.2-1.6 0.2-7.9-0.1-2.1 1.1 1.2 1.3 2.4 1.1 0.9-0.1-1.5-0.2-1.3-0.5-0.9 0.5 0.8 1.5 0.8 1.9 0.2 2.2 0.1 1.4 0.5 5.2 3.9 8.1 1.9 2-0.4 2-0.9 3.4-2.3 2.7-3.4 4.1-8.4 2.3-3.4 7.9-5 0.9-1 6.8 1.4 2.2 0 1-0.2 0.9-0.6 1 0.9 1.3 0.8 1.5 0.7 1.6 0.2 1.3 0.5 0.6 1.1 0.4 1.5 0.8 1.5 1.1 0.9 3 1.5 1.2 0.2 0.8-0.1 1.1-0.6 0.5-0.1 0.9 0.9 0.7 0.6 0.9 0.3 0.6 0.7 1.1 3.3 0.8 1.4 0.8 0.4 3.7 1.3 0.4 0.3 0.3 0.6 0.6 0.6 0.9 0.3 3.1 0 4.5 1.1 1.2 0.7 1.9-0.8 1.6 1 1.1 1z m-133.3-115.2l-0.1-1.4 1-3.5 1.7-1.6 2-0.8 12.8-0.2 1.9-0.4 4-1.9 5.4-4.6 2.4-0.8 0 4.4 2.7 3.7 0.7 1.9-0.6 1.7 0.1 1.8-2.7 5 0.5 1.9 10.2 6.3 0.8 2.3-0.6 3.5 0.4 1.9 1.6 1.3 1.8 0.3 1.6 1.3 5.6 1.2 3.4 1.6 0 1.9-5.9 3-1.7 1.5-0.7 2.1 0 1.8 1.6 3.8 1.5 1.7 5.6 3.8 3.4 1.6 3.6 0.2 5.5-0.9 1.2 1.9-0.3 1.8 2.2-0.4 3.8-3-0.1-3.6 0.6-1.7 5.4 0.5 3.9-1.9 1.7-1.5 4.4-1.8 0.1 1.1 4 2.4 0 1.8-1.6 3.4 0.4 3.6-1.3 3.4 0.4 4.1-1.3 1.5 0 1.8 3.1 3.4-1.7 3.7 0.4 4-1 1.6-2 1.1-3.8 0.9-4.2 3.6-2.1 3.9 0.3 2.6-0.7 2.2-0.5-1-0.6-0.4-1 0.2-5 4.4-0.8 1.4-0.3 2.5-0.9 0.7-2-1.2-2.8-2.7-6 0-1.7 0.5-1.4 0.8-1.4 0.4-1.5-0.8-6.6 4.9-1.1 2.4-0.7 0-0.9-0.9-1.5-0.3-1.3-0.1-0.6-0.1-0.7-0.9-4.2-2.3 1.8-0.4 1.6 0.9 1.5 1.4 1.4 0.9 0-1-0.4-0.6-0.3-0.4 0.1-0.6 0.6-1-0.9-0.7-0.5-0.2 0-1 0.4-0.2 1-0.7-2 0 0.6-1.8-0.9 0.5-0.9 0.2-0.8-0.1-0.8-0.6-0.6 0.5-0.4 0.2-1.1 0.3 0.6-2.6-1.2-1.3-2.1-0.5-1.9-0.1-0.8-1.3-1-7.8-2.1-2.6-1.2-0.9-0.5-0.2-0.5 0.1-1 0.1 0.4 1.1 4.2 7-1.4 0 0.2 0.5 0.1 0.1 0.1 0 0.3 0.3-0.4 1.3-0.2 1.5-0.4 1.2-0.7 0.5-1.1 0.2-2.2 1.1-0.7 0.5 0.3 0.6 0.1 0 0.4 0.2-0.8 1-1.3-0.9-0.9 0.4-0.3 0.9 0.1 0.4 0.5 0.5-0.8 1-1.5 1.3-1.1 0.7-0.7 0.3-2-0.2-0.9-0.5-0.7-0.7-0.8-0.2-0.8 1.4 0.5 0.5 0.6 0.4 0.8 0.1-0.5 0.1-1.3 0.4-0.8 0.8-0.1 1.4-1.9-0.2-0.7-1.3-0.3-1.7-0.6-1.3-1.2-0.4-3.1-0.1-1.3-0.4 1.2-0.6 0.9-0.6 0.4-1-0.4-1.5-1 0.6-0.4 0.4 0.9-2 0.5-0.7-0.3 0.9 1.1 0.5 1.2-0.8 0.9-1.1 0.6-1.3-1.8-1.5-0.8 0-0.9 1.5-1.1-0.6-0.9-1-0.5-1.3-0.3-1.6 0.4-0.3 0.1 0 0-0.1 0.2-0.6 1 1.3 1.2 0.7 1-0.4 0.3-1.6-1.4 1 0.5-1.7-1-2.5 0.5-1.2 0-1-0.9 0-0.7-0.2-1.2-0.6 1-0.6 0.4-0.2 0.7-0.1-0.4-0.2-0.6-0.6-0.4-0.2 1-2.1 0.2-1-0.1-0.8-1-0.6-0.8 0.5-0.8 0.9-0.9 0.5-0.4 0.5-1.1 0.9-1.2 0.6-0.5-0.6-0.3-1.2-0.9-1.9-0.2-1.4 0.7-5.4 0.1-2.9-2.2-2.3-1.6-5-0.9-1.1-4 0-1.4-0.5-1.3-1.3-0.7-1.6-2.5-10.7-1-2.1-1.4-1-1.5 0.5-1.5 1.5-1.2 1.9-0.8 1.5-0.7-1.5-0.6 0.3-0.7 0.6-0.8-0.2-1.1 1-0.4-0.6-0.2-1.2-0.4-1-3.5-2.8 0-0.9 0.8-1.7 0.5-2.4 0.8-2.1 1.8-1 2.2 0.1 1.2-0.1 0.5-0.4-0.3-0.9-0.8-0.7-0.9-0.5-2.2-1.1-0.8-2-0.2-2.4 0.3-2 1.3-2.5 0.5 1 0.7 2.2 1.6 1.1 2 0.7 2-1 1.4-1.9 1-2.3 0.7 0 0.4 1.1 0.1 0.7-0.1 0.5-0.4 0.4 0.2 0.3 0.3 0.2 0.1 0.5-0.6 0.8 2.1 0.1 1.7-0.3 1.3-1 0.5-2.5 0.7 0 1 1.4 1 0.1 1.3-0.4 1.6-0.1 1.4 0.6 0.9 0.6 1.2 0.5 1.8 0.2 0.3 0.9-0.3 1.8-0.2 1.9 0.9 0.8 1.4 0.4 1.4 0.9 2.5 2.3 0.1-1.2 0.3-0.6 0.4-0.5 0.6-0.5 0-0.8-0.8-1.7 1.1-0.8 1.9 0.1 1.7 1 2.4 2.9 0 0.3 0.7 0.4 0.6 0.2 0.5-0.3 0.4-1.3-0.9-0.7-0.3-0.6-0.3-2-0.4-0.1-0.5 0.1-0.4-0.3-1.3-2.3-0.2-1.4 0.7-1.8-0.5-1 0.3-1.2 0.8-0.7 0.8 0.3 0-3.1-2.5-3.4-5.2-5.2-0.8 0.8-0.3 0.9 0 0.9 0.4 0.9-1.4-0.5-0.5 0.1z",
+  "M520.1 949.5l-0.7 1.1-0.1 1.3 0.5 1.2 1 0.6 0 0.8-2.8-0.1-2.3-1.3-4.1-2.8 0-0.8 1.2 0 0.9-0.4 0.8-0.6 0.7-0.7 1.2-0.1 1.3 0.2 2.4 0.7 0 0.9z m225.3-57.8l-0.9 2.4-1.5 1.5-1.8 1.3-1.5 1.8 1.8 6.5 1.6 2.9 2.3-1.6-1 2-1.7 2-1 1.9 0.9 1.8-0.7 2.3-1 2.3-1.1 2-1.1 1.6-0.5 1.1-1.1 3-0.5 0.6-1.2 0.2-1.1 0.5-0.9 0.6-5.9 2.7-1.5 0.4-2.8 0-0.2-0.4-1.5-1.7-0.7-0.5-2.5-0.4-2 0.3-1.8-0.1-1.9-1.2-0.9-0.8-0.9-0.2-0.8 0.2-0.9 0.8-0.8 0.2-3.7-0.6-4.4 0.9-7.5 2.6-21.3-0.9-6.5 2-1.6 1-1.7 0.6-9.3-1.1-7 0.2-1.9 0.6-2.5 0.3-1 0.5-1.5 1-5.8 2.3-1.6 0.4-5.9-0.6-2.2 0.6-0.7 0.4-0.8 1-0.7 0.3-1.1 0-0.6-0.4-0.6-0.3-0.8-0.2-1.8 0.1-1.6 0.4-2.6 1.1-1.6-0.6-2-0.2-25.2 0.8 0-0.7 1.3-1.1 0.4-1.5-0.3-4.7 0.1-1.5 0.7-2.5-0.1-1.7-0.4-1.3-0.5-1.7-0.8-1.5-0.8-0.7-0.5-0.3-0.6-0.5-0.6-0.6-1.1-0.3-9.1-0.2-2.5-0.5-1.5-0.9-0.7 0-0.9 0.3-1.2-1-2.1-2.8-1.4-1-1.9-1-2-0.4-1.7 0.7-6.2-3.1-0.2-1.2 0-0.8-11.2 1.1-7.8-1.1-0.4-0.4-0.5-0.6-0.4-0.6-0.1-0.2-0.7 0-0.5 0.3-0.5 0.4-0.4 0.2-7.4 0-1.8-0.8-0.9 0-0.4 1.2-0.5-0.1-2.7 0.6-1.9-0.9-2.9-3.6-1.6-0.8-8.8 0.2-4.3-0.6-3.4-2.1-0.9 0.7-0.6 0.3-0.6 0-0.7-0.2-1.8 1.5-7.3-0.3-2.9 1.4-1.4-1.4-6 0.3-2.4-0.6-0.5-0.7 0.2-1.2-0.4-0.7-0.8-0.4-1.4-0.2-0.7-0.3-0.8-0.8-0.6-1-0.8-0.9-1.3-0.7 0.7-0.9-0.4 0-0.2-0.1-0.1-0.1 0-0.6 1.5-0.8 0.6-0.1 0.7-0.1 0.2-0.3-0.1-0.3 0.1-0.1 0.5 0-0.6-1-0.5-0.9-0.1-1.1 0.5-1.4-0.7-2.3 1.1-2.8 1.6-2.8 0.8-2-0.2-0.8-0.5-0.8-0.4-0.6-0.3 0 0.2-0.8 1-3.2 0.7-1.1 0.1-1-1.3-0.8 0-0.8 0.5-0.6 0.2-0.3-0.2-0.3-0.5-0.6 1.5-3.2 0.4-1.5-0.4-1.4 2-3.5 0.5-1.2 0.3 2.6 0 5.1 0.7 2.2 0.5 1.3 0.4 0.3 0.8 0.1 0.8 0.3 0.1 0.5-0.1 0.5 0.3 0.5 0.9 0.4 0.9 0.3 2.4 0.2 2.1-0.4 1.5-1.3 1-2.1 0.3-3.1-0.6-2.4-0.9-2.4-0.3-1.9 1.1-1.2-1-2.3-0.3-1.8 0.5-1.6 1.1-1.6 1.5-1.6 0.9 0.1 1 0.9 2 1 0 0.9-1.2 1.3 0 1.6 1.2 4-0.2 3.3 0.2 1 2.1 3.9 1.8 1.3 8.6 0.9 2.9 0.8 1.5-0.5 5.8 0.6 2.6-0.1 1.1-0.3 0.9-0.5 0.6-0.9 0.2-1.3 0.5-1 1.1-0.3 2.6 0.1-1.2-4.5 3.4-1.4 4.7 0.5 2.3 1.4 2.1 5.6-0.3 0.9-0.5 0.4-0.8 1.7-0.5 0.6-1 0.4-1 0.3-2.2 0.1-4-0.9-2.3-0.1-1.5 1 0.6 1.1 1.7 1.1 1.9 0.9 3.1 0.9 3.4 2.4 1.7 0.5 1.8-0.3 1.8-0.8 1.7-1.2 1.4-1.1 1.2 5.8 0.1 2.4-0.2 4.5 0.2 1.1 0.8 0.6 2.1 0.1 1 0.6 3.8 1.4 9.1-2.7 3.7 0.9 2.1-1.2 8.4-1.5 2.8-0.9 6.4-3.4 2.1-0.7 2.2-0.4 2.4-0.1 10.1 1.8 2.2 1.2 0.9-0.8 1.8-0.8 2.9-1 6.4 2.6 0.6-0.8 0.3-0.3 0.3-0.4 0.2-1.1 4.8 1.2 1.2 1.5 1.8-0.3 0.6 0.2 0.1 0.8-0.2 0.7-0.4 0.7-0.1 0.7 0.8 3.2 2.2 1.4 3.1 0.2 4.8-0.3 2.9-0.6 1.6 0.1 0.3 0.3 0.5 0.5 0.7 0.6 1 0.3 3.1 0 5.7-1 2.5 0.8 1.5 0.1 1.6-0.9 0.7 1 0.8-1 1.8 1.8 1.5 2.1 1.7 1.6 2.9 0.7 2.9-0.4 16.2-6.1 2.1-0.4 1.2 0.2 2.2 1.2 1.5 0.3 6.1 0-0.8 1.7-1.1 1.4-2.4 2.1 0.8 0.8-0.7 1.1-0.1 1 0.5 0.8 1 0.6-0.2-2.2 0.6-1 0.8 0.2 0.8 1.2-0.5 0.9 0 0.4 0.5 0.5-0.6 0.9-0.5-0.4-0.4-0.1-0.4 0.3-0.8 1 0.3 1.1-0.9 1.4-0.7 1.9 0.5 2.6-1.2 1 0.1 1.1 0.7 1.2 0.4 1.4 0.4 2.5 1 0.3 1.5-0.2 1.7 0.8 1.4 1.1 1.2 0.3 2.3-0.1 1.3-0.8 1.8-3.5 1.2-0.8 0.9-0.1 0.6-0.2 1-0.7 1.2-2.2 0.2-0.3 1.2-0.4 3.3-0.2 3.9-0.8 0.7-0.3 3.2-2.1 0.9-0.9 0.8-0.5 1-0.2 0.7 0.1 0.5-0.1 0.6-0.7 0.7 0 1.4 1.2 4 1-1.2 1.3 2.2 1.2 2.6-0.3 2.5-1.2 1.9-1.4-0.5-0.3 0-0.1-0.2-0.5 2.8-2.7 2-2.7 2.2-2 3.6-0.4-0.8-1.7 1.1 0.1 0.4-0.1-0.2-0.4-0.3-0.9-0.2-0.5 2.8 0z",
+  "M812.7 877.1l2.7-0.7 1-0.1 0.1 0.8-0.6 0.5-0.8 0.4 0.8 2.6 0 0.8-1.6 0-2.5 0.5-0.9 0.4-1.3 0.8-0.9 0.9-1 0.6-1.3 0.3-1 0.4-1.7 1.7-1.2 0.5-1.3-0.6-1.1-1.2-0.6-1.1 0.4-0.6 1-0.5 1.8-2.4 0.8-0.5 0.3-0.4 0.7-1.8 0.4-0.4 0.8 0.1 1.2 0.7 0.5 0 3.7-1.5 1.6-0.2z m24.2-11.3l2.2 2.1 0.4 1.4-0.5 2.7-2.6-0.7-2.7 1.1-2 2.4-0.5 3.2 0.3-0.4 0.1-0.4 0.4-0.2 0.7 0.1-0.5 1-0.8 1-1.1 0.9-1.2 0.6 0.7-2.1-0.8-0.7-1.4-0.2-1.3-0.5-0.9-1.1-0.7-1.5 0.1-1.2 1.5-0.6 0-0.7-0.7 0 0-0.9 1.7-0.5 0.1-1.3-1.1-3.5 0.1-1.7 0.3-1.1 0.1-1-0.5-1.3-0.8-0.7-2.7-1.7-0.7-1.1 0.1-1.7 0.8-1.7 0.9-1.3 0.7-0.5 2.4-1.5 0.8-3.2 0.5-3.3 2.7-3.1 0.7-3.7 0.1-3.8-0.6-2.2 0-0.8 1.5-1 0.7 0 0 1 0.7 0 0.6-0.8 1.5-1.9 0.9-0.7 0.7-0.2 0.6 0.3 0.6 0.6-0.4 1.7-1.4 2.4-0.3 1.6 0 3 0.1 1.1 0.6 1.3 0 1.1-0.6 0.9-1.2 1.2-1.2 1.5-0.5 2-0.4 1.1-1 1.2-1 1.5-0.5 2.2 0 2 0.2 0.8 2.7 2.1 2.5 4.5 0.7 0.7 0.5 0.4-0.4 0.9-0.8 0.9-0.4 0.3-0.1 0.9 0.1 0.1 0.7 0.7z m-151.7-109.5l1.4-0.5 1-1.1 0.9-0.7 3.6 1.5 3.4 3 2 0.4-0.9 1.7-0.9-0.2-1-1-1.1-0.5-1.6 0.3-1.2 0.6-1.4 0.3-2.6-0.5-0.5 0-0.3-0.1-0.7-1-0.4-0.8-0.2-0.9 0.5-0.5z m257.3-6.2l-1.4 1.8 1.1 5.8-2.1 1.2-0.5 0.7-0.7 4.5-0.7 1.4-2.3 2.7-0.5 1.6-0.2 3.6-0.5 1.5-0.9 0.7-0.7 0.8-1.3 3.9-0.5 1.3-0.3-0.2-1.8 0-0.7 0.2-0.3 0.5-0.1 0.9-0.4 0.8-1 0.4-2.5 6.1 1 0.7 0.8 0.5 0.8 0.3 1 0.2-0.3 1-0.4 0.9-0.6 0.8-0.8 0.8 0.4 0.6 1 2-5.4-1.6-2.1-0.1-2.4 0.9-4.6 2.9-1.7 1.7-4.1 6.8-2.9 3.9-3.8 3.5-4.8 3-4.2-2.9-0.7-0.3-0.2-0.8-1.9-3.9 1.4-1.9 2.9-8.9 0.6-3.1-0.3-2.9-1-1.5-1.4-1-2.5-2.9-0.2-0.6 0.6-1-0.1-0.6-1-0.8-0.6 0.1-0.6 0-0.7-1.1 1.7-0.6 4-2.8 2.5-0.9 0.8-0.7-0.4-1 0.9-0.8 0.2-0.7 0-0.8 0.2-1.1 0.7-1.6 0.7-1.2 1-2 0.4-0.5 3.1-0.9 0.4-0.5 0.8-1.1 3.4-3.6 0.8-1.4 1-0.9 6.1-2.2 11.5-6.2 1.5-1.2 3.3-1.6 6.8 0.4 3.1-4 0.8 0 0.9 0.8 0.9 1.4 0 0.8z m-293.6-6.1l3.7 1.2 3.5 2.6 2.8 3.3 1.2 3.4-0.2 2.5-1 2.6-1.5 2-1.9 0.7-2.1-0.2-4.7-1.4-1.9-1 1.2-0.6 2.4 0.1 1.3-0.3 1-0.9 1-1.9 0.8-0.7-0.7-3.4-0.5-1.2-0.9-0.7 0-0.8 0.6-1.6-1.5-0.9-4-1.1 0-0.9 0.5-0.2 0.4-0.3 0.5-0.3z m207 5.3l-1 2.3 1.3 1.3 2.1 0.2 1.9-1.2 0.3 0.4 0.2 0.4 0.1 0.9-0.6 1.3-1.1 1.2-1.2 0.6-1.2-0.4-0.6 0.6-0.9-0.6-1.2 0.2-1.4-1.4-0.7-2.2 0.5-1.9-1.4-0.8-1.1 0.4-1 1-0.7 1.2-0.7 0-0.6-1.2-1.3-0.9-0.2-1 0.1-2.6 0.1-1.2 0.4-1.1 1 2.1 1.5-0.6 1.7-1.5 1.5-0.8 1.3 1 1.3 3.6 1.6 0.7z m-106.3-25.5l3.2 0.2 3.8 2.3 3 2.8 0.7 1.8-0.7 0.6-0.5 0.1-0.5-0.5-0.5-1.1-1.6 1.4-1.4 0.5-3-0.2-1.4 0.5-1 1.1-1.5 2.9-0.1 1.7 0.2 1.6-0.8 0.8-2.5 0.2-1.7-0.7-1.9-3.5-1.7-1 0.2-0.9 0.2-0.3 0.4-0.5-1-1.5-0.3-1.9 0.6-1 1.4 0.8 1.5-0.9 1.7 1.1 1.7 1.6 1.4 0.8 0.9-0.5 1-1.7 0.6-0.4 1.1 0.2 0.9 0.2 0.8 0.1 1.1-0.5-1.4-0.8-0.6-1.2 0.4-1.1 0.1-0.3-1.1-0.4-0.9-0.7-0.8-0.8 0-0.9z m154.9 6.2l0.1 1.5 0.2 1.1 0.4 1-0.9 0.6-0.5 0.2 0.5 0.2 0.4 0.4 0.3 0.5 0.2 0.7-2.3 1.3-1.2 0.4-1.5 0 0-0.8 0.6-0.3 0.9-0.9 0.7-0.6-4.5-1.5-1.3-0.9 1.5-1.2-4.9 0 0.7-1.1 1.1-1.4 1-1.3 0.1-1.4 0.5 0 0.2-0.2 0.7-0.7 0 0.9 1.7-2.2 2.4-1.4 2-0.2 0.2 1.1-2.9 0.9-1.3 0.9-0.7 1.8 0.9-0.4 0.5 0 0.7 1.3 3.5-2.7 0.2 0.4 0.1 0.1 0.1 0.1 0.3 0.3-0.5 0.4-0.4 0.5-0.2 0.5-0.3 0.4 0.7-0.5 0.3 0.2 0 0.7-0.3 1.3z m-308.4-9.7l8.2 5.2 1.6 2.8 0 0.8-2.6-0.2-1.6-0.5-2.8-2.8-1.7-1.1-1.6-0.7-1.4-1.2-0.9-2.3 2.1-0.1 0.7 0.1z m28.6-7l4 0.1-0.3 0.3 0 0.6 0.1 0.8-5.6 5.8-3.7 3.1-2.7-0.2 3.9-7.9 1.2-0.4 2-1.8 1.1-0.4z m-69.1-3.5l4-2.2 2.1-0.5 1.3 1.8-0.3 1.4 0.3 7-0.9 0.9-2 1-3.4 1.1-12.4 0.3-3.8 1.5-0.4-1.8 0.8-2.8-0.4-1.6 0.4-0.3 0.5-0.8 0.5-0.5-1-0.8-0.4-0.2 1-1 0.8-2.3 1-1.1 0.5 0.7 0.6 0.7 0.8 0.7 0.9 0.5 1.4-0.3 1.2 3.7 2 1 3.5 0 1.1-0.6-0.3-1.4-0.9-1.5-0.9-0.9-1.4 0.8-1-0.8-0.9-1.4-1-1.2 0-0.8 1.2-1.4 1.3 0.8 1.8 1.5 2.4 0.8z m17.3-5.3l1.4 0.7 1 1.1 0.2 1.3-0.9 1.8-1.5 0.4-1.5-1.3-2.2-3.1 1.4-1.7 1.7 0 0.5 0.2-0.1 0.6z m64.8 8.8l0.2-0.3 0.1 0 0.1-0.2 0.3-0.4-0.9 0.1-2-0.1 0.5-1.2 0.6-1.7 0.3-1.6-0.3-0.7 4.6-3.5 1.3 1.6 1.7 3.1 1.2 1.4 1.8 1 1.9 0.6 1.6 0.9 1 2-1.3 0.2-0.7 0.9-0.1 1.2 0.6 1.2 0 0.8-2.2 3.2-3.7-1.9-6.6-6.6z m-68.3-14.9l0 0.9-0.8 0.9-2.9 5.1-1.7 0.2-1.7-0.5-0.7-0.9-0.3-1.5-0.6-0.9-0.3-0.9 0.5-1.5 0.9-0.9 1.3-0.8 1.5-0.4 1.2 0.3 0.7 0.6 0.6 0.2 0.6-0.1 0.9-0.7 0.2 0.4 0 0.2 0 0.2 0.6 0.1z m83.7 0.5l0.7-1.5 1.7-1.7 2.5-1.7 0.8 0-0.8 0.9 0.6 0.1 0.2 0.3-0.1 3.2-2 1.3-2.4 0.3-1.2-1.2z m190.9-9.7l1.1 2 5.1 1.3 1.5 2.4-3.3 1.9-11.3 3.2-2.4 1.4-6.2 6.7-2.2 0.3-2.6-0.4-2.4-0.8-1.3-1-5.7 2.8-1.7 1.6 1.1 2.7-1.5 0.5-0.6 1.3 0.1 1.8 0.6 1.7-1.8-0.4-1.8-1.4-1.5-1.7-0.5-1.3 0.2-4.5 0.6-1.9 1.2 0.7 0.5-0.7 1.2-1.3 0.5-0.7 0.5 0.4 2.3 1.4 1.4-1.4 0.8-1.2 1.4-2.7 3.5-3.1 0.6-0.8 10.6-6.7 10.4-1.6 1.6-0.5z m-171.8 3.1l0.6-1.3 1-0.7 1.3-0.5 1.3-1.1 1 0.5 2.5 2.1-1 1.5-2 0.1-2.4-0.5-2.3-0.1z m40.8-7.1l1.3 1.8 1.7 1.5 1.9 1.2 2.1 0.7 0.1 0.6-0.2 0.2-0.3 0-0.3 0.1-1.8-0.7-1.8 0.4-1.7 0.5-1-0.2-1.6 1.6-4.3 3.2-1.5 0.6-1.3 1.1-2.9 4.8-1.4 1.1-8.3 2.8-4.4 0.4-1.7-3.2 1.4 0.8 0.8-1.4 1.4-1 1.5-0.3 1.2 1 0.7 0 0.7-0.7 0.9-0.2 2.3 0 0.4-0.4 1.4-3.1-1.2 0.6-0.6-0.7-0.2-1.1 0.2-0.5 1.1-0.2 11.9-6.1 0-0.8-0.6-0.3-0.4-0.2-0.4-0.3-0.8-0.1 0-0.9 2.9-0.8 1.2-0.8 0.8-1 0.8 0z m-95-1.8l-1.5-0.3-2-1.8-1.7-2.6-0.5-2.4 1-1.8 1.8-1.6 2-1 1.6 0-1.9 6.8-1 2.1 0.6 0.6 0.6 0.6 1 1.4z m-38.8-10.6l1.3 1.9 3.6 4.5 1.3 3.7 0.2 1-0.4 0.5-1.4 0.7-0.3 0.5-3.6 4-1.5-2.4-1.8-3.6-1-3.5 0.8-1.9 0-0.9-1.1-0.9-1.2-2.2-1.2-0.4 0-0.7 0.1-0.4 0.6-0.8-0.4-0.1-0.2 0-0.1-0.2 0-0.6 1.4 0 2.4 2.1 1 0.5 0.8-0.8 0.7 0z m226.8 11.5l0.9-1.7 0.5-0.5 0.7-0.5-0.7-1.9 0.5-1.6 0.9-1.4 0.7-1.2 0.2-0.3 0.4-0.6 0.3-0.9-0.2-0.9-0.9-0.7-0.8 0.1-0.7 0.4-0.4 0.2-0.8-0.8-0.5-0.7-0.9-2-0.8-0.8-0.7-0.3-0.3-0.6 0.4-1.8 1.2 1.6 8.7 3.6 0 0.9-1.4 0 1 1.7 1.3 0.8 1.1 0.8 0.2 2.1 0.8-1.1 0.9-0.5 0.9 0 0.9 0.6 0.3 1.5-0.8 2.3 0.5 1.5-0.5 0.9-0.2 0.3-0.1 0.6 0.8 0 0-0.9 0.6 0-0.7 1.9-1.7 0-3.2-1-0.5 0.8-0.2 1.1-0.3 1.1-0.7 0.5-1-0.3-0.8-0.4-0.7-0.1-0.7 0.8-0.8-1.2-0.8-1-0.9-0.6-1 0.2z m-113.4-20.3l-0.2 0.6-0.1 0.1-0.4 0.3-2.1-3.6 1.8 0.1 1.2-0.5 2.6-1.4-0.3 1-0.4 0.8 0.9 1.3 0.5 0.4-0.5 1-0.8 0.7-1 0.1-1.2-0.9z m-54.2 7l-1.2 0.4-0.6 0.8-0.4 1.1-0.7 1.3-0.7 0.8-1.3 1.3-2.9 2-1.6 0.5-3.7-0.2-1-0.4-2.1-1.9-1.1-0.4-0.9-0.6 0-1.5 1-4.9 1.3-1.6 3.2-1.9-0.7-0.5-0.7-0.2-0.7 0.1 1.4-2.1 3-2.4 3.2-1.9 3-1-1.6 2.2 0.9 0.9 2.8 0.5 1.4-1.8-0.3-0.5-0.4-1.3 1.4-0.1 1.4 0.1-0.2 1-0.4 0.9-0.4 1-0.4 0.7-1.8 4.4 0 1.8 1.8 0.8 0 0.9-1.4 0 0 0.9 1.4 0 0 0.8z m25.3-19l0.8-0.5 1.7 0.9 2.5 1.9 1.2 2.3 0.6 2.4 0.3 5.5-0.3 2.4-1 5.3-0.2 2.8-2.9 6.3-0.5 0.5-0.8 0.1-1.4 0.6-3.6 3.6-1.2 0.4-1.9 0.5-1.2 0.8-0.2-0.8-0.4-0.2-0.7-0.7-0.4-1-0.7-2.5-0.3-1-0.7-0.8-2.8-1.8 0.4-0.7 0.1-0.7-0.3-0.8-0.6-0.9-0.5-1-0.1-1 0.2-0.8 0.1-0.3-1.6-3.1-1.2-1.6-1.4-0.6 0-0.9 0.6-0.5 0.5-0.2 0.5 0.1 0.5 0.6 1-0.7 3.9-4.5 6.7-4.9 0.6-0.8 1.5-2.7 0.7-0.4 2.1-0.2 0.4-0.4z m-111.2 2.3l-0.8-0.9 3.3-2.1 1.8-0.5 1.3 0.8 0.7 0 0.5-0.7 0.5-0.1 0.6 0.3 0.5 0.5 0.6 1.8 0.3 2.3 0 2.5-0.2 2.4-0.7-1.9-0.7 0 0 1.6-0.4 1.2-0.7 0.9-1 0.7-0.3-0.3 0-0.2-0.1-0.1-0.3-0.3-0.1-0.6 0.2-0.1 0.3 0 0.3-0.1-0.9-0.6-0.9-0.2-0.9 0.2-0.8 0.6-0.2-1.3-0.3-0.4-0.4 0.1-0.5 0.8-0.9-0.6-0.8 0-0.6 0.5-0.6 0.9-0.4-1.5 0.3-0.4 0.9-0.8-0.7-0.7-0.1-0.6 0.5-0.6 0.9-0.7-0.4-1 0.2-0.4 1-0.4z m-7.8-30.1l0.7-3.4 2.1-2.4 2.5-1.9 1.7-2 0.8 0 0 1.8-0.3 1-0.7 1.9-0.4 0.6 4 2.4 1.4 1.9-0.5 2.8-1.5-0.5-1.1 1.5-0.7 2.3-0.2 2-1.5 1.4-1.8 2-2.4 1.3-2.1 0.5 0.9-4.6 0.9-2 1.7-1.3 0-0.8-0.5-0.3-0.4-0.4-0.5-0.3 0-0.8 0.8-1.4-0.2-1.3-1-0.6-1.7 0.6z m105.5-0.8l-1.3-0.2-7.7 1 0.2-1 0-0.4-0.2-0.2 0-0.6 0.2-1 0.5-0.2 0.5 0 0.2-0.1 0.6-3.1-0.4-1.1-1.6-0.2 0.6-2 1.2-0.9 1.3-0.6 1.1-1.1 3 5.3 0.5-0.3 0.3-2.6 1-0.5 3.3 0.9 0.4 0.3 0.6 0.6 0.7 0.6 2 0.7 0.3 0.8-0.3 1.1-0.6 1.2-1.5 0.6-2 0-1.6 0.6-0.5 2.4-0.8 0z m-46.4-2.3l0.3 0.4 0.6 0.4 0.7 0.6 0.5 0.9 0.2 1.3-0.2 0.8-0.7 0.6-6.2 3.3-1.5 1-0.1-1.2 0.1-0.9 0.3-0.8 0.4-0.6 0-0.9-0.7 0-2.1 0 0.3-1.2 0.4-1 0.6-0.8 0.8-0.6-0.4-0.2-1-0.6 1.9-0.4 1.2-1.8 0.4-2.2 0-1.8-0.6-2.9-0.1-1.1 1 0 2.5 0.3 0.9 1.1 1 1.9 0.7 1.9 0.3 1.4-0.3 0.9-1 1.2-0.2 1z m15.2-19l-1.1-0.6-3.4-3.9-4-1.9-1.1-0.8-0.7-1-0.7-1.6-0.3-1.6 0.4-1.1 1.3-0.4 5.7 0.4 0.5 0.2 0.9 0.6 0 1-0.7 0 0 0.9 1 0 0.8 0.4 0.6 0.6 0.5 0.7 1.6-1.1 1.9 0.2 1.8 1.2 1 1.5 1.6-1.9 2.8 0.6 3.1 1.5 2.4 0.7-0.7 0.9 0.8 0.3 0.6 0.8 0.4 1.1 0.3 1.3-2.6 3.5-0.7 3.3-1.2 0.6-4.7-0.7-2.9-1.8-1.7-0.5-1-0.5-1.3-2.4-1.2-0.5z m-73.6-13.5l2.8 4-0.7 4-2.6 3.9-3 3.3-2.9 4-2 1.7-1.8-0.8-0.1-1.8 0.5-6.5-0.1-1.1-0.1-2.4 1.2-3 1.7-2 1.5 0.4 0.8-0.9 0.6-1-1.1 0.1-0.3-0.1 0-0.8 1-0.7 1-0.3 0.8 0.2 0.7 0.8 0.7 0 0-0.8 0.3-0.1 0.5 0 0.6-0.1z m63.4-10.6l0.2 1.8-0.9 2.4-1.4 2.2-1.4 1.6 0.2 0.5 0.4 2.1-0.6 0-0.8-1.2-2.4-1.9-1.1-1.2-1.9-5.5-0.6-0.8-1.5-0.2-1.2-0.5-1.1-1-1.1-1.5-1.6-3.2-1.2-0.9-1.7 1.1-0.6-3.6-1.9-2.4-2.3-1.9-1.5-2-0.7 0-0.8 1.3-0.8 0.4-0.5-0.7 0.7-1.9-0.9-1-1.5-2.4-1.2-1 1.3-0.4 0-0.6-0.4-0.9-0.2-1.2 0.3-1.2 0.9-0.9 5.7-3.1 2.2-0.5 1.5 0.8-0.1 1.4 0.2 0.8 0.6 0.4 1.1 0 1 0.5 1 0.9 0.4 1-0.4 0.4 0 0.6 0.7 2.9 0.4 0.9 0.7 0.5 2.8 1.2 8.1 0 1 1.2-0.5 2.6-1.6 4.3 4.3 3.6-0.7 0.6-0.3 0.1-0.4 0.2 0 1.6-0.6 1.1-0.8 0.9 0 0.9 0.7 0.7 1.6-0.7 1.2 0.8z m264.4 196l5.3 0.3 0.2 0.6 0 1.2-0.4 1.1-0.5 0.4-0.8 0-2 0.5-1.5-0.3-1.8-0.1-2 0.5-1.3-0.6-0.1-1.8 0.9-1.2 0.8-0.2 1.5-0.3 1.7-0.1z m-39-47.3l0.9 1.1 1.2 2.5-0.8 2.4-2.4 1-1.4 0-2.2-0.3-1-0.8-0.4-1.4 1.1-2.6 3.1-1.9 1.9 0z m-32.2-66.6l0.6 0.6 0.9 1.6 0 1.4-0.7 0.3-0.5 0 0 0.4-0.5 0.3-0.9 0.1-1.2-0.1-1.3-0.9 0-0.9 1.2-0.7 0.3-0.9-0.9-0.1-1.4 0.8-1.3-0.1-0.7-1.2 0.4-1.2 0.3-1-1.1-0.7-1.1-0.5-0.7-0.8-1.3-1-0.3-1.7 1.1-1.1 1.5 0.1 0.3-0.3-0.1-0.8 0.8-0.2 0.9 0.7 0.6 0.2 0.4-0.1 0.4 0.2 0.4 0.2 0.7 0.3 0.9 0.2 0.3 0.7-0.7 1.4-0.2 1.2 1 0.4 1.1 0.7 0.5 1.6 0.3 0.9z m-28.1-28.6l0.5 0.8 0.3 1.2-0.6 0.3-0.5-0.5-0.7-0.4-0.4-0.1-0.4-0.2-0.9 0-0.9 0.7-0.4 0.9-0.1 0.6-0.4 0.3-0.6 0.1 0.5 0.9 1.1 1.5 0.3 4.3-1.1 0.5-1.1-0.8 0.1-0.8-0.3-0.6-1.2-0.5-0.4-1.1 0.5-3.2 0.4-0.8 0.1-0.9-0.3-1.1-0.2-1.8 0.3-1.5 0.9-0.1 1.1 0.1 1.3-0.3 1.2 0.6 1 0.7 0.7 0.7 0.2 0.5z m-191.1-33.5l-0.1 0.8 0.3 1.6-2.3 0.3-4.7-0.9-1.3-0.9 1.8-0.3 1.7-0.7 1-1.3 1.2-0.8 1.8-0.1 0.8 0.8-0.2 1.5z",
+  "M749.6 588.6l-1.8 3.5-2.6 3.3-9.1 8.1-1.8 0.8-8.8 1.3-2 0.8-1.1 0.8-2 2-1.1 0.8-1 0.3-0.7 0-0.8-0.2-1.4-0.1-4 1.1-1.5-0.4-0.4-2.5 0.8-1.7 3.3-3.4 0.8-1.5 0.7-1.9 1.6-2.1 1.9-1.8 1.4-0.9 2.5-0.1 5.9 0.8 2.2-0.7 2.1 0.7 3-0.9 2.8-1.6 2.7-3.1 3.4-1 5-0.4z m70.4-5.3l1.2-0.8 0.6 0.6 0.2 1.4-0.6 1.5-2.5-0.8-3.7 0.8-9.3 3.7-1 0.6-1.1 1.1-0.6 0.9-0.2 0.6-0.3 0.6-1 0.5-0.9 0.2-6.5-0.2-1-0.3-0.4-0.8-0.3-1-0.4-1-1.6-2.7-1.1-0.9-2.4-0.7-1.1-1.2-0.9-0.3-0.9 0.1-1.6 0.6-2.7 0.4-1.7 0.7-1.3 1.2-0.5 1.5-0.8 0 0-1-0.6 0-1.1 1.2-1-1.3-0.6-2.2-0.2-1.6-0.1-3.2 0.4-1.4 1.1-1.2 1.8-0.6 1.8-0.2 1.4-0.7 0.6-1.6 0.9-1 11.7-2.8 3.5 0 3.7 0.7 1.4 0.8 2.7 2.3 3.6 0.9 3.9 2.8 1.1 1.1 0.4-1.4-0.6-1.1-1-1.2-0.9-1.6 1.7 0.6 1.2 0 1-0.6 1-0.9 0.1 1.5 2.8 0.9 4.8 0.4-2.9 1.3-0.6 0.4-0.2 1 0.4 1 0.7 1 0.5 1.4z m-90.8-106.5l-1.3 1.6-0.2 2.6-0.5 2.3-2.3 0.7 0.8 1.2 0.4 0.4 0.9 0.2-0.6 0.8 1.8 0.1 0.1 0.8-1.3 1.9-0.3 2 0 1.6 1.1 9.9 1.4 5.4-2.7 0.4-2.5 2-1.1 2.9 1 3.2 0 1.9-2.5 1.3-4.9 1.7-0.8 1.3-0.7 3-0.6 1-1 0.4-2.1-1-1.5-0.3-1.1-0.7-2.2-3-0.5-0.2-0.4 0.1-1-1-1-1.6-0.4-1.5-0.5 0.2-1.2 0.4-0.4 0.2 0-0.9-0.1-1.8 0.1-0.9-1.7 1.1-0.8-0.8 0.2-1.8 0.9-2.1 1-0.8 1.3-0.5 1.9-0.4 0.5-0.5 1.2-1.3 2.5 0.2 0.6-0.2 0.7-1.6 0-1.6 0.5-1.4 1.7-0.8-0.6-1.5 0.2-3.2-0.3-1.6-0.2 0.5 0 0.1-0.1 0-0.5 0.3-0.5-1-0.6-0.8-0.8-0.5-0.9-0.4 0.6-1.2-0.1-1.8-0.5-1.9-0.7-1.4-1.2-1.3-1.2-0.4-1.3-0.3-1.8-0.7-1.5-1.3-3.3-4.1-0.9-1.8-0.2-2 0.5-1.5 0.8-1.4 0.3-1.9 15.1-3.1 2.1 0.3 4.9 1.6 0.3 0.9 4.3 5.3 0.3-0.6 0.1-0.6 0.3-0.5 0.7-0.1 0.1-0.6-0.2-0.2-0.2 0-0.3-0.1 1.5-0.5 1.3 0.3 1.2 1.1 0.9 1.8z m-59.1-9.1l0.7 1 2.8 2.7 0 0.6-0.1 0.2-0.3 0-0.4 0.1-0.8 4.6-0.2 0.8-1.4-0.2-1.1-0.4-1-0.1-1.1 0.7-0.3-1.2 0.2-0.8 0.3-0.8-0.2-0.8-0.4-0.6-1.2-1.2-0.5-0.9-1.2-1.1-0.5-0.7 0.3-0.9 0.7-0.4 0.6 0.3 0.5 0.6 0.3 0.4 0.6-0.9 0.8-0.7 0.8-0.1 0.7 0.8 0.6 0 0-1 0.8 0z m105.2-57.7l0 1.2-0.2 2.3-1.3 1.4-3.1-1.3-1.7 0.9-1.2-0.5-1-1.3-1.1-1 0.8-0.8-0.9-0.7-0.2-0.6 0.2-0.7 0.1-0.7 0.1-0.5 0.6-1.4 0.1-0.8-1.2-1-0.2-0.5-0.7-1.9-1.8-0.6-3.5 0.3-1.8 1 1.6 2.3 4 3.1 3.8 5.5 1.9 1.6 0 1-0.3 0.6-0.1 0 0.1 0.1 0.3 1.1-2.7 1.2-3.3 0.8-6.6 0.7-1.8-0.3-3.3-1.2-3.7-0.5-1.4-0.7-2.5-1.8-2.5-1.2-6.1-1.3-5.3-0.2-1.1-0.4-0.9-0.9-3.2-4.6-1.1-1.1-1.7-0.3 0-0.8 0.6-0.3 0.9-0.7 0.7-0.2 0.4 0 0.4 0.2 0.5 0 3.9-0.9 0.5-0.4 1.6-2.7 1.1-0.9 1.2-0.2 1.1 0 1.3-0.3 2.7-2.7 3.1-2.4 0.1-0.4 1-0.5-0.3-1.3-1.1-1.3-1-0.6-3.3-0.8-1.2-0.1-2.2 0.3-1.8 0.5-1.4 0.9-1.4 1.5-1.5 3.7-0.3 0-4.6 6.6-1.5 1.4-2 0.6-2.1-0.3-8.7-3.3-1.5-0.9-1.5-1.1-1-0.5-1.3-0.2-1.8-0.8-3.6-3.7-2-1 0-1 1.1-0.4 0.5-1.2 0.1-1.5 0.4-1.4-0.4-0.1-0.3-0.2-0.3-0.3-0.4-0.3 0.8-0.5 0.4-0.6 0.2-0.8 0-1.3 0.4-0.9 0.8-0.6 1-0.3 0.7-0.4 2.8-2.8 0.7-0.9 0.7 0 1.2 2.7 3.4-0.3 3.8-1 2.8 0.5 0.4-0.8 0.4-0.5 0.4-0.6 0.2-0.9 0.6 1.3 0.1 0.6 0.7 0 1.3-1.9 2.1-0.9 4.4-0.8 2.7-1 1-1.5-0.2-2.4-0.7-3.4 18.4-0.6 2 0.6-0.8 3 1.9 1.2 2.8 0.8 1.8 1.4-0.7 1.3-3.2 5.1 0.2 0.7 4.4 4.3 3.5 1.4 0.8 0.7 0.4 0.5 3.5 5.3 1.4 1.2 2.2 1.3-1.3 1 0.4 1.1 0.7 1 1 1 0 1.3 0.3 0.8 0.7 0.3 1.1-0.1-0.1 2.7 1.3 2.9 1.9 2.5 1.5 1z m-164.4-68.3l3.6 2.4-0.7 3.3-5 7.2-0.7 0-1.2-6.4 0.3-3 2.2-1.7-0.3-1.1 0.2-0.5 0.7-0.2 0.9 0z m44.9-63.2l-0.8 1.4-0.5 0.4 0 0.9 0.5-0.1 0.1 0.2 0 0.4 0.3 1.2 0.2 1.4 0.2 0.6-2.4 1.4-2.5 1.9-1.7 2.6 0.4 3.3-1.4 0-1.2 0.3-0.9 0.7-0.7 0.8 1.4 0.9 0.7 0.1-1.6 0.8-1.2 1.2-0.1 1.3 1.5 1.2-1.3 1.4 0.6 1.5 1.3 1.3 0.8 1.3 0.1 0.9-0.1 0.2-0.5 0-0.9 0.8-0.1 0.9-0.1 1.3-0.4 0.8-1.1-0.8-0.6-0.3-3-1-0.8-0.6-0.2-1.3 0-1.2-0.3-0.6-1.8-0.6-1.7-2.7-1.8-0.3 2.3-1.7 1.3-1.3 0.6-1.2-0.5-1.9-1.2-1.3-1.3-0.7-1.2-0.2-4.3 3.6 0.9 0 0.8 0.2 0.6 0.3 0.6 0.5-1.9 0.3-1.3 1.3-1 1.8-0.8 2 0.9-0.4 0.2-0.1 0.3-0.4 1.2 1.4 1.3 2.2 0.6 2-0.6 0.9-2.3-0.2-1.8-0.3-3.3-1.4 2.4-3.7 0.4-0.4-0.5-1.5-1.2 0.5-1.2 1.3-0.6 1.1-0.7 0-0.1-1-0.2-0.6-0.2-0.5-0.2-0.6-6 1.8-1.1 0.9-0.6 0 0.3-0.8 0.4-0.7 0.5-0.6 0.8-0.6-0.5-0.3-0.8-0.5-0.7-0.2 0.1-1.2-0.1-0.6 0.6-0.5 0.7-0.4 0-1-0.7 0 0-0.8 0.5-0.2 0.2-0.2 0.7-0.6-0.7 0 0.8-1.9-0.4-1.2-1-1-0.7-1.4-0.1-1.9 0.1-1.8-0.2-1.3-1.2-0.5 0-0.9 3.6-0.2 6.5-1.6 1 0.2 0.7 0.7 0.4 0.6 0.4 0.3 1.6-0.2 5.5-1.6 2.2 0.8 1.4 1.6 1.2 1.9 1.5 2.1-0.2 1 2.3-0.9 2.8-1.6 1.4-1.3 0-1.2 2.2-3.2 1.3-1.1 0.4 0.1 2.7-0.1 0.9-0.2 2.9-1.6z",
+  "M188.5 574.8l1.7 3.6 7.1 4.6 0.9 3.9-1.3-1.7-3-1.5-3.4-1-2.8-0.2-1.5 0.7-0.9 1.2-0.7 1.1-0.7 0.5-1.4 0.6 0.1 1.6 0.5 1.5 0.4 0.7-0.2 1.7-0.4 0.8-1.1 0.2-2.2 0-0.7-0.5-3.2-4-5-4.2-2.5-2.5-0.2-2.1-2.2-2-3.9-5.4-2.4-1.5 0.7-1.5-0.4-2.2 0.6-0.8-0.9-0.9 4.2-6 2.6-2.5 2.4 0.6 0.1 0.4 0 0.3 0.5 0.6-0.1 0.2 2.1 4.1 0.8 2.5 1.1 1 2.5 1.5 3.3-0.8 4.2 1.7 3.7 2.9 1.6 2.8z m-17.3-35.1l-1.5-0.5-1.3-1.3-2.5-2.9-2.9-1.7-4-1.1-3.5 0.5-1.6 3.3-1.9-1.5-3.8-1.1-1.4-1.8-0.3-1.2-0.2-2.4-0.2-1-1.6-3-0.5-1.4 1.3 0.4 1.7 1.7 1.2 0.6 0-0.9-1.6-1.6-1-2-2.8-7.1-1.2-2-1-0.3-0.8 2.2 0.1 2.1 0.8 4.4-0.2 2.5-0.9 2.3-1.4 1-1.4 0.6-1.2 1.5-0.7 0-0.6-2.3-2.9-1.7-0.7-2.3 0.4-1.1 0.8-1.3 0.6-1.3-0.1-1.2-0.4-1.1 0.2-1 0.6-0.7 0.6-0.4 1.5-1.6 1.3-3.4 0.6-4.3 0.2-4.1 0.5 1.9 0.2 0.8 0.7 0 1.4-2.6 0.8 1 0.7 2.4 1.3 1.9 0.9-1.1 0.4 0.7 0.3 1.4 0.9 0.8 1-0.5 1.8-1.9 2.4-1.3 0.9-2.2 0.1-2.6-0.9-2.3 2.1 0.9-1.2-4.4-0.2-1 0.2-1.7 0.4-1.5 0-1.2-0.6-1.1 0-0.8 3.5 0 5.6 16 0.2 1.1-0.2 2-0.6 1.1-1 0.9-1.2 1.4 0.9 1.2 2.4 4.6 1.2 0.6 1.5-1.2 1.4-1.7 1.1-0.8-0.2 0.4-0.3 0.9-0.2 0.5 1.9 0.4 0.6 1.4 0.3 1.8 0.7 1.8 4.4 3.9 1.1 3.5 3.6 5.1 0.8 2 0.3 2.1-0.3 2.2-1.1 2.2-0.5 0.1-2.7-0.6-0.9 0.1-1.1 0.7-1.1 0.2z m-1.8-43.1l1.3 0.3 1.1 0.7 1.9 1.6-0.5 0-1.5 0 0.6 3.6 0.6 1.3 1.4 0.5 0 1-2.8 0.4-1.7 0.6-1.4-0.4-1.9-2.4 0.8-0.9-1.5-1.7-1.4-2-2-4.4-0.2-1-0.3-3-0.3-1.4-0.7-0.8-1.2-0.8-0.7-1.1 0.5-1.9 1.7 1.1 0.9-0.7 1-3.1 1.8 0.6 0.2 1.7-0.6 1.8-0.7 1.3 1.8-0.1 1.1 0.5 0.9 0.8 1.1 0.7-0.6 2.7-0.8 2.3-2.1 4 0.8 0.5 1 0.4 1.2 0.1 1.2-0.2 0-0.8-1.4-0.9 2.1 0-0.7-0.9z m23.2-27.9l-2.3 3.3-1 2.1-0.2 1.9-1.4 0 0-1 3.9-6.1 1-0.2z m-36.6-1.8l-0.9 1.3-1.1 1.9-1.5 3.2-0.7 0 0.1-3.4 1.8-12.7 1.9-4.3 0.4-2.7 1.8-4.9 1-0.5 0.8-1.3 1.3-2.8 1.3-1.5 1.9-1.7 2.3-1.2 0.2 0.5 0.2 0.7 1.2 0.5 1.6 1.9 0.4 2 0.1 1.9 0.7 1.5-0.6 1.6 0.1 1.2 0.3 1.1 0.2 1 0.1 1.2-0.1 0.7-0.4 0.7-2.4 3.6-0.5 1 0.2 1 0.7 0.3 0.5-1 0.5-1.5 0.7-1.1 0.1 2-0.3 7.1-0.5 1.5-0.6 0.2-0.8-1.7-0.7 0 0.2 0.6 0.5 2.1-0.4-0.3-1.1-0.6 0 1-0.2 0.5-0.2 0.4-0.2 0.8-1.7-0.9-1.7 0.3-0.8 1.1 0.7 1.4 0 0.8-1.1-0.1-0.6-0.5-0.2-0.9 0.4-1.2-2-0.4-1.1-2.6-1.8 1.2z m-45.7-82.4l1.6 1.8 1.8 1.4 1.7 2 1.2 3-2.1 0-1.3-0.4-1-0.8-2.1-2.7-1.1-1.8-0.3-1.7 1.6-0.8z m-5-25.5l0.5 1.4 0.9 4.1 1.3 1.9 0 0.9-1.3 0.9-0.9-0.8-2.5-0.8-2.4-1.7-1.7-0.8-1.8-0.4-1.6-0.1-0.9-0.6-2.6-2.3-1.1-0.7-1.7-0.2-1.5 0-1.2-0.4-0.4-0.6 0.7 0.2 0.7-0.6 0.6-1.2-3.5-1.2-1.4-0.6 0 0.3-0.1 0.5 0 0.2-1.3-2-1.1-2.8-0.8-2.7-0.7-5.7-1.2-2.7-2-2.2-2.6-2-2.4-1.2-1.3-0.9-2.7-6.2-0.3-0.9-1.8 0-1.2-0.1-0.9-0.8-0.7-1.8 0.3-3.1-0.6-1-1.9 1.2 0.1-2.1-0.4-1.5-0.9-0.8-1.5 0 1-1.1 2.7-3.8 0.5-1.2 1-0.2 9.5-0.4 3-0.6 2.7-1.2 2.7-1.7 1.5 0.4 0.9 0.8 0.8 0.8 1.1 0.8 2.6 0.9 1.1 0.6 0.5 1.2 0.7 0 0-1 0.7 0-0.1 4.2-1.3 2.4-2.2 1.4-6.3 2.7-1 0.8-0.6 1.6 0.3 1.7 0.9 1.3 1.1 0.5 0 1-1.4 0 0 0.8 6.1 3.2 2.4 0.5-0.4 2.9-0.6 0.6-1.8-0.7 1.2 2.8 2.1 13.9 0.4 0.8 1.2 0.8 1.4 0.5 2.9 0.6 1.3 0.6 2.2 1.7 0.9 0.3 1.9-0.2 1.5-0.5 0.9-0.6 0.8 0.2 1 1.8z m87.7 103.3l0.7 0.5 0.1 1.3-1.2 1.5-1.3 1.1-1.5 0.9-0.8 0.4-0.8 0.5-1.2 1.2-0.8 1.6-0.9 0.3-0.3-1.3 0.3-1.5 1.8-3.4 1.6-1.8 1.8-0.7 2.5-0.6z m-14.8-1.6l0.4-0.1 0 0.5-0.3 0.7-0.6 0.7-0.8 0.9-2.6 0.7-0.4 1.5 1.4 1.2 0.9 0.9 0.1 0.3 0.8 0.6 1 1.2-1.4-0.5-3.6-3.5-1.5-3.4 1-1.5 1.6-0.3 2.1-1.2 0.6 0.5 0.4 0.3 0.5-0.2 0.3 0.2-0.1 0.4 0.2 0.1z"
+];
+
+/* ═══════════════════════════════════════════════
+   CHARACTERS
+═══════════════════════════════════════════════ */
+var CHARS=[
+  {id:'themistocles',name:'Themistocles',role:'Strategos of Athens',side:'greek',color:'#5a8acc',
+   startCity:'athens',res:{grain:5,timber:3,coin:10},army:3,navy:4,
+   bonus:'Greek Fire (once) auto-wins naval. Marathon March (once) teleports land.',
+   desc:'Architect of Athenian sea power. Mastermind of Salamis.'},
+  {id:'leonidas',name:'Leonidas',role:'King of Sparta',side:'greek',color:'#cc3a3a',
+   startCity:'sparta',res:{grain:8,timber:4,coin:5},army:8,navy:0,
+   bonus:'Hot Gates: +3 def at Sparta, +1 elsewhere. Spartan Ultimatum (once).',
+   desc:'Defender of the Hot Gates. The iron shield of Greece.'},
+  {id:'pausanias',name:'Pausanias',role:'Regent of Corinth',side:'greek',color:'#8a4acc',
+   startCity:'corinth',res:{grain:4,timber:6,coin:8},army:3,navy:3,
+   bonus:'Ships cost 1 less timber to build.',
+   desc:'Naval tactician commanding the western sea lanes.'},
+  {id:'xerxes',name:'Xerxes',role:'King of Kings',side:'persian',color:'#cc7a1a',
+   startCity:'persian_fleet',res:{grain:8,timber:5,coin:16},army:9,navy:8,
+   bonus:'Bribe neutral cities (8 coin). Incite Insurrection (20 coin). +1 army/Gather.',
+   desc:'Commands the mightiest army the world has ever seen.'},
+  {id:'mardonius',name:'Mardonius',role:'Persian General',side:'persian',color:'#cc5a1a',
+   startCity:'persian_fleet',res:{grain:9,timber:4,coin:12},army:7,navy:4,
+   bonus:'Land attacks get +1 to dice roll.',
+   desc:"Xerxes' most trusted general. Conqueror of Thrace."},
+  {id:'datis',name:'Datis',role:'Admiral of the Fleet',side:'persian',color:'#cc9a1a',
+   startCity:'persian_fleet',res:{grain:6,timber:6,coin:11},army:5,navy:7,
+   bonus:'Naval attacks get +2 to dice roll.',
+   desc:'Master of the Persian fleet. Led the landing at Marathon.'}
+];
+
+/* ═══════════════════════════════════════════════
+   CITY DEFINITIONS  (17 cities + Persian Fleet)
+   — garrison:3 for all neutral non-fleet cities
+═══════════════════════════════════════════════ */
+var CITY_DEFS=[
+  {id:'thrace',   name:'Thracia',   region:'Thrace',    res:'grain', yld:3,coastal:true, island:false,x:623,y:138,garrison:3},
+  {id:'apollonia',name:'Apollonia', region:'Illyria',   res:'timber',yld:2,coastal:true, island:false,x:165,y:272,garrison:3},
+  {id:'macedon',  name:'Pella',     region:'Macedonia', res:'timber',yld:3,coastal:true, island:false,x:395,y:194,garrison:3},
+  {id:'larissa',  name:'Larissa',   region:'Thessaly',  res:'grain', yld:3,coastal:false,island:false,x:363,y:341,garrison:3},
+  {id:'delphi',   name:'Delphi',    region:'Phocis',    res:'coin',  yld:1,coastal:false,island:false,x:296,y:460,garrison:3},
+  {id:'thebes',   name:'Thebes',    region:'Boeotia',   res:'grain', yld:3,coastal:false,island:false,x:420,y:468,garrison:3},
+  {id:'athens',   name:'Athens',    region:'Attica',    res:'coin',  yld:2,coastal:true, island:false,x:486,y:535,garrison:3},
+  {id:'corinth',  name:'Corinth',   region:'Corinthia', res:'coin',  yld:2,coastal:true, island:false,x:390,y:530,garrison:3},
+  {id:'argos',    name:'Argos',     region:'Argolis',   res:'timber',yld:2,coastal:true, island:false,x:400,y:620,garrison:3},
+  {id:'olympia',  name:'Olympia',   region:'Elis',      res:'grain', yld:2,coastal:false,island:false,x:268,y:615,garrison:3},
+  {id:'sparta',   name:'Sparta',    region:'Laconia',   res:'coin',  yld:2,coastal:false,island:false,x:355,y:690,garrison:3},
+  {id:'lesbos',   name:'Lesbos',    region:'Aegean',    res:'timber',yld:2,coastal:true, island:true, x:634,y:295,garrison:3},
+  {id:'chios',    name:'Chios',     region:'Aegean',    res:'coin',  yld:2,coastal:true, island:true, x:735,y:393,garrison:3},
+  {id:'samos',    name:'Samos',     region:'Aegean',    res:'coin',  yld:2,coastal:true, island:true, x:712,y:498,garrison:3},
+  {id:'naxos',    name:'Naxos',     region:'Cyclades',  res:'grain', yld:2,coastal:true, island:true, x:593,y:568,garrison:3},
+  {id:'rhodes',   name:'Rhodes',    region:'Aegean',    res:'coin',  yld:2,coastal:true, island:true, x:914,y:783,garrison:3},
+  {id:'crete',    name:'Heraklion', region:'Crete',     res:'grain', yld:2,coastal:true, island:true, x:601,y:900,garrison:3},
+  {id:'persian_fleet',name:'Persian Fleet',region:'Aegean',res:null,yld:0,coastal:true,island:false,x:820,y:430,garrison:0,isFleet:true}
+];
+
+/* ═══════════════════════════════════════════════
+   ADJACENCY
+
+   LAND_ADJ — direct land borders (no islands)
+   SEA_ADJ  — 2-3 nearest naval neighbors per coastal city
+   ISLAND_IDS / COASTAL_IDS — classification sets
+
+   Rules:
+     Land armies move/attack along LAND_ADJ only.
+     Naval units move/attack along SEA_ADJ only.
+     Islands are reachable only via SEA_ADJ.
+     Land units ALSO defend against naval attacks on owned cities.
+═══════════════════════════════════════════════ */
+var LAND_ADJ={
+  thrace:    ['macedon','larissa'],
+  apollonia: ['larissa','macedon'],
+  macedon:   ['larissa','thrace'],
+  larissa:   ['macedon','delphi','apollonia'],
+  delphi:    ['larissa','thebes'],
+  thebes:    ['delphi','athens'],
+  athens:    ['thebes','corinth'],
+  corinth:   ['athens','argos'],
+  argos:     ['corinth','sparta'],
+  olympia:   ['argos','sparta'],
+  sparta:    ['argos','olympia'],
+  lesbos:[],chios:[],samos:[],naxos:[],rhodes:[],crete:[]
+};
+
+var SEA_ADJ={
+  thrace:        ['macedon','lesbos'],
+  apollonia:     ['corinth','naxos'],
+  macedon:       ['thrace','lesbos'],
+  athens:        ['naxos','argos'],
+  corinth:       ['crete','apollonia'],
+  argos:         ['athens','naxos'],
+  lesbos:        ['thrace','chios'],
+  chios:         ['lesbos','samos'],
+  samos:         ['chios','naxos'],
+  naxos:         ['samos','athens'],
+  rhodes:        ['naxos','crete'],
+  crete:         ['rhodes','corinth'],
+  persian_fleet: ['lesbos','chios','samos','naxos','rhodes','crete']
+};
+
+// Cubic bezier overrides for routes that would cross land
+var SEA_BEZIER={
+  'corinth|crete':     {c1x:160,c1y:600,c2x:160,c2y:850},
+  'apollonia|corinth': {c1x:180,c1y:440,c2x:240,c2y:560},
+  'apollonia|naxos':   {c1x:250,c1y:520,c2x:380,c2y:620}
+};
+
+var ISLAND_IDS=['lesbos','chios','samos','naxos','rhodes','crete'];
+var COASTAL_IDS=['thrace','apollonia','macedon','athens','corinth','argos',
+                 'lesbos','chios','samos','naxos','rhodes','crete','persian_fleet'];
+
+function isIsland(cid){return ISLAND_IDS.indexOf(cid)>=0;}
+function isCoastal(cid){var c=CITY_DEFS.find(function(x){return x.id===cid;});return !!(c&&c.coastal&&!c.isFleet);}
+function getSeaAdj(cid){return (SEA_ADJ[cid]||[]).slice();}
+
+/* ═══════════════════════════════════════════════
+   MARKET / PHASES
+═══════════════════════════════════════════════ */
+var MKT={grain:1,timber:2};
+var PH_GK=['Gather','Trade','Build','Diplomacy','Move','Attack'];
+var PH_PR=['Gather','Trade','Build','Move','Attack'];
+
+/* ═══════════════════════════════════════════════
+   GAME STATE
+═══════════════════════════════════════════════ */
+var S={
+  players:[],cities:{},round:1,curPIdx:0,curPhase:0,phDone:[],
+  relations:{},alliances:[],chronicle:[],
+  selChar:null,mapMode:null,mapSel:null,
+  bst:null,pendingBattle:null,_aiBattleCb:null,_pendingGarrison:null,
+  undeployed:{land:0,navy:0},
+  pacts:{},leonidasUltimatum:false,greekFireUsed:false,marathonUsed:false,
+  aiQueue:[],aiRunning:false
+};
+
+/* ═══════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════ */
+function el(id){return document.getElementById(id);}
+function cap(s){return s?s[0].toUpperCase()+s.slice(1):'';}
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function clp(v,a,b){return Math.max(a,Math.min(b,v));}
+function curP(){return S.players[S.curPIdx];}
+function humanP(){return S.players.find(function(p){return p.isHuman;});}
+function isHT(){var p=curP();return p&&p.isHuman;}
+function phases(){return curP()&&curP().side==='persian'?PH_PR:PH_GK;}
+function cityOwner(cid){return S.players.find(function(p){return p.territories.indexOf(cid)>=0;})||null;}
+function cityD(cid){return S.cities[cid]||{name:cid,id:cid};}
+function cityDef(cid){return CITY_DEFS.find(function(c){return c.id===cid;})||{id:cid,name:cid,res:null,yld:0,coastal:false,island:false};}
+
+/* Per-city unit tracking */
+function getLandAt(cid,pid){var c=S.cities[cid];if(!c||!c.units)return 0;return (c.units[pid]&&c.units[pid].land)||0;}
+function getNavyAt(cid,pid){var c=S.cities[cid];if(!c||!c.units)return 0;return (c.units[pid]&&c.units[pid].navy)||0;}
+function setLandAt(cid,pid,n){var c=S.cities[cid];if(!c)return;if(!c.units)c.units={};if(!c.units[pid])c.units[pid]={land:0,navy:0};c.units[pid].land=Math.max(0,n);}
+function setNavyAt(cid,pid,n){var c=S.cities[cid];if(!c)return;if(!c.units)c.units={};if(!c.units[pid])c.units[pid]={land:0,navy:0};c.units[pid].navy=Math.max(0,n);}
+function totalLandAt(cid){var c=S.cities[cid];if(!c||!c.units)return 0;return Object.keys(c.units).reduce(function(s,pid){return s+(c.units[pid].land||0);},0);}
+function totalNavyAt(cid){var c=S.cities[cid];if(!c||!c.units)return 0;return Object.keys(c.units).reduce(function(s,pid){return s+(c.units[pid].navy||0);},0);}
+
+/* Neutral garrison = flat 3. Owned = 0 (no mutable garrison). */
+var NEUTRAL_GARRISON=3;
+function garAt(cid){
+  var owner=cityOwner(cid);
+  if(!owner){var c=S.cities[cid];return c&&!c.isFleet?NEUTRAL_GARRISON:0;}
+  return 0;
+}
+/* Defenders: neutral=3; owned=owner land + allied land */
+function totalDefenders(cid){
+  var owner=cityOwner(cid);
+  if(!owner)return NEUTRAL_GARRISON;
+  var tot=getLandAt(cid,owner.id);
+  S.players.forEach(function(p){if(p.id!==owner.id&&allied(owner.id,p.id))tot+=getLandAt(cid,p.id);});
+  return tot;
+}
+/* Naval defenders: neutral=3; owned=owner navy+land + allied navy+land (land defends naval too) */
+function totalNavalDefenders(cid){
+  var owner=cityOwner(cid);
+  if(!owner)return NEUTRAL_GARRISON;
+  var tot=getNavyAt(cid,owner.id)+getLandAt(cid,owner.id);
+  S.players.forEach(function(p){if(p.id!==owner.id&&allied(owner.id,p.id))tot+=getNavyAt(cid,p.id)+getLandAt(cid,p.id);});
+  return tot;
+}
+
+function totalLandUnits(p){var t=0;CITY_DEFS.forEach(function(cd){t+=getLandAt(cd.id,p.id);});return t;}
+function totalNavalUnits(p){var t=0;CITY_DEFS.forEach(function(cd){t+=getNavyAt(cd.id,p.id);});return t;}
+
+function rk(a,b){return a<b?a+'|'+b:b+'|'+a;}
+function getR(a,b){return S.relations[rk(a,b)]||0;}
+function adjR(a,b,d){S.relations[rk(a,b)]=clp((S.relations[rk(a,b)]||0)+d,-5,5);}
+function allied(a,b){return S.alliances.some(function(al){return (al.a===a&&al.b===b)||(al.a===b&&al.b===a);});}
+function d6(){return rnd(1,6);}
+function face(n){return ['&#9856;','&#9857;','&#9858;','&#9859;','&#9860;','&#9861;'][clp(n-1,0,5)];}
+function log(msg,cls){S.chronicle.unshift({m:msg,c:cls||'sy'});if(S.chronicle.length>100)S.chronicle.pop();}
+
+function score(p){
+  var t=p.territories.length*3;
+  var w=Math.floor((p.res.coin+p.res.grain+p.res.timber*2)/4);
+  var m=Math.floor((totalLandUnits(p)+totalNavalUnits(p))/2);
+  var d=0;
+  if(p.side==='greek')S.players.forEach(function(op){if(op.id!==p.id&&getR(p.id,op.id)>=3)d++;});
+  return t+w+m+d;
+}
+
+function gatherFor(p){
+  var g={grain:0,timber:0,coin:0};
+  p.territories.forEach(function(cid){
+    var c=S.cities[cid];if(!c)return;
+    if(c.res==='grain')g.grain+=c.yld;
+    else if(c.res==='timber')g.timber+=c.yld;
+    else if(c.res==='coin')g.coin+=c.yld;
+  });
+  g.grain+=2;g.coin+=1;
+  p.res.grain+=g.grain;p.res.timber+=g.timber;p.res.coin+=g.coin;
+  if(p.id==='xerxes'){
+    var home=p.territories.length?p.territories[0]:'persian_fleet';
+    setLandAt(home,p.id,getLandAt(home,p.id)+1);
+    g.bonus='+1 army (Xerxes)';
+  }
+  return g;
+}
+
+function checkWin(){
+  var total=CITY_DEFS.filter(function(c){return !c.isFleet;}).length;
+  var gc=0,pc=0;
+  S.players.forEach(function(p){if(p.side==='greek')gc+=p.territories.length;else pc+=p.territories.length;});
+  if(gc===total)return 'greek';
+  if(pc===total)return 'persian';
+  return null;
+}
+
+/* ═══════════════════════════════════════════════
+   ADJACENCY / TARGETING HELPERS
+═══════════════════════════════════════════════ */
+function getLandMoveTargets(cid,playerId){
+  return (LAND_ADJ[cid]||[]).filter(function(t){
+    var o=cityOwner(t);if(!o)return false;
+    return o.id===playerId||allied(playerId,o.id);
+  });
+}
+function getSeaMoveTargets(cid,playerId){
+  return getSeaAdj(cid).filter(function(t){
+    if(t==='persian_fleet')return false;
+    var o=cityOwner(t);if(!o)return false;
+    return o.id===playerId||allied(playerId,o.id);
+  });
+}
+function getLandAttackTargets(cid,playerId){
+  var atk=S.players.find(function(p){return p.id===playerId;});
+  return (LAND_ADJ[cid]||[]).filter(function(t){
+    if(isIsland(t))return false;
+    var o=cityOwner(t);
+    if(o&&o.id===playerId)return false;
+    if(o&&allied(playerId,o.id))return false;
+    if(atk&&atk.side==='persian'&&o&&o.side==='persian')return false;
+    return true;
+  });
+}
+function getSeaAttackTargets(cid,playerId){
+  var atk=S.players.find(function(p){return p.id===playerId;});
+  return getSeaAdj(cid).filter(function(t){
+    if(t==='persian_fleet')return false;
+    var o=cityOwner(t);
+    if(o&&o.id===playerId)return false;
+    if(o&&allied(playerId,o.id))return false;
+    if(atk&&atk.side==='persian'&&o&&o.side==='persian')return false;
+    return true;
+  });
+}
+function getNavalStrikeTargets(playerId){
+  var atk=S.players.find(function(p){return p.id===playerId;});
+  var targets=[];
+  CITY_DEFS.forEach(function(cd){
+    if(!cd.coastal)return;
+    if(getNavyAt(cd.id,playerId)<1)return;
+    getSeaAdj(cd.id).forEach(function(t){
+      if(t==='persian_fleet')return;
+      var o=cityOwner(t);
+      if(o&&o.id===playerId)return;
+      if(o&&allied(playerId,o.id))return;
+      if(atk&&atk.side==='persian'&&o&&o.side==='persian')return;
+      if(targets.indexOf(t)<0)targets.push(t);
+    });
+  });
+  return targets;
+}
+
+/* Retreat helpers */
+function findLandRetreat(fromCityId,playerId){
+  var visited={};visited[fromCityId]=true;var queue=[fromCityId];
+  while(queue.length){
+    var cur=queue.shift();var adj=LAND_ADJ[cur]||[];
+    for(var i=0;i<adj.length;i++){var nb=adj[i];if(visited[nb])continue;visited[nb]=true;var o=cityOwner(nb);if(o&&(o.id===playerId||allied(playerId,o.id)))return nb;queue.push(nb);}
+  }
+  return null;
+}
+function findNavalRetreat(fromCityId,playerId){
+  var visited={};visited[fromCityId]=true;var queue=[fromCityId];
+  while(queue.length){
+    var cur=queue.shift();var adj=SEA_ADJ[cur]||[];
+    for(var i=0;i<adj.length;i++){var nb=adj[i];if(nb==='persian_fleet')continue;if(visited[nb])continue;visited[nb]=true;var o=cityOwner(nb);if(o&&(o.id===playerId||allied(playerId,o.id)))return nb;}
+  }
+  var fp=S.players.find(function(p){return p.id===playerId;});
+  if(fp&&fp.side==='persian')return 'persian_fleet';
+  return null;
+}
+function retreatUnits(cityId,playerId,isNaval,reason){
+  var rc=isNaval?findNavalRetreat(cityId,playerId):findLandRetreat(cityId,playerId);
+  if(isNaval){
+    var n=getNavyAt(cityId,playerId);if(n>0){setNavyAt(cityId,playerId,0);if(rc){setNavyAt(rc,playerId,getNavyAt(rc,playerId)+n);log(reason+': '+n+' ships retreat to '+cityD(rc).name+'.','ba');}else{log(reason+': '+n+' ships lost — no port reachable.','ba');}}
+  }else{
+    var l=getLandAt(cityId,playerId);if(l>0){setLandAt(cityId,playerId,0);if(rc){setLandAt(rc,playerId,getLandAt(rc,playerId)+l);log(reason+': '+l+' units retreat to '+cityD(rc).name+'.','ba');}else{log(reason+': '+l+' units lost — no friendly city reachable.','ba');}}
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   SCREENS / OVERLAYS
+═══════════════════════════════════════════════ */
+function showScr(id){document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on');});el(id).classList.add('on');}
+function openOv(id){el(id).classList.add('on');}
+function closeOv(id){el(id).classList.remove('on');}
+
+/* ═══════════════════════════════════════════════
+   SETUP
+═══════════════════════════════════════════════ */
+function goSetup(){
+  showScr('sSetup');
+  function buildList(side,listId){
+    var html='';
+    CHARS.filter(function(c){return c.side===side;}).forEach(function(c){
+      html+='<div class="ccard" id="cc_'+c.id+'" onclick="G.selChar(\''+c.id+'\')">'
+        +'<div class="cc-name">'+c.name+'</div>'
+        +'<div class="cc-role">'+c.role+'</div>'
+        +'<div class="cc-side cc-'+c.side+'">'+(c.side==='greek'?'Greek':'Persian')+'</div>'
+        +'<div class="cc-stats"><div class="cs">Army <b>'+c.army+'</b></div><div class="cs">Navy <b>'+c.navy+'</b></div><div class="cs">Coin <b>'+c.res.coin+'</b></div></div>'
+        +'<div class="cc-bonus">&#10022; '+c.bonus+'</div>'
+        +'<div class="cc-desc">'+c.desc+'</div>'
+        +'</div>';
+    });
+    el(listId).innerHTML=html;
+  }
+  buildList('greek','greekList');
+  buildList('persian','persianList');
+}
+
+function selChar(id){
+  S.selChar=id;
+  document.querySelectorAll('.ccard').forEach(function(c){c.classList.remove('sel');});
+  el('cc_'+id).classList.add('sel');
+  el('startBtn').disabled=false;
+}
+
+function startGame(){
+  if(!S.selChar)return;
+  S.players=[];S.cities={};S.alliances=[];S.relations={};S.chronicle=[];
+  S.round=1;S.curPIdx=0;S.curPhase=0;S.phDone=[];S.mapSel=null;
+  S.aiQueue=[];S.aiRunning=false;
+  S.undeployed={land:0,navy:0};
+  S.pacts={};S.leonidasUltimatum=false;S.greekFireUsed=false;S.marathonUsed=false;
+  S._pendingGarrison=null;
+
+  CHARS.forEach(function(c){
+    S.players.push({
+      id:c.id,name:c.name,role:c.role,color:c.color,side:c.side,
+      isHuman:c.id===S.selChar,
+      res:{grain:c.res.grain,timber:c.res.timber,coin:c.res.coin},
+      territories:[]
+    });
+  });
+
+  CITY_DEFS.forEach(function(cd){
+    S.cities[cd.id]={
+      id:cd.id,name:cd.name,region:cd.region,res:cd.res,yld:cd.yld,
+      coastal:cd.coastal,island:cd.island||false,isFleet:cd.isFleet||false,
+      garrison:cd.garrison||0,units:{},owner:null
+    };
+  });
+
+  S.players.forEach(function(p){
+    var ch=CHARS.find(function(c){return c.id===p.id;});
+    if(p.side==='greek'&&ch.startCity&&S.cities[ch.startCity]){
+      p.territories.push(ch.startCity);
+      S.cities[ch.startCity].owner=p.id;
+      S.cities[ch.startCity].garrison=0;
+      setLandAt(ch.startCity,p.id,ch.army);
+      setNavyAt(ch.startCity,p.id,ch.navy);
+    }
+    if(p.side==='persian'){
+      setLandAt('persian_fleet',p.id,ch.army);
+      setNavyAt('persian_fleet',p.id,ch.navy);
+    }
+  });
+
+  showScr('sGame');
+  try{
+    log('The campaign begins. You command '+humanP().name+'.','ev');
+    renderGame();
+    if(!isHT())setTimeout(function(){runAiTurn();},1000);
+  }catch(e){
+    el('gcont').innerHTML='<div style="padding:20px;color:#e87c7c;font-family:Cinzel,serif;font-size:.8rem">Error: '+e.message+'<br><pre style="font-size:.6rem;opacity:.6;white-space:pre-wrap">'+e.stack+'</pre></div>';
+
+}
+}
+
+/* ═══════════════════════════════════════════════
+RENDER
+═══════════════════════════════════════════════ */
+function renderGame(){renderTop();renderResBar();renderPhBar();renderContent();}
+
+function updateScorebar(){
+var gEl=el(‘sbGk’),pEl=el(‘sbPr’);if(!gEl||!pEl)return;
+var gk=0,pr=0;
+S.players.forEach(function(p){if(p.side===‘greek’)gk+=p.territories.length;else pr+=p.territories.length;});
+gEl.textContent=’GK ’+gk;pEl.textContent=’PR ’+pr;
+gEl.style.fontWeight=gk>pr?‘700’:‘400’;pEl.style.fontWeight=pr>gk?‘700’:‘400’;
+}
+
+function renderTop(){
+var p=curP();if(!p)return;
+el(‘tbRd’).textContent=‘Rd ‘+S.round;
+el(‘tbWho’).textContent=p.name+(p.isHuman?’ (You)’:’ (AI)’);
+el(‘tbWho’).style.borderColor=p.color;el(‘tbWho’).style.color=p.color;
+el(‘tbPh’).textContent=phases()[S.curPhase]||’’;
+updateScorebar();
+}
+
+function renderResBar(){
+var p=humanP();if(!p)return;
+var tl=totalLandUnits(p),tn=totalNavalUnits(p);
+el(‘resbar’).innerHTML=
+rcEl(‘Grain’,p.res.grain,’’)+rcEl(‘Timber’,p.res.timber,’’)+rcEl(‘Coin’,p.res.coin,’’)+
+rcEl(‘Land’,tl,‘mil’)+rcEl(‘Naval’,tn,‘nav’);
+}
+function rcEl(n,v,cls){return ‘<div class="rc'+(cls?' '+cls:'')+'"><div class="rc-n">’+n+’</div><div class="rc-v">’+v+’</div></div>’;}
+
+function renderPhBar(){
+var ph=phases();
+el(‘phbar’).innerHTML=ph.map(function(name,i){
+var cls=‘ph’;
+if(S.phDone.indexOf(i)>=0)cls+=’ dn’;
+else if(i===S.curPhase)cls+=’ ac’;
+else cls+=’ pe’;
+return ‘<div class="'+cls+'">’+name+’</div>’;
+}).join(’’);
+}
+
+function renderContent(){
+var p=curP();if(!p)return;
+if(!p.isHuman){
+var h=’<div class="gcard"><div class="gc-t">’+p.name+’\u2019s Turn</div>’
++’<div class="ai-feed" id="aiFeed"><div class="af-who" style="color:'+p.color+'">’+p.name+’ \u2014 ‘+p.role+’</div>’;
+var recent=S.chronicle.slice(0,8);
+if(recent.length)recent.forEach(function(e){h+=’<div class="af-entry c-'+e.c+'">’+e.m+’</div>’;});
+else h+=’<div class="af-entry c-ai">Taking action\u2026</div>’;
+h+=’</div></div>’;
+el(‘gcont’).innerHTML=h+renderPowersCard()+renderChronCard();
+return;
+}
+el(‘gcont’).innerHTML=renderPhaseCard()+renderPowersCard();
+if(p.side===‘greek’)el(‘gcont’).innerHTML+=renderRelCard();
+el(‘gcont’).innerHTML+=renderChronCard();
+}
+
+/* ── Phase Card ── */
+function renderPhaseCard(){
+var p=curP();
+var ph=phases()[S.curPhase];
+var h=’<div class="gcard"><div class="gc-t">’+ph+’</div>’;
+
+if(ph===‘Gather’){
+h+=’<p style="font-size:.84rem;margin-bottom:10px">Collect income from your cities (+2 Grain, +1 Coin base each turn).</p>’;
+h+=’<div class="ag one"><button class="ab p" onclick="G.doGather()">Gather Resources</button></div>’;
+
+}else if(ph===‘Trade’){
+h+=’<p style="font-size:.8rem;color:var(--dim);margin-bottom:9px">Grain 1c \u2022 Timber 2c \u2022 Sell or buy as many times as you want.</p>’;
+[‘grain’,‘timber’].forEach(function(k){
+h+=’<div class="trow"><div class="tlab">’+cap(k)+’ (’+p.res[k]+’)</div>’
++’<input class="tinp" id="sell_'+k+'" type="number" min="0" max="'+p.res[k]+'" value="0">’
++’<button class="ab" style="padding:5px 7px;font-size:.6rem;width:auto" onclick="G.sellRes(\''+k+'\')">Sell</button>’
++’<input class="tinp" id="buy_'+k+'" type="number" min="0" max="50" value="0">’
++’<button class="ab" style="padding:5px 7px;font-size:.6rem;width:auto" onclick="G.buyRes(\''+k+'\')">Buy</button>’
++’</div>’;
+});
+h+=’<button class="ab p" style="margin-top:8px;width:100%" onclick="G.advPhase()">Done Trading</button>’;
+
+}else if(ph===‘Build’){
+var gc=p.id===‘leonidas’?1:2;
+var tc=p.id===‘pausanias’?2:3;
+var ca=p.res.grain>=gc&&p.res.coin>=1;
+var hasCoastal=p.side===‘persian’||p.territories.some(function(cid){var cd=cityDef(cid);return cd&&(cd.coastal||cd.island);});
+var cn=p.res.timber>=tc&&p.res.coin>=2&&hasCoastal;
+var uL=S.undeployed.land,uN=S.undeployed.navy;
+var uInfo=(uL>0||uN>0)?’<span style="color:var(--gold2)"> \u2014 Undeployed: ‘+(uL>0?’\u2694’+uL+’ ‘:’’)+(uN>0?’\u2693’+uN:’’)+’</span>’:’’;
+h+=’<p style="font-size:.82rem;color:var(--dim);margin-bottom:9px">Build units then deploy them to your cities.’+uInfo+’</p>’;
+h+=’<div class="ag">’
++’<button class="ab'+(ca?' p':' off')+'" onclick="G.doBuild(\'army\')">Train Army<span class="ab-sub">’+gc+’ grain + 1 coin</span></button>’
++’<button class="ab'+(cn?' p':' off')+'" onclick="G.doBuild(\'navy\')">Build Ship<span class="ab-sub">’+(hasCoastal?tc+’ timber + 2 coin’:‘Needs coastal city’)+’</span></button>’
++’</div>’
++’<button class="ab'+(uL>0||uN>0?' p':'')+'" style="margin-top:8px;width:100%" onclick="G.doneBuildingDeploy()">Done Building’+(uL>0||uN>0?’ \u2014 Deploy Units’:’’)+’</button>’;
+
+}else if(ph===‘Diplomacy’){
+h+=’<p style="font-size:.84rem;margin-bottom:9px">Build relations with Greek factions. At +5 a permanent alliance forms \u2014 allied cities share defenders.</p>’;
+h+=’<div class="ag"><button class="ab p" onclick="G.openDip()">Open Diplomacy</button>’
++’<button class="ab" onclick="G.advPhase()">Skip</button></div>’;
+if(p.id===‘leonidas’){
+if(!S.leonidasUltimatum){
+var gts=S.players.filter(function(x){return !x.isHuman&&x.side===‘greek’;});
+if(gts.length){
+h+=’<div class="spec-hdr gk">SPARTAN ULTIMATUM</div>’
++’<button class="ab d" style="width:100%;margin-top:4px" onclick="G.openUltimatumDip()">Issue Ultimatum<span class="ab-sub">Force 2-round non-aggression \u2022 -2 rel \u2022 once per game</span></button>’;
+}
+}else{
+h+=’<div style="margin-top:8px;font-size:.72rem;color:var(--dim);font-style:italic">Spartan Ultimatum already issued.</div>’;
+}
+}
+
+}else if(ph===‘Move’){
+var tl=totalLandUnits(p),tn=totalNavalUnits(p);
+h+=’<p style="font-size:.84rem;margin-bottom:9px">Move land armies between your cities (or allied cities). Move navy to coastal or island cities you control.</p>’;
+h+=’<div class="ag">’
++(tl>0?’<button class="ab p" onclick="G.openMoveMap(\'land\')">Move Land Army</button>’:’<button class="ab off">Move Land<span class="ab-sub">No land units</span></button>’)
++(tn>0?’<button class="ab s" onclick="G.openMoveMap(\'navy\')">Move Naval Units</button>’:’<button class="ab off">Move Navy<span class="ab-sub">No naval units</span></button>’)
++’</div>’
++’<button class="ab" style="margin-top:7px;width:100%" onclick="G.advPhase()">Skip Move</button>’;
+if(p.id===‘themistocles’&&!S.marathonUsed){
+var hasLand=p.territories.some(function(cid){return getLandAt(cid,p.id)>0;});
+h+=’<div class="spec-hdr gk">MARATHON MARCH</div>’
++’<button class="ab'+(hasLand?' p':' off')+'" style="width:100%;margin-top:4px" onclick="G.openMarathonMap()">Marathon March<span class="ab-sub">’+(hasLand?‘Once per game \u2014 teleport all land units from a city anywhere’:‘No land units’)+’</span></button>’;
+}
+if(p.id===‘leonidas’&&!S.leonidasUltimatum){
+var gtsM=S.players.filter(function(x){return !x.isHuman&&x.side===‘greek’;});
+if(gtsM.length){
+h+=’<div class="spec-hdr gk">SPARTAN ULTIMATUM</div>’
++’<button class="ab d" style="width:100%;margin-top:4px" onclick="G.openUltimatumDip()">Issue Ultimatum<span class="ab-sub">Force 2-round non-aggression \u2022 once per game</span></button>’;
+}
+}
+
+}else if(ph===‘Attack’){
+var hasAny=p.territories.some(function(cid){return getLandAt(cid,p.id)>0||getNavyAt(cid,p.id)>0;})
+||(getLandAt(‘persian_fleet’,p.id)>0||getNavyAt(‘persian_fleet’,p.id)>0);
+h+=’<p style="font-size:.84rem;margin-bottom:9px">Select any city you control to see all valid targets \u2014 land (gold) and naval (blue).</p>’;
+h+=’<div class="ag one">’
++(hasAny?’<button class="ab d" onclick="G.openAttackMap()">Attack \u2014 Select Source City</button>’:’<button class="ab off">Attack<span class="ab-sub">No units available</span></button>’)
++’</div>’;
+if(p.id===‘xerxes’){
+var canBribe=p.res.coin>=8,canInsurrect=p.res.coin>=20;
+h+=’<div class="spec-hdr">XERXES \u2014 BRIBERY</div>’
++’<div class="ag">’
++’<button class="ab'+(canBribe?' p':' off')+'" onclick="G.openBribeMap()">Bribe City<span class="ab-sub">8 coin \u2014 claim neutral adjacent city</span></button>’
++’<button class="ab'+(canInsurrect?' p':' off')+'" onclick="G.openInsurrectionMap()">Incite Insurrection<span class="ab-sub">20 coin \u2014 half enemy units revolt</span></button>’
++’</div>’;
+}
+if(p.id===‘themistocles’&&!S.greekFireUsed){
+h+=’<div class="spec-hdr gk">GREEK FIRE</div>’
++’<button class="ab s" style="width:100%;margin-top:4px" onclick="G.openGreekFireMap()">Greek Fire<span class="ab-sub">Once per game \u2014 automatic naval victory</span></button>’;
+}
+h+=’<button class="ab" style="margin-top:7px;width:100%" onclick="G.endTurn()">End Turn</button>’;
+}
+return h+’</div>’;
+}
+
+/* ── Powers Card ── */
+function renderPowersCard(){
+var sorted=S.players.slice().sort(function(a,b){return score(b)-score(a);});
+var h=’<div class="gcard"><div class="gc-t">Powers</div><div class="plist">’;
+sorted.forEach(function(p){
+var isCur=p.id===curP().id;
+var side=’<span style="color:'+(p.side==='greek'?'var(--gcol)':'var(--pcol)')+';font-size:.6rem"> ‘+(p.side===‘greek’?‘GK’:‘PR’)+’</span>’;
+var tl=totalLandUnits(p),tn=totalNavalUnits(p);
+var allCityIds=[];
+CITY_DEFS.forEach(function(cd){
+if(cd.isFleet&&p.side!==‘persian’)return;
+if(getLandAt(cd.id,p.id)>0||getNavyAt(cd.id,p.id)>0)allCityIds.push(cd.id);
+else if(p.territories.indexOf(cd.id)>=0)allCityIds.push(cd.id);
+});
+var cityInfo=allCityIds.map(function(cid){
+var cd=cityDef(cid);
+var land=getLandAt(cid,p.id),navy=getNavyAt(cid,p.id);
+var owned=p.territories.indexOf(cid)>=0;
+return (cd.name||cid)+(owned?’’:’*’)+’:’+’<span style="color:'+p.color+'">’+land+‘L’+navy+‘N</span>’;
+}).join(’ ‘);
+h+=’<div class="prow'+(isCur?' cur':'')+'">’
++’<div class="pdot" style="background:'+p.color+'"></div>’
++’<div class="pri"><div class="pr-n" style="color:'+p.color+'">’+p.name+side+(p.isHuman?’ <span style="color:var(--gold3);font-size:.6rem">(You)</span>’:’’)+’</div>’
++’<div class="pr-d">’+p.territories.length+’ cities \u2022 ‘+tl+‘L ‘+tn+‘N \u2022 Coin:’+p.res.coin+’</div>’
++(cityInfo?’<div class="pr-d" style="margin-top:2px">’+cityInfo+’</div>’:’’)
++’</div>’
++’<div class="pr-s">’+score(p)+’</div></div>’;
+});
+return h+’</div></div>’;
+}
+
+/* ── Relations Card ── */
+function renderRelCard(){
+var p=humanP();if(!p)return ‘’;
+var h=’<div class="gcard"><div class="gc-t">Relations</div><div class="rellist">’;
+S.players.forEach(function(op){
+if(op.id===p.id)return;
+var rel=getR(p.id,op.id);
+var pct=((rel+5)/10)*100;
+var fc=rel>=3?’#27ae60’:rel<=-3?’#c0392b’:’#c9943a’;
+var al=allied(p.id,op.id)?’<span style="color:#7de8a0;font-size:.62rem"> \u2248 Allied</span>’:’’;
+h+=’<div class="relrow">’
++’<div class="rel-n" style="color:'+op.color+'">’+op.name+al+’</div>’
++’<div class="rel-b"><div class="rel-f" style="width:'+pct+'%;background:'+fc+'"></div></div>’
++’<div class="rel-v" style="color:'+fc+'">’+(rel>0?’+’:’’)+rel+’</div>’
++’</div>’;
+});
+return h+’</div></div>’;
+}
+
+/* ── Chronicle Card ── */
+function renderChronCard(){
+var h=’<div class="gcard"><div class="gc-t">Chronicle</div><div class="chron">’;
+var en=S.chronicle.slice(0,24);
+if(!en.length)h+=’<div class="ce c-sy">The chronicle awaits the first great deed\u2026</div>’;
+en.forEach(function(e){h+=’<div class="ce c-'+e.c+'">’+e.m+’</div>’;});
+return h+’</div></div>’;
+}
+
+function ciStat(label,value,color){
+return ‘<div style="border:1px solid var(--br);padding:7px 8px;background:var(--stone2)">’
++’<div style="font-family:Cinzel,serif;font-size:.55rem;letter-spacing:1px;color:var(--dim);text-transform:uppercase;margin-bottom:3px">’+label+’</div>’
++’<div style="font-family:Cinzel,serif;font-size:.95rem;color:'+(color||'var(--gold3)')+'">’+value+’</div>’
++’</div>’;
+}
+
+/* ═══════════════════════════════════════════════
+MAP DRAWING
+═══════════════════════════════════════════════ */
+function drawMap(hlLand,hlSea,selCityId){
+var svg=el(‘mapSvg’);svg.innerHTML=’’;
+var NS2=‘http://www.w3.org/2000/svg’;
+function se(t){return document.createElementNS(NS2,t);}
+function at(e,a){for(var k in a)e.setAttribute(k,a[k]);return e;}
+function tx(x,y,s,a){var t=se(‘text’);at(t,a||{});t.setAttribute(‘x’,x);t.setAttribute(‘y’,y);t.textContent=s;return t;}
+
+var d=se(‘defs’);
+var lg=se(‘linearGradient’);at(lg,{id:‘mlg’,x1:‘0’,y1:‘0’,x2:‘0.3’,y2:‘1’});
+lg.innerHTML=’<stop offset="0%" stop-color="#d4b870"/><stop offset="60%" stop-color="#c0964e"/><stop offset="100%" stop-color="#a07838"/>’;
+d.appendChild(lg);
+var sg=se(‘linearGradient’);at(sg,{id:‘msg’,x1:‘0’,y1:‘0’,x2:‘1’,y2:‘1’});
+sg.innerHTML=’<stop offset="0%" stop-color="#0e3355"/><stop offset="100%" stop-color="#061828"/>’;
+d.appendChild(sg);
+var fs=se(‘filter’);at(fs,{id:‘mls’,x:’-5%’,y:’-5%’,width:‘110%’,height:‘110%’});
+fs.innerHTML=’<feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.5)"/>’;
+d.appendChild(fs);
+var fg=se(‘filter’);at(fg,{id:‘mgl’});
+fg.innerHTML=’<feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>’;
+d.appendChild(fg);
+var wp=se(‘pattern’);at(wp,{id:‘mwp’,x:‘0’,y:‘0’,width:‘60’,height:‘22’,patternUnits:‘userSpaceOnUse’});
+wp.innerHTML=’<path d="M0,11 Q15,5 30,11 Q45,17 60,11" stroke="#1a5078" fill="none" stroke-width="0.8" opacity="0.28"/>’;
+d.appendChild(wp);
+svg.appendChild(d);
+
+svg.appendChild(at(se(‘rect’),{x:‘0’,y:‘0’,width:‘1000’,height:‘1000’,fill:‘url(#msg)’}));
+svg.appendChild(at(se(‘rect’),{x:‘0’,y:‘0’,width:‘1000’,height:‘1000’,fill:‘url(#mwp)’}));
+[{x:760,y:470,t:‘AEGEAN SEA’,s:16},{x:105,y:600,t:‘IONIAN SEA’,s:13},{x:560,y:840,t:‘MEDITERRANEAN’,s:12}].forEach(function(l){
+svg.appendChild(tx(l.x,l.y,l.t,{‘text-anchor’:‘middle’,‘font-size’:l.s,‘font-family’:‘Cinzel,serif’,‘font-style’:‘italic’,fill:’#4a8ab8’,opacity:‘0.45’,‘letter-spacing’:‘1.5’}));
+});
+
+LP.forEach(function(pd){
+svg.appendChild(at(se(‘path’),{d:pd,fill:‘url(#mlg)’,stroke:’#6a4a15’,‘stroke-width’:‘1.5’,‘stroke-linejoin’:‘round’,filter:‘url(#mls)’}));
+svg.appendChild(at(se(‘path’),{d:pd,fill:‘none’,stroke:’#e0c070’,‘stroke-width’:‘0.4’,opacity:‘0.2’}));
+});
+
+[{x:230,y:215,t:‘MACEDONIA’,s:10},{x:168,y:330,t:‘EPIRUS’,s:9},{x:338,y:305,t:‘THESSALY’,s:10},
+{x:290,y:430,t:‘PHOCIS’,s:8},{x:388,y:448,t:‘BOEOTIA’,s:9},{x:468,y:492,t:‘ATTICA’,s:9},
+{x:352,y:520,t:‘CORINTHIA’,s:8},{x:278,y:592,t:‘ELIS’,s:8},{x:418,y:622,t:‘ARGOLIS’,s:8},
+{x:355,y:682,t:‘LACONIA’,s:9}
+].forEach(function(l){svg.appendChild(tx(l.x,l.y,l.t,{‘text-anchor’:‘middle’,‘font-size’:l.s,‘font-family’:‘Cinzel,serif’,fill:’#3a2008’,opacity:‘0.42’,‘letter-spacing’:‘1.2’}));});
+
+// Compass rose
+var cx=930,cy=930,r=22;
+svg.appendChild(at(se(‘circle’),{cx:cx,cy:cy,r:r+3,fill:’#08203a’,stroke:’#c8a050’,‘stroke-width’:‘1.5’,opacity:‘0.85’}));
+[[cx,cy-r+8,cx,cy+r-8],[cx-r+8,cy,cx+r-8,cy]].forEach(function(l){svg.appendChild(at(se(‘line’),{x1:l[0],y1:l[1],x2:l[2],y2:l[3],stroke:’#c8a050’,‘stroke-width’:‘0.8’,opacity:‘0.5’}));});
+[‘N’,‘S’,‘E’,‘W’].forEach(function(dir,i){var ang=[270,90,0,180][i]*Math.PI/180,tx2=cx+Math.cos(ang)*(r-5),ty2=cy+Math.sin(ang)*(r-5);svg.appendChild(tx(tx2,ty2+3.5,dir,{‘text-anchor’:‘middle’,‘dominant-baseline’:‘middle’,‘font-size’:‘9’,‘font-family’:‘Cinzel,serif’,fill:dir===‘N’?’#f5d080’:’#c8a050’}));});
+
+// Sea routes — cubic bezier for land-crossing routes, quadratic otherwise
+var drawnSea={};
+Object.keys(SEA_ADJ).forEach(function(aid){
+var a=CITY_DEFS.find(function(c){return c.id===aid;});if(!a)return;
+SEA_ADJ[aid].forEach(function(bid){
+var key=[aid,bid].sort().join(’|’);if(drawnSea[key])return;drawnSea[key]=true;
+var b=CITY_DEFS.find(function(c){return c.id===bid;});if(!b)return;
+var aHL=hlSea&&hlSea.indexOf(aid)>=0,bHL=hlSea&&hlSea.indexOf(bid)>=0;
+var srcA=selCityId===aid,srcB=selCityId===bid;
+var active=(srcA&&bHL)||(srcB&&aHL);
+var stroke=active?’#5ac8f0’:’#1a5070’,sw=active?‘2’:‘0.5’,op=active?‘0.85’:‘0.14’,dash=active?‘none’:‘6,9’;
+var cubic=SEA_BEZIER[key];
+var pathD;
+if(cubic){
+pathD=‘M’+a.x+’ ‘+a.y+’ C’+cubic.c1x+’ ‘+cubic.c1y+’ ‘+cubic.c2x+’ ‘+cubic.c2y+’ ‘+b.x+’ ‘+b.y;
+}else{
+var mx=(a.x+b.x)/2,my=(a.y+b.y)/2,dx=b.x-a.x,dy=b.y-a.y,dist=Math.sqrt(dx*dx+dy*dy)||1,bow=dist*0.18;
+pathD=‘M’+a.x+’ ‘+a.y+’ Q’+(mx+dy/dist*bow)+’ ‘+(my-dx/dist*bow)+’ ‘+b.x+’ ’+b.y;
+}
+var aa={d:pathD,fill:‘none’,stroke:stroke,‘stroke-width’:sw,opacity:op,‘stroke-linecap’:‘round’};
+if(dash!==‘none’)aa[‘stroke-dasharray’]=dash;
+svg.appendChild(at(se(‘path’),aa));
+});
+});
+
+// Land adjacency lines
+var drawnL={};
+CITY_DEFS.forEach(function(from){
+if(from.isFleet)return;
+(LAND_ADJ[from.id]||[]).forEach(function(tid){
+var key=[from.id,tid].sort().join(’|’);if(drawnL[key])return;drawnL[key]=true;
+var to=CITY_DEFS.find(function(c){return c.id===tid;});if(!to)return;
+var fHL=hlLand&&hlLand.indexOf(from.id)>=0,tHL=hlLand&&hlLand.indexOf(to.id)>=0;
+var srcF=selCityId===from.id,srcT=selCityId===to.id;
+var active=(srcF&&tHL)||(srcT&&fHL);
+var stroke,sw,op,dash;
+if(active){stroke=’#f5d080’;sw=‘3’;op=‘1’;dash=‘none’;}
+else if(selCityId===from.id||selCityId===to.id){stroke=‘rgba(245,208,128,0.4)’;sw=‘1.5’;op=‘1’;dash=‘none’;}
+else{stroke=‘rgba(200,165,75,0.3)’;sw=‘0.9’;op=‘1’;dash=‘5,5’;}
+var aa2={x1:from.x,y1:from.y,x2:to.x,y2:to.y,stroke:stroke,‘stroke-width’:sw,opacity:op,‘stroke-linecap’:‘round’};
+if(dash!==‘none’)aa2[‘stroke-dasharray’]=dash;
+svg.appendChild(at(se(‘line’),aa2));
+});
+});
+
+// City nodes
+CITY_DEFS.forEach(function(cdef){
+var c=S.cities[cdef.id];if(!c)return;
+if(cdef.isFleet){drawFleetNode(svg,se,at,tx,cdef,hlSea,selCityId);return;}
+var owner=cityOwner(cdef.id);
+var isLHL=hlLand&&hlLand.indexOf(cdef.id)>=0;
+var isSHL=hlSea&&hlSea.indexOf(cdef.id)>=0;
+var isHL=isLHL||isSHL;
+var isSel=selCityId===cdef.id;
+var r=cdef.yld>=3?12:cdef.yld>=2?10:8;
+var col=owner?owner.color:’#d4a84a’;
+var hlColor=isLHL?’#f5d080’:’#5ac8f0’;
+
+```
+if(owner)svg.appendChild(at(se('circle'),{cx:cdef.x,cy:cdef.y,r:r+16,fill:owner.color,'fill-opacity':'0.18',stroke:owner.color,'stroke-width':'2.5','stroke-opacity':'0.7'}));
+if(isHL)svg.appendChild(at(se('circle'),{cx:cdef.x,cy:cdef.y,r:r+20,fill:hlColor,'fill-opacity':'0.2',stroke:hlColor,'stroke-width':'3','stroke-opacity':'0.95',filter:'url(#mgl)'}));
+if(isSel)svg.appendChild(at(se('circle'),{cx:cdef.x,cy:cdef.y,r:r+16,fill:'none',stroke:'#fff','stroke-width':'3','stroke-opacity':'0.9'}));
+
+svg.appendChild(at(se('circle'),{cx:cdef.x,cy:cdef.y,r:r,fill:isHL?hlColor:isSel?'#fff':col,'fill-opacity':'0.97',stroke:isSel?'#fff':isHL?hlColor:owner?owner.color:'#8a6020','stroke-width':isHL||isSel?'3':'2.5'}));
+svg.appendChild(at(se('circle'),{cx:cdef.x,cy:cdef.y,r:r*0.35,fill:owner?'rgba(255,255,255,0.6)':'rgba(70,45,8,0.55)'}));
+
+var labelY=cdef.y+r+16;
+svg.appendChild(tx(cdef.x+1,labelY+1,cdef.name,{'text-anchor':'middle','font-size':'11','font-family':'Cinzel,serif',fill:'rgba(4,12,22,0.9)','font-weight':'600'}));
+var nameColor=isHL?hlColor:isSel?'#fff':owner?owner.color:'#f0d070';
+svg.appendChild(tx(cdef.x,labelY,cdef.name,{'text-anchor':'middle','font-size':'11','font-family':'Cinzel,serif',fill:nameColor,'font-weight':isHL||isSel?'700':'600'}));
+labelY+=14;
+
+if(owner){
+  var ownLand=getLandAt(cdef.id,owner.id),ownNavy=getNavyAt(cdef.id,owner.id);
+  svg.appendChild(tx(cdef.x+1,labelY+1,'\u2694 '+ownLand,{'text-anchor':'middle','font-size':'10','font-family':'Cinzel,serif',fill:'rgba(4,12,22,0.85)','font-weight':'600'}));
+  svg.appendChild(tx(cdef.x,labelY,'\u2694 '+ownLand,{'text-anchor':'middle','font-size':'10','font-family':'Cinzel,serif',fill:owner.color,'font-weight':'600'}));
+  labelY+=12;
+  if(ownNavy>0){
+    svg.appendChild(tx(cdef.x+1,labelY+1,'\u2693 '+ownNavy,{'text-anchor':'middle','font-size':'10','font-family':'Cinzel,serif',fill:'rgba(4,12,22,0.85)','font-weight':'600'}));
+    svg.appendChild(tx(cdef.x,labelY,'\u2693 '+ownNavy,{'text-anchor':'middle','font-size':'10','font-family':'Cinzel,serif',fill:'#5ac8f0','font-weight':'600'}));
+    labelY+=12;
+  }
+  S.players.forEach(function(op){
+    if(op.id===owner.id)return;
+    var al=getLandAt(cdef.id,op.id),an=getNavyAt(cdef.id,op.id);
+    if(al>0){svg.appendChild(tx(cdef.x,labelY,'\u2694 '+al+' ('+op.name.slice(0,4)+')',{'text-anchor':'middle','font-size':'8.5','font-family':'Cinzel,serif',fill:op.color,'font-weight':'600','font-style':'italic'}));labelY+=11;}
+    if(an>0){svg.appendChild(tx(cdef.x,labelY,'\u2693 '+an+' ('+op.name.slice(0,4)+')',{'text-anchor':'middle','font-size':'8.5','font-family':'Cinzel,serif',fill:'#5ac8f0','font-weight':'600','font-style':'italic'}));labelY+=11;}
+  });
+}else{
+  svg.appendChild(tx(cdef.x+1,labelY+1,'\u26E8 3',{'text-anchor':'middle','font-size':'10','font-family':'Cinzel,serif',fill:'rgba(4,12,22,0.85)','font-weight':'600'}));
+  svg.appendChild(tx(cdef.x,labelY,'\u26E8 3',{'text-anchor':'middle','font-size':'10','font-family':'Cinzel,serif',fill:'#d4a84a','font-weight':'600'}));
+}
+
+var hit=at(se('circle'),{cx:cdef.x,cy:cdef.y,r:'30',fill:'transparent',cursor:'pointer'});
+(function(cd){hit.addEventListener('click',function(){onMapTap(cd.id);});})(cdef);
+svg.appendChild(hit);
+```
+
+});
+
+svg.appendChild(at(se(‘rect’),{x:‘2’,y:‘2’,width:‘996’,height:‘996’,fill:‘none’,stroke:’#6a4a15’,‘stroke-width’:‘3’,opacity:‘0.5’}));
+}
+
+function drawFleetNode(svg,se,at,tx,cdef,hlSea,selCityId){
+var isHL=hlSea&&hlSea.indexOf(cdef.id)>=0;
+var isSel=selCityId===cdef.id;
+if(isHL)svg.appendChild(at(se(‘circle’),{cx:cdef.x,cy:cdef.y,r:‘42’,fill:’#5ac8f0’,‘fill-opacity’:‘0.15’,stroke:’#5ac8f0’,‘stroke-width’:‘2’,‘stroke-opacity’:‘0.7’,filter:‘url(#mgl)’}));
+svg.appendChild(at(se(‘circle’),{cx:cdef.x,cy:cdef.y,r:‘38’,fill:’#cc7a1a’,‘fill-opacity’:‘0.12’,stroke:’#cc7a1a’,‘stroke-width’:‘2’,‘stroke-dasharray’:‘5,4’,‘stroke-opacity’:‘0.7’}));
+if(isSel)svg.appendChild(at(se(‘circle’),{cx:cdef.x,cy:cdef.y,r:‘42’,fill:‘none’,stroke:’#fff’,‘stroke-width’:‘3’,‘stroke-opacity’:‘0.8’}));
+svg.appendChild(at(se(‘circle’),{cx:cdef.x,cy:cdef.y,r:‘20’,fill:‘rgba(65,28,5,0.95)’,stroke:’#e8901a’,‘stroke-width’:‘2.5’}));
+svg.appendChild(tx(cdef.x,cdef.y+7,’\u2693’,{‘text-anchor’:‘middle’,‘font-size’:‘18’,fill:’#f5d080’}));
+svg.appendChild(tx(cdef.x+1,cdef.y+37,‘Persian Fleet’,{‘text-anchor’:‘middle’,‘font-size’:‘11’,‘font-family’:‘Cinzel,serif’,fill:‘rgba(4,12,22,0.9)’,‘font-weight’:‘600’}));
+svg.appendChild(tx(cdef.x,cdef.y+36,‘Persian Fleet’,{‘text-anchor’:‘middle’,‘font-size’:‘11’,‘font-family’:‘Cinzel,serif’,fill:’#e8901a’,‘font-weight’:‘600’}));
+var pL=0,pN=0;
+S.players.filter(function(p){return p.side===‘persian’;}).forEach(function(p){pL+=getLandAt(‘persian_fleet’,p.id);pN+=getNavyAt(‘persian_fleet’,p.id);});
+svg.appendChild(tx(cdef.x,cdef.y+50,‘L:’+pL+’ N:’+pN,{‘text-anchor’:‘middle’,‘font-size’:‘8.5’,‘font-family’:‘Cinzel,serif’,fill:’#cc7a1a’,opacity:‘0.8’}));
+var hit=at(se(‘circle’),{cx:cdef.x,cy:cdef.y,r:‘36’,fill:‘transparent’,cursor:‘pointer’});
+hit.addEventListener(‘click’,function(){onMapTap(cdef.id);});
+svg.appendChild(hit);
+}
+
+/* ═══════════════════════════════════════════════
+MAP GESTURES (pinch-to-zoom + drag-to-pan)
+═══════════════════════════════════════════════ */
+var MapGestures=(function(){
+var BASE={x:0,y:0,w:1000,h:1000};
+var vb={x:BASE.x,y:BASE.y,w:BASE.w,h:BASE.h};
+var svg=null,touches={},lastDist=null,lastPan=null,startPos=null,didMove=false;
+var TAP=8;
+function init(){
+svg=document.getElementById(‘mapSvg’);if(!svg)return;
+svg.removeEventListener(‘touchstart’,onStart);svg.removeEventListener(‘touchmove’,onMove);
+svg.removeEventListener(‘touchend’,onEnd);svg.removeEventListener(‘touchcancel’,onEnd);
+svg.addEventListener(‘touchstart’,onStart,{passive:false});svg.addEventListener(‘touchmove’,onMove,{passive:false});
+svg.addEventListener(‘touchend’,onEnd,{passive:false});svg.addEventListener(‘touchcancel’,onEnd,{passive:false});
+applyVB();
+}
+function reset(){vb={x:BASE.x,y:BASE.y,w:BASE.w,h:BASE.h};touches={};lastDist=null;lastPan=null;startPos=null;didMove=false;if(svg)applyVB();}
+function applyVB(){if(!svg)return;svg.setAttribute(‘viewBox’,vb.x+’ ‘+vb.y+’ ‘+vb.w+’ ’+vb.h);}
+function toSVG(t){var rect=svg.getBoundingClientRect();var sx=vb.w/rect.width,sy=vb.h/rect.height;return {x:vb.x+(t.clientX-rect.left)*sx,y:vb.y+(t.clientY-rect.top)*sy};}
+function dist(a,b){var dx=a.clientX-b.clientX,dy=a.clientY-b.clientY;return Math.sqrt(dx*dx+dy*dy);}
+function mid(a,b){return {clientX:(a.clientX+b.clientX)/2,clientY:(a.clientY+b.clientY)/2};}
+function onStart(e){
+for(var i=0;i<e.changedTouches.length;i++){var t=e.changedTouches[i];touches[t.identifier]=t;}
+var active=Object.keys(touches).map(function(k){return touches[k];});
+if(active.length===1){lastPan=toSVG(active[0]);startPos={x:active[0].clientX,y:active[0].clientY};didMove=false;lastDist=null;}
+else if(active.length===2){lastDist=dist(active[0],active[1]);lastPan=null;startPos=null;didMove=true;e.preventDefault();}
+}
+function onMove(e){
+e.preventDefault();
+for(var i=0;i<e.changedTouches.length;i++){var t=e.changedTouches[i];touches[t.identifier]=t;}
+var active=Object.keys(touches).map(function(k){return touches[k];});
+if(active.length===1&&lastPan){
+if(startPos&&!didMove){var ddx=active[0].clientX-startPos.x,ddy=active[0].clientY-startPos.y;if(Math.sqrt(ddx*ddx+ddy*ddy)>TAP)didMove=true;}
+if(!didMove)return;
+var cur=toSVG(active[0]);vb.x+=lastPan.x-cur.x;vb.y+=lastPan.y-cur.y;
+vb.x=Math.max(BASE.x-BASE.w*.5,Math.min(BASE.x+BASE.w*.5,vb.x));
+vb.y=Math.max(BASE.y-BASE.h*.5,Math.min(BASE.y+BASE.h*.5,vb.y));
+lastPan=toSVG(active[0]);applyVB();
+}else if(active.length>=2&&lastDist!==null){
+var nd=dist(active[0],active[1]),nm=mid(active[0],active[1]);
+var scale=lastDist/nd,pivot=toSVG(nm);
+var nw=Math.max(150,Math.min(1200,vb.w*scale)),nh=nw*(BASE.h/BASE.w);
+scale=nw/vb.w;vb.x=pivot.x-(pivot.x-vb.x)*scale;vb.y=pivot.y-(pivot.y-vb.y)*scale;vb.w=nw;vb.h=nh;
+lastDist=nd;applyVB();
+}
+}
+function onEnd(e){
+for(var i=0;i<e.changedTouches.length;i++)delete touches[e.changedTouches[i].identifier];
+var active=Object.keys(touches).map(function(k){return touches[k];});
+if(active.length===1){lastPan=toSVG(active[0]);startPos={x:active[0].clientX,y:active[0].clientY};didMove=false;lastDist=null;}
+else if(active.length===0){lastPan=null;lastDist=null;startPos=null;}
+}
+return {init:init,reset:reset};
+})();
+
+/* ═══════════════════════════════════════════════
+MAP OVERLAY CONTROL
+═══════════════════════════════════════════════ */
+function openMap(mode,title,sub,leg,hlLand,hlSea,selCityId){
+S.mapMode=mode;S.mapSel=selCityId||null;
+el(‘mapTitle’).textContent=title||‘Select City’;
+el(‘mapSub’).textContent=sub||’’;
+el(‘mapLeg’).textContent=leg||‘Tap a highlighted city’;
+drawMap(hlLand||[],hlSea||[],selCityId||null);
+openOv(‘ovMap’);
+setTimeout(function(){MapGestures.init();},50);
+}
+
+function closeMap(){closeOv(‘ovMap’);S.mapMode=null;S.mapSel=null;MapGestures.reset();}
+
+/* ═══════════════════════════════════════════════
+onMapTap — handles all map modes
+═══════════════════════════════════════════════ */
+function onMapTap(cityId){
+var p=curP();if(!p||!p.isHuman)return;
+var mode=S.mapMode;
+
+/* ── INSPECT ── */
+if(mode===‘inspect’){
+var c=S.cities[cityId];var cd=cityDef(cityId);if(!c)return;
+var owner=cityOwner(cityId);
+el(‘ciName’).textContent=cd.name;el(‘ciName’).style.color=owner?owner.color:‘var(–gold3)’;
+var h=’<div style="font-size:.75rem;color:var(--dim);font-style:italic;text-align:center;margin-bottom:10px">’+cd.region+(cd.isFleet?’ \u2014 Persian Staging’:’’)+’</div>’;
+if(cd.isFleet){
+var pfl=0,pnv=0;S.players.filter(function(p){return p.side===‘persian’;}).forEach(function(p){pfl+=getLandAt(‘persian_fleet’,p.id);pnv+=getNavyAt(‘persian_fleet’,p.id);});
+h+=’<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">’;
+h+=ciStat(’\u2694 Land’,pfl,‘var(–pcol)’)+ciStat(’\u2693 Naval’,pnv,’#5ac8f0’);h+=’</div>’;
+}else if(owner){
+h+=’<div style="font-size:.8rem;margin-bottom:8px;text-align:center">Controlled by <span style="color:'+owner.color+'">’+owner.name+’</span></div>’;
+h+=’<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">’;
+h+=ciStat(’\u2694 Land’,getLandAt(cityId,owner.id),owner.color)+ciStat(’\u2693 Naval’,getNavyAt(cityId,owner.id),’#5ac8f0’);h+=’</div>’;
+}else{
+h+=’<div style="font-size:.8rem;margin-bottom:8px;text-align:center;color:var(--dim)">Neutral city</div>’;
+h+=’<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">’;
+h+=ciStat(’\u26E8 Garrison’,3,‘var(–gold)’)+ciStat(’’,’’,’’);h+=’</div>’;
+}
+if(cd.res&&cd.yld){
+h+=’<div style="border-top:1px solid var(--br);padding-top:8px;margin-top:4px"><div style="font-family:Cinzel,serif;font-size:.58rem;letter-spacing:2px;color:var(--gold);opacity:.7;margin-bottom:6px;text-transform:uppercase">Yields Each Turn</div>’;
+h+=’<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">’+ciStat(‘Resource’,cap(cd.res),‘var(–gold3)’)+ciStat(‘Yield’,cd.yld,‘var(–gold2)’)+’</div></div>’;
+}
+h+=’<div style="border-top:1px solid var(--br);padding-top:8px;margin-top:8px"><div style="font-family:Cinzel,serif;font-size:.58rem;letter-spacing:2px;color:var(--gold);opacity:.7;margin-bottom:6px;text-transform:uppercase">Connections</div>’;
+var la=(LAND_ADJ[cityId]||[]).map(function(id){var d=cityDef(id);return d?d.name:id;});
+var sa=(SEA_ADJ[cityId]||[]).map(function(id){var d=cityDef(id);return d?d.name:id;});
+if(la.length)h+=’<div style="font-size:.75rem;margin-bottom:4px"><span style="color:var(--gold2)">\u2694 Land:</span> ‘+la.join(’, ‘)+’</div>’;
+if(sa.length)h+=’<div style="font-size:.75rem"><span style="color:#5ac8f0">\u2693 Naval:</span> ‘+sa.join(’, ‘)+’</div>’;
+h+=’</div>’;
+el(‘ciBody’).innerHTML=h;openOv(‘ovCityInfo’);return;
+}
+
+/* ── DEPLOY ── */
+if(mode===‘deploy’){
+var cd2=cityDef(cityId);
+var isFleetDeploy=cityId===‘persian_fleet’&&p.side===‘persian’;
+var canL=S.undeployed.land>0&&(p.territories.indexOf(cityId)>=0||isFleetDeploy);
+var canN=S.undeployed.navy>0&&(cd2&&(cd2.coastal||cd2.island)||isFleetDeploy)&&(p.territories.indexOf(cityId)>=0||isFleetDeploy);
+if(!canL&&!canN){toast(‘Cannot deploy there.’);return;}
+openDeployDialog(cityId,canL,canN);return;
+}
+
+/* ── BRIBE ── */
+if(mode===‘bribe’){
+if(cityOwner(cityId)){toast(cityD(cityId).name+’ is not neutral.’);return;}
+if(p.res.coin<8){toast(‘Need 8 coin to bribe.’);return;}
+var adj=false;var srcs=p.territories.concat(p.side===‘persian’?[‘persian_fleet’]:[]);
+srcs.forEach(function(cid){if((LAND_ADJ[cid]||[]).indexOf(cityId)>=0)adj=true;if((SEA_ADJ[cid]||[]).indexOf(cityId)>=0)adj=true;});
+if(!adj){toast(cityD(cityId).name+’ is not adjacent to your territory.’);return;}
+p.res.coin-=8;
+p.territories.push(cityId);S.cities[cityId].owner=p.id;S.cities[cityId].garrison=0;S.cities[cityId].units={};
+log(‘Xerxes bribes ‘+cityD(cityId).name+’! (8 coin)’,‘ev’);
+closeMap();renderResBar();
+var bSrc=null,bMax=0;
+srcs.forEach(function(cid){var u=getLandAt(cid,p.id);if(u>bMax){bMax=u;bSrc=cid;}});
+if(bSrc&&bMax>0){
+var bBS={atk:p,def:null,targetCityId:cityId,fromCityId:bSrc,availableToStation:bMax,stationIsNaval:false};
+setLandAt(cityId,p.id,1);S._pendingGarrison=bBS;openGarrisonDialog(bBS);
+}else{setLandAt(cityId,p.id,1);advPhase();}
+return;
+}
+
+/* ── INSURRECTION ── */
+if(mode===‘insurrection’){
+var defI=cityOwner(cityId);
+if(!defI||defI.id===p.id){toast(‘Select an enemy city.’);return;}
+if(defI.side===‘persian’){toast(‘Cannot incite against fellow Persians.’);return;}
+closeMap();resolveInsurrection(cityId);return;
+}
+
+/* ── GREEK FIRE ── */
+if(mode===‘greekfire’){
+var gfTgts=getNavalStrikeTargets(p.id);
+if(gfTgts.indexOf(cityId)<0){toast(cityD(cityId).name+’ is not a valid Greek Fire target.’);return;}
+closeMap();resolveGreekFire(cityId);return;
+}
+
+/* ── MARATHON SOURCE ── */
+if(mode===‘marathon_src’){
+if(p.territories.indexOf(cityId)<0||getLandAt(cityId,p.id)<1){toast(‘Select one of your cities with land units.’);return;}
+S.mapSel=cityId;
+var dests=[];
+p.territories.forEach(function(cid){if(cid!==cityId)dests.push(cid);});
+S.players.forEach(function(op){if(allied(p.id,op.id)){op.territories.forEach(function(cid){if(dests.indexOf(cid)<0)dests.push(cid);});}});
+if(!dests.length){toast(‘No valid destinations.’);return;}
+S.mapMode=‘marathon_dst’;
+el(‘mapTitle’).textContent=‘Marathon \u2014 Step 2’;
+el(‘mapSub’).textContent=’Move all ‘+getLandAt(cityId,p.id)+’ land units from ’+cityD(cityId).name;
+el(‘mapLeg’).textContent=‘Tap ANY friendly city \u2014 no adjacency required’;
+drawMap(dests,[],cityId);return;
+}
+
+/* ── MARATHON DESTINATION ── */
+if(mode===‘marathon_dst’){
+var src=S.mapSel;var units=getLandAt(src,p.id);if(units<1){toast(‘No units at source.’);closeMap();return;}
+setLandAt(src,p.id,0);setLandAt(cityId,p.id,getLandAt(cityId,p.id)+units);
+S.marathonUsed=true;
+log(‘Themistocles leads the Marathon March! ‘+units+’ units teleport from ‘+cityD(src).name+’ to ‘+cityD(cityId).name+’!’,‘ev’);
+closeMap();renderGame();advPhase();return;
+}
+
+/* ── LAND MOVE SOURCE ── */
+if(mode===‘land_move_src’){
+if(p.territories.indexOf(cityId)<0&&cityId!==‘persian_fleet’){toast(‘Select one of your cities.’);return;}
+if(getLandAt(cityId,p.id)<1){toast(‘No land units in ‘+cityD(cityId).name+’.’);return;}
+S.mapSel=cityId;
+var ld=getLandMoveTargets(cityId,p.id),sd=getSeaMoveTargets(cityId,p.id);
+if(!ld.length&&!sd.length){toast(‘No valid destinations from ‘+cityD(cityId).name+’.’);return;}
+openMap(‘land_move_dst’,‘Move Land Army \u2014 Step 2’,‘Pick destination (friendly only)’,‘Gold = land \u2022 Blue = coastal sea’,ld,sd,cityId);return;
+}
+
+/* ── LAND MOVE DESTINATION ── */
+if(mode===‘land_move_dst’){
+var src2=S.mapSel;
+var all2=[].concat(getLandMoveTargets(src2,p.id),getSeaMoveTargets(src2,p.id));
+if(all2.indexOf(cityId)<0){toast(cityD(cityId).name+’ is not a valid destination.’);return;}
+closeMap();openMoveUnitsDialog(src2,cityId,‘land’);return;
+}
+
+/* ── NAVY MOVE SOURCE ── */
+if(mode===‘navy_move_src’){
+if(getNavyAt(cityId,p.id)<1){toast(‘No naval units in ‘+cityD(cityId).name+’.’);return;}
+S.mapSel=cityId;
+var nd=getSeaMoveTargets(cityId,p.id);
+if(!nd.length){toast(‘No valid naval destinations from ‘+cityD(cityId).name+’.’);return;}
+openMap(‘navy_move_dst’,‘Move Naval Units \u2014 Step 2’,‘Pick destination’,‘Blue = coastal \u2022 islands’,[],nd,cityId);return;
+}
+
+/* ── NAVY MOVE DESTINATION ── */
+if(mode===‘navy_move_dst’){
+var nall=getSeaMoveTargets(S.mapSel,p.id);
+if(nall.indexOf(cityId)<0){toast(cityD(cityId).name+’ is not a valid naval destination.’);return;}
+closeMap();openMoveUnitsDialog(S.mapSel,cityId,‘navy’);return;
+}
+
+/* ── ATTACK SOURCE ── */
+if(mode===‘attack_src’){
+var isFleetSrc=cityId===‘persian_fleet’&&(getLandAt(‘persian_fleet’,p.id)>0||getNavyAt(‘persian_fleet’,p.id)>0);
+if(p.territories.indexOf(cityId)<0&&!isFleetSrc){toast(‘Select one of your cities to attack from.’);return;}
+var hasL=getLandAt(cityId,p.id)>0,hasN=getNavyAt(cityId,p.id)>0;
+var isIslandSrc=isIsland(cityId);
+if(!hasL&&!hasN){toast(‘No units in ‘+cityD(cityId).name+’.’);return;}
+var lt=(hasL&&!isIslandSrc)?getLandAttackTargets(cityId,p.id):[];
+var seaAll=hasN?getSeaAttackTargets(cityId,p.id):[];
+if(!lt.length&&!seaAll.length){toast(‘No valid targets from ‘+cityD(cityId).name+’.’);return;}
+S.mapSel=cityId;
+openMap(‘attack_dst’,‘Attack \u2014 Step 2’,‘Pick your target’,‘Gold = land \u2022 Blue = naval’,lt,seaAll,cityId);return;
+}
+
+/* ── ATTACK DESTINATION ── */
+if(mode===‘attack_dst’){
+var asrc=S.mapSel;
+var hasL2=getLandAt(asrc,p.id)>0,hasN2=getNavyAt(asrc,p.id)>0;
+var isIslandSrc2=isIsland(asrc);
+var lt2=(hasL2&&!isIslandSrc2)?getLandAttackTargets(asrc,p.id):[];
+var seaAll2=hasN2?getSeaAttackTargets(asrc,p.id):[];
+var allTgts=[].concat(lt2,seaAll2).filter(function(t,i,a){return a.indexOf(t)===i;});
+if(allTgts.indexOf(cityId)<0){toast(cityD(cityId).name+’ is not a valid target.’);return;}
+var isLandAdj=lt2.indexOf(cityId)>=0,isSeaAdj=seaAll2.indexOf(cityId)>=0;
+var defP=cityOwner(cityId);
+closeMap();
+if(isIsland(cityId)||(!isLandAdj&&isSeaAdj)){
+openBattle(p,defP,cityId,true,false,asrc);
+}else if(isLandAdj&&isSeaAdj&&hasL2&&hasN2){
+openBattleTypeDialog(asrc,cityId);
+}else{
+openBattle(p,defP,cityId,false,false,asrc);
+}
+return;
+}
+}
+
+/* ═══════════════════════════════════════════════
+PHASE ACTIONS
+═══════════════════════════════════════════════ */
+function doGather(){
+var p=curP();var g=gatherFor(p);
+var parts=[];[‘grain’,‘timber’,‘coin’].forEach(function(k){if(g[k]>0)parts.push(’+’+g[k]+’ ‘+k);});
+if(g.bonus)parts.push(g.bonus);
+log(p.name+’ gathers: ‘+parts.join(’, ’),‘pl’);
+renderResBar();advPhase();
+}
+
+function sellRes(k){
+var p=humanP();var inp=el(‘sell_’+k);if(!inp)return;
+var amt=parseInt(inp.value)||0;
+if(amt<=0||p.res[k]<amt){toast(‘Not enough ‘+k+’.’);return;}
+var earned=amt*MKT[k]+(p.id===‘themistocles’?amt:0);
+p.res[k]-=amt;p.res.coin+=earned;
+log(p.name+’ sells ‘+amt+’ ‘+k+’ for ‘+earned+’ coin.’,‘tr’);
+renderResBar();renderContent();
+}
+
+function buyRes(k){
+var p=humanP();var inp=el(‘buy_’+k);if(!inp)return;
+var amt=parseInt(inp.value)||0;var cost=amt*MKT[k];
+if(amt<=0||p.res.coin<cost){toast(‘Not enough coin.’);return;}
+p.res[k]+=amt;p.res.coin-=cost;
+log(p.name+’ buys ‘+amt+’ ‘+k+’ for ‘+cost+’ coin.’,‘tr’);
+renderResBar();renderContent();
+}
+
+function doBuild(type){
+var p=humanP();
+if(type===‘navy’){
+var hasCoastal=p.side===‘persian’||p.territories.some(function(cid){var cd=cityDef(cid);return cd&&(cd.coastal||cd.island);});
+if(!hasCoastal){toast(‘Need a coastal or island city to build ships.’);return;}
+}
+if(type===‘army’){
+var gc=p.id===‘leonidas’?1:2;
+if(p.res.grain<gc||p.res.coin<1){toast(‘Need ‘+gc+’ grain + 1 coin.’);return;}
+p.res.grain-=gc;p.res.coin-=1;S.undeployed.land++;
+log(p.name+’ trains a land unit (undeployed).’,‘pl’);
+}else{
+var tc=p.id===‘pausanias’?2:3;
+if(p.res.timber<tc||p.res.coin<2){toast(‘Need ‘+tc+’ timber + 2 coin.’);return;}
+p.res.timber-=tc;p.res.coin-=2;S.undeployed.navy++;
+log(p.name+’ builds a ship (undeployed).’,‘pl’);
+}
+renderResBar();renderContent();
+}
+
+function doneBuildingDeploy(){
+if(!S.undeployed.land&&!S.undeployed.navy){advPhase();return;}
+openDeployMap();
+}
+
+function openDeployMap(){
+var p=humanP();
+var landTgts=p.territories.slice();if(p.side===‘persian’)landTgts.push(‘persian_fleet’);
+var navTgts=p.territories.filter(function(cid){var cd=cityDef(cid);return cd&&(cd.coastal||cd.island);});
+if(p.side===‘persian’)navTgts.push(‘persian_fleet’);
+var uL=S.undeployed.land,uN=S.undeployed.navy;
+el(‘mapTitle’).textContent=‘Deploy Units’;
+el(‘mapSub’).textContent=(uL>0?’\u2694 ‘+uL+’ land ‘:’’)+(uN>0?’\u2693 ‘+uN+’ naval’:’’);
+el(‘mapLeg’).textContent=‘Tap a city to station units there’;
+S.mapMode=‘deploy’;
+drawMap(uL>0?landTgts:[],uN>0?navTgts:[],null);
+openOv(‘ovMap’);setTimeout(function(){MapGestures.init();},50);
+}
+
+function openDeployDialog(cityId,canLand,canNavy){
+var uL=S.undeployed.land,uN=S.undeployed.navy;
+el(‘unitsTitle’).textContent=‘Deploy to ‘+cityD(cityId).name;
+el(‘unitsSub’).textContent=‘Choose how many to station here.’;
+var html=’<div style="display:flex;flex-direction:column;gap:7px;margin-top:8px;">’;
+if(canLand&&uL>0){
+html+=’<div style="font-family:Cinzel,serif;font-size:.6rem;letter-spacing:2px;color:var(--gold);margin-top:4px">LAND UNITS (’+uL+’ undeployed)</div>’;
+for(var i=1;i<=uL;i++)html+=’<button class="ab'+(i===uL?' p':'')+'" onclick="G.confirmDeploy(\''+cityId+'\','+i+',0)">Station ‘+i+’ land unit’+(i>1?‘s’:’’)+’</button>’;
+}
+if(canNavy&&uN>0){
+html+=’<div style="font-family:Cinzel,serif;font-size:.6rem;letter-spacing:2px;color:#5ac8f0;margin-top:8px">NAVAL UNITS (’+uN+’ undeployed)</div>’;
+for(var j=1;j<=uN;j++)html+=’<button class="ab s'+(j===uN?' p':'')+'" onclick="G.confirmDeploy(\''+cityId+'\',0,'+j+')">Station ‘+j+’ ship’+(j>1?‘s’:’’)+’</button>’;
+}
+if(canLand&&uL>0&&canNavy&&uN>0)html+=’<button class="ab p" onclick="G.confirmDeploy(\''+cityId+'\','+uL+','+uN+')">Station all here</button>’;
+html+=’<button class="ab" onclick="G.closeOv(\'ovUnits\')">Pick different city</button></div>’;
+el(‘unitsCont’).innerHTML=html;openOv(‘ovUnits’);
+}
+
+function confirmDeploy(cityId,land,navy){
+closeOv(‘ovUnits’);var p=humanP();
+land=Math.min(land,S.undeployed.land);navy=Math.min(navy,S.undeployed.navy);
+if(land>0){setLandAt(cityId,p.id,getLandAt(cityId,p.id)+land);S.undeployed.land-=land;log(p.name+’ deploys ‘+land+’ land to ‘+cityD(cityId).name+’.’,‘pl’);}
+if(navy>0){setNavyAt(cityId,p.id,getNavyAt(cityId,p.id)+navy);S.undeployed.navy-=navy;log(p.name+’ deploys ‘+navy+’ ships to ‘+cityD(cityId).name+’.’,‘pl’);}
+if(S.undeployed.land>0||S.undeployed.navy>0){openDeployMap();}else{closeMap();advPhase();}
+}
+
+/* ═══════════════════════════════════════════════
+MOVE UNITS
+═══════════════════════════════════════════════ */
+function openMoveUnitsDialog(fromId,toId,unitType){
+var p=curP();
+var available=unitType===‘land’?getLandAt(fromId,p.id):getNavyAt(fromId,p.id);
+var isOwn=cityOwner(fromId)&&cityOwner(fromId).id===p.id;
+var mustLeave=(unitType===‘land’&&isOwn)?1:0;
+var maxMove=available-mustLeave;
+if(maxMove<1){
+if(available===1&&mustLeave===0){doMoveUnits(fromId,toId,1,unitType);return;}
+toast(‘Must leave at least 1 unit behind in your own city.’);return;
+}
+if(maxMove===1){doMoveUnits(fromId,toId,1,unitType);return;}
+el(‘unitsTitle’).textContent=‘Move ‘+(unitType===‘land’?‘Land’:‘Naval’)+’ Units’;
+el(‘unitsSub’).textContent=cityD(fromId).name+’ \u2192 ‘+cityD(toId).name+’. ‘+available+’ available’+(mustLeave?’ (leave ‘+mustLeave+’)’:’’)+’.’
+var html=’<div style="display:flex;flex-direction:column;gap:7px;margin-top:8px;">’;
+for(var i=1;i<=maxMove;i++)html+=’<button class="ab'+(i===maxMove?' p':'')+'" onclick="G.doMoveUnits(\''+fromId+'\',\''+toId+'\','+i+',\''+unitType+'\')">Move ‘+i+’ unit’+(i>1?‘s’:’’)+’</button>’;
+html+=’<button class="ab" onclick="G.closeOv(\'ovUnits\')">Cancel</button></div>’;
+el(‘unitsCont’).innerHTML=html;openOv(‘ovUnits’);
+}
+
+function doMoveUnits(fromId,toId,count,unitType){
+closeOv(‘ovUnits’);var p=curP();
+if(unitType===‘land’){setLandAt(fromId,p.id,getLandAt(fromId,p.id)-count);setLandAt(toId,p.id,getLandAt(toId,p.id)+count);}
+else{setNavyAt(fromId,p.id,getNavyAt(fromId,p.id)-count);setNavyAt(toId,p.id,getNavyAt(toId,p.id)+count);}
+log(p.name+’ moves ‘+count+’ ‘+(unitType===‘land’?‘land’:‘naval’)+’ unit’+(count>1?‘s’:’’)+’: ‘+cityD(fromId).name+’ \u2192 ‘+cityD(toId).name+’.’,‘pl’);
+renderGame();advPhase();
+}
+
+/* ═══════════════════════════════════════════════
+MAP OPENERS
+═══════════════════════════════════════════════ */
+function openMoveMap(unitType){
+var p=curP();S.mapSel=null;
+if(unitType===‘land’){
+var srcs=[];CITY_DEFS.forEach(function(cd){if(getLandAt(cd.id,p.id)>0)srcs.push(cd.id);});
+if(!srcs.length){toast(‘No land units to move.’);return;}
+openMap(‘land_move_src’,‘Move Land Army \u2014 Step 1’,‘Select city to move FROM’,‘Tap a city with your land units’,srcs.filter(function(c){return c!==‘persian_fleet’;}),srcs.indexOf(‘persian_fleet’)>=0?[‘persian_fleet’]:[],null);
+}else{
+var nsrcs=[];CITY_DEFS.forEach(function(cd){if(getNavyAt(cd.id,p.id)>0)nsrcs.push(cd.id);});
+if(!nsrcs.length){toast(‘No naval units to move.’);return;}
+openMap(‘navy_move_src’,‘Move Naval Units \u2014 Step 1’,‘Select city to move FROM’,‘Tap a city with your naval units’,nsrcs.filter(function(c){return c!==‘persian_fleet’;}),nsrcs.indexOf(‘persian_fleet’)>=0?[‘persian_fleet’]:[],null);
+}
+}
+
+function openInspectMap(){openMap(‘inspect’,‘Map of Hellas’,‘Pinch to zoom \u2022 Drag to pan’,‘Tap any city to inspect’,[],[],null);}
+
+function openAttackMap(){
+var p=curP();S.mapSel=null;
+var srcs=p.territories.filter(function(cid){return getLandAt(cid,p.id)>0||getNavyAt(cid,p.id)>0;});
+if(getLandAt(‘persian_fleet’,p.id)>0||getNavyAt(‘persian_fleet’,p.id)>0)if(srcs.indexOf(‘persian_fleet’)<0)srcs.push(‘persian_fleet’);
+if(!srcs.length){toast(‘No units available to attack with.’);return;}
+var srcLand=srcs.filter(function(c){return c!==‘persian_fleet’&&!isIsland(c);});
+var srcSea=srcs.filter(function(c){return c===‘persian_fleet’||isIsland(c);});
+openMap(‘attack_src’,‘Attack \u2014 Step 1’,‘Select your attacking city’,‘Tap a city with your units’,srcLand,srcSea,null);
+}
+
+function openBattleTypeDialog(fromId,toId){
+var p=curP();var defP=cityOwner(toId);
+el(‘unitsTitle’).textContent=‘Choose Attack Type’;
+el(‘unitsSub’).textContent=cityD(fromId).name+’ \u2192 ‘+cityD(toId).name+(defP?’ (’+defP.name+’)’:’ (Garrison)’);
+el(‘unitsCont’).innerHTML=’<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">’
++’<button class="ab d" onclick="G.resolveBattleType(\'land\')">Land Attack<span class="ab-sub">’+getLandAt(fromId,p.id)+’ land units</span></button>’
++’<button class="ab s" onclick="G.resolveBattleType(\'naval\')">Naval Attack<span class="ab-sub">’+getNavyAt(fromId,p.id)+’ naval units</span></button>’
++’<button class="ab" onclick="G.closeOv(\'ovUnits\')">Cancel</button>’
++’</div>’;
+S.pendingBattle={fromId:fromId,toId:toId};openOv(‘ovUnits’);
+}
+
+function resolveBattleType(type){
+closeOv(‘ovUnits’);var p=curP();var b=S.pendingBattle;if(!b)return;
+openBattle(p,cityOwner(b.toId),b.toId,type===‘naval’,false,b.fromId);
+S.pendingBattle=null;
+}
+
+/* ═══════════════════════════════════════════════
+DIPLOMACY
+═══════════════════════════════════════════════ */
+var DIP_ACTIONS=[
+{id:‘envoy’,  label:‘Send Envoy’,   cost:‘2 coin’,          eff:’+1 Rel’,ok:function(p){return p.res.coin>=2;},  do:function(p,t){p.res.coin-=2;adjR(p.id,t.id,1);}},
+{id:‘grain’,  label:‘Gift Grain’,   cost:‘3 grain’,         eff:’+2 Rel’,ok:function(p){return p.res.grain>=3;}, do:function(p,t){p.res.grain-=3;adjR(p.id,t.id,2);}},
+{id:‘gcoin’,  label:‘Gift Coin’,    cost:‘5 coin’,          eff:’+2 Rel’,ok:function(p){return p.res.coin>=5;},  do:function(p,t){p.res.coin-=5;adjR(p.id,t.id,2);}},
+{id:‘embassy’,label:‘Grand Embassy’,cost:‘4 coin + 2 grain’,eff:’+3 Rel’,ok:function(p){return p.res.coin>=4&&p.res.grain>=2;},do:function(p,t){p.res.coin-=4;p.res.grain-=2;adjR(p.id,t.id,3);}},
+{id:‘break’,  label:‘Break Alliance’,cost:‘Free’,           eff:‘Ends pact, -3 Rel’,ok:function(p,t){return allied(p.id,t.id);},
+do:function(p,t){S.alliances=S.alliances.filter(function(al){return !((al.a===p.id&&al.b===t.id)||(al.a===t.id&&al.b===p.id));});adjR(p.id,t.id,-3);S.players.forEach(function(op){if(op.id!==p.id&&op.id!==t.id&&op.side===‘greek’)adjR(p.id,op.id,-1);});log(p.name+’ breaks alliance with ‘+t.name+’!’,‘dp’);}},
+];
+
+function openDip(){
+var p=humanP();
+var targets=S.players.filter(function(x){return !x.isHuman&&x.side===‘greek’;});
+var html=’<select id="dipTgt" style="width:100%;padding:8px;background:var(--stone2);border:1px solid var(--br2);color:var(--text);font-family:Crimson Text,serif;font-size:.9rem;margin-bottom:10px">’;
+targets.forEach(function(t){var rel=getR(p.id,t.id);var al=allied(p.id,t.id)?’ [ALLIED]’:’’;html+=’<option value="'+t.id+'">’+t.name+al+’ (’+( rel>0?’+’:’’)+rel+’)</option>’;});
+html+=’</select>’;
+DIP_ACTIONS.forEach(function(da){
+var tgt=targets[0];var ok=tgt&&da.ok(p,tgt);
+html+=’<button class="ab'+(ok?'':' off')+'" onclick="G.doDip(\''+da.id+'\')">’+da.label+’<span class="ab-sub">’+da.cost+’ \u2192 ‘+da.eff+’</span></button>’;
+});
+el(‘dipCont’).innerHTML=html;openOv(‘ovDip’);
+}
+
+function doDip(actionId){
+var p=humanP();var sel=el(‘dipTgt’);if(!sel)return;
+var target=S.players.find(function(x){return x.id===sel.value;});if(!target)return;
+var da=DIP_ACTIONS.find(function(a){return a.id===actionId;});
+if(!da||!da.ok(p,target)){toast(‘Cannot do this action.’);return;}
+da.do(p,target);
+var rel=getR(p.id,target.id);
+if(actionId!==‘break’)log(p.name+’ diplomacy with ‘+target.name+’. Relations: ‘+(rel>0?’+’:’’)+rel,‘dp’);
+if(rel>=5&&!allied(p.id,target.id)){
+S.alliances.push({a:p.id,b:target.id});S.relations[rk(p.id,target.id)]=5;
+log(‘Alliance formed: ‘+p.name+’ & ‘+target.name+’! Cities can share defenders.’,‘ev’);
+}
+closeOv(‘ovDip’);renderResBar();advPhase();
+}
+
+/* ═══════════════════════════════════════════════
+BATTLE
+═══════════════════════════════════════════════ */
+function openBattle(atk,def,targetCityId,isNaval,isNavalStrike,fromCityId){
+var city=S.cities[targetCityId];
+var atkUnits=isNaval||isNavalStrike?getNavyAt(fromCityId||’’,atk.id):getLandAt(fromCityId||’’,atk.id);
+var defUnits=isNaval||isNavalStrike?totalNavalDefenders(targetCityId):totalDefenders(targetCityId);
+
+S.bst={
+atk:atk,def:def,targetCityId:targetCityId,fromCityId:fromCityId,
+isNaval:isNaval,isNavalStrike:isNavalStrike,
+atkU:atkUnits,defU:defUnits,atkLost:0,defLost:0,round:0,done:false
+};
+
+el(‘bTitle’).textContent=(isNavalStrike?‘Naval Strike \u2014 ‘:isNaval?‘Sea Battle \u2014 ‘:‘Land Battle \u2014 ‘)+city.name;
+var defDesc;
+if(!def)defDesc=‘Neutral \u2014 Garrison: 3’;
+else if(isNaval||isNavalStrike){var nd=getNavyAt(targetCityId,def.id),nld=getLandAt(targetCityId,def.id);defDesc=def.name+’ \u2014 Navy:’+nd+(nld>0?’ + Land:’+nld:’’);}
+else defDesc=def.name+’ \u2014 Land:’+getLandAt(targetCityId,def.id);
+el(‘bSub’).textContent=atk.name+’ vs ’+defDesc;
+renderBattleUI();openOv(‘ovBattle’);
+}
+
+function renderBattleUI(){
+var bs=S.bst;if(!bs)return;
+el(‘bSides’).innerHTML=
+‘<div class="bsd"><div class="bsd-who" style="color:'+bs.atk.color+'">’+bs.atk.name+’</div>’
++’<div class="bsd-u">’+bs.atkU+’</div><div class="bsd-l">’+(bs.isNaval?‘naval ‘:‘land ‘)+‘units</div></div>’
++’<div class="bvs">VS</div>’
++’<div class="bsd"><div class="bsd-who" style="color:'+(bs.def?bs.def.color:'#8a7a56')+'">’+(bs.def?bs.def.name:‘Garrison’)+’</div>’
++’<div class="bsd-u">’+bs.defU+’</div><div class="bsd-l">defenders</div></div>’;
+el(‘bRoll’).innerHTML=’’;el(‘bRes’).innerHTML=’’;el(‘bActs’).innerHTML=’’;
+if(bs.done)return;
+if(bs.atk.isHuman){mkBtn(el(‘bActs’),‘Roll the Dice!’,‘p’,doBattleRoll);mkBtn(el(‘bActs’),‘Retreat’,‘d’,doBattleRetreat);}
+else mkBtn(el(‘bActs’),‘Resolve’,‘p’,doBattleRoll);
+}
+
+function doBattleRoll(){
+var bs=S.bst;if(!bs||bs.done)return;
+bs.round++;
+var atkBonus=Math.min(4,Math.floor(bs.atkU/3))
++((bs.isNaval||bs.isNavalStrike)&&bs.atk.id===‘datis’?2:0)
++(!bs.isNaval&&!bs.isNavalStrike&&bs.atk.id===‘mardonius’?1:0);
+var defBonus=Math.min(4,Math.floor(bs.defU/3));
+// Leonidas Hot Gates passive
+var defOwner=cityOwner(bs.targetCityId);
+if(defOwner&&defOwner.id===‘leonidas’&&!bs.isNaval&&!bs.isNavalStrike)
+defBonus+=(bs.targetCityId===‘sparta’?3:1);
+var ar=d6(),dr=d6(),at=ar+atkBonus,dt=dr+defBonus;
+
+el(‘bRoll’).innerHTML=’<div class="droll">’
++’<div class="dr-s"><div class="dr-face">’+face(ar)+’</div><div class="dr-mod">’+ar+(atkBonus?’+’+atkBonus:’’)+’ bonus</div><div class="dr-tot">= ‘+at+’</div></div>’
++’<div class="bvs">VS</div>’
++’<div class="dr-s"><div class="dr-face">’+face(dr)+’</div><div class="dr-mod">’+dr+(defBonus?’+’+defBonus:’’)+’ def</div><div class="dr-tot">= ‘+dt+’</div></div>’
++’</div>’;
+el(‘bActs’).innerHTML=’’;el(‘bRes’).innerHTML=’’;
+
+if(at>dt){
+var dmg=at-dt;bs.defU=Math.max(0,bs.defU-dmg);bs.defLost+=dmg;
+el(‘bRes’).innerHTML=’<div class="bres win">Round ‘+bs.round+’: ‘+bs.atk.name+’ wins! Defender \u2212’+dmg+’ unit’+(dmg>1?‘s’:’’)+’.</div>’;
+log(bs.atk.name+’ wins round ‘+bs.round+’ (’+at+’ vs ‘+dt+’). \u2212’+dmg+’ def’,‘ba’);
+if(bs.defU<=0){
+bs.done=true;
+el(‘bRes’).innerHTML+=’<div class="bres win" style="margin-top:5px">’+bs.atk.name+’ CAPTURES ‘+cityD(bs.targetCityId).name+’!</div>’;
+mkBtn(el(‘bActs’),‘Claim Victory!’,‘p’,applyBattleWin);
+}else{
+updBattleSides();
+if(bs.atk.isHuman){mkBtn(el(‘bActs’),‘Roll Again’,‘p’,doBattleRoll);mkBtn(el(‘bActs’),‘Retreat’,‘d’,doBattleRetreat);}
+else setTimeout(doBattleRoll,1000);
+}
+}else if(dt>at){
+var ddmg=dt-at;bs.atkU=Math.max(0,bs.atkU-ddmg);bs.atkLost+=ddmg;
+el(‘bRes’).innerHTML=’<div class="bres lose">Round ‘+bs.round+’: Defender holds! Attacker \u2212’+ddmg+’ unit’+(ddmg>1?‘s’:’’)+’.</div>’;
+log((bs.def?bs.def.name:‘Garrison’)+’ holds round ‘+bs.round+’. \u2212’+ddmg+’ atk’,‘ba’);
+if(bs.atkU<=0){
+bs.done=true;
+el(‘bRes’).innerHTML+=’<div class="bres lose" style="margin-top:5px">’+bs.atk.name+’\u2019s forces are destroyed!</div>’;
+mkBtn(el(‘bActs’),‘End Battle’,’’,applyBattleLoss);
+}else{
+updBattleSides();
+if(bs.atk.isHuman){mkBtn(el(‘bActs’),‘Roll Again’,‘p’,doBattleRoll);mkBtn(el(‘bActs’),‘Retreat’,‘d’,doBattleRetreat);}
+else setTimeout(doBattleRoll,1000);
+}
+}else{
+bs.atkU=Math.max(0,bs.atkU-1);bs.defU=Math.max(0,bs.defU-1);bs.atkLost++;bs.defLost++;
+el(‘bRes’).innerHTML=’<div class="bres tie">Round ‘+bs.round+’: Stalemate \u2014 both lose 1 unit.</div>’;
+updBattleSides();
+if(bs.atk.isHuman){mkBtn(el(‘bActs’),‘Roll Again’,‘p’,doBattleRoll);mkBtn(el(‘bActs’),‘Retreat’,‘d’,doBattleRetreat);}
+else setTimeout(doBattleRoll,900);
+}
+}
+
+function updBattleSides(){
+var bs=S.bst;
+el(‘bSides’).innerHTML=’<div class="bsd"><div class="bsd-who" style="color:'+bs.atk.color+'">’+bs.atk.name+’</div><div class="bsd-u">’+bs.atkU+’</div><div class="bsd-l">remaining</div></div>’
++’<div class="bvs">VS</div>’
++’<div class="bsd"><div class="bsd-who" style="color:'+(bs.def?bs.def.color:'#8a7a56')+'">’+(bs.def?bs.def.name:‘Garrison’)+’</div><div class="bsd-u">’+bs.defU+’</div><div class="bsd-l">remaining</div></div>’;
+}
+
+function doBattleRetreat(){
+var bs=S.bst;
+if(bs.fromCityId){
+if(bs.isNaval)setNavyAt(bs.fromCityId,bs.atk.id,Math.max(0,getNavyAt(bs.fromCityId,bs.atk.id)-bs.atkLost));
+else setLandAt(bs.fromCityId,bs.atk.id,Math.max(0,getLandAt(bs.fromCityId,bs.atk.id)-bs.atkLost));
+}
+log(bs.atk.name+’ retreats from ‘+cityD(bs.targetCityId).name+’! Lost ‘+bs.atkLost+’ units.’,‘ba’);
+closeBattle();
+}
+
+function applyBattleWin(){
+var bs=S.bst;var city=S.cities[bs.targetCityId];
+// Remove attacker losses
+if(bs.fromCityId){
+if(bs.isNaval||bs.isNavalStrike)setNavyAt(bs.fromCityId,bs.atk.id,Math.max(0,getNavyAt(bs.fromCityId,bs.atk.id)-bs.atkLost));
+else setLandAt(bs.fromCityId,bs.atk.id,Math.max(0,getLandAt(bs.fromCityId,bs.atk.id)-bs.atkLost));
+}
+// Remove defender losses (owner’s units only — neutral garrison is absorbed)
+if(bs.def){
+var lost=bs.defLost;
+if(bs.isNaval||bs.isNavalStrike){var nv=getNavyAt(bs.targetCityId,bs.def.id);setNavyAt(bs.targetCityId,bs.def.id,Math.max(0,nv-lost));}
+else{var lu=getLandAt(bs.targetCityId,bs.def.id);setLandAt(bs.targetCityId,bs.def.id,Math.max(0,lu-lost));}
+}
+// Transfer ownership
+if(bs.def)bs.def.territories=bs.def.territories.filter(function(c){return c!==bs.targetCityId;});
+bs.atk.territories.push(bs.targetCityId);
+city.owner=bs.atk.id;city.garrison=0;city.units={};
+// Station placeholder unit
+if(bs.isNaval||bs.isNavalStrike)setNavyAt(bs.targetCityId,bs.atk.id,1);
+else setLandAt(bs.targetCityId,bs.atk.id,1);
+
+// Retreat stranded units of the OPPOSITE type from the battle
+var strandedIsNaval=!(bs.isNaval||bs.isNavalStrike);
+if(bs.def){
+retreatUnits(bs.targetCityId,bs.def.id,strandedIsNaval,bs.def.name+’ evacuates’);
+if(strandedIsNaval)setLandAt(bs.targetCityId,bs.def.id,0);else setNavyAt(bs.targetCityId,bs.def.id,0);
+}
+// Zero any remaining foreign units
+Object.keys(city.units).forEach(function(pid){
+if(pid!==bs.atk.id){setLandAt(bs.targetCityId,pid,0);setNavyAt(bs.targetCityId,pid,0);}
+});
+
+if(bs.def){
+var loot=Math.min(bs.def.res.coin,rnd(1,4));bs.def.res.coin-=loot;bs.atk.res.coin+=loot;
+adjR(bs.atk.id,bs.def.id,-5);
+log(bs.atk.name+’ CONQUERS ‘+city.name+’ from ‘+bs.def.name+’. Looted ‘+loot+’ coin.’,‘ba’);
+if(allied(bs.atk.id,bs.def.id))S.alliances=S.alliances.filter(function(al){return !((al.a===bs.atk.id&&al.b===bs.def.id)||(al.a===bs.def.id&&al.b===bs.atk.id));});
+}else{
+log(bs.atk.name+’ CAPTURES ‘+city.name+’!’,‘ba’);
+}
+
+// Garrison dialog
+bs.availableToStation=bs.isNaval||bs.isNavalStrike
+?(bs.fromCityId?getNavyAt(bs.fromCityId,bs.atk.id):0)
+:(bs.fromCityId?getLandAt(bs.fromCityId,bs.atk.id):0);
+bs.availableToStation=Math.max(1,bs.availableToStation);
+bs.stationIsNaval=!!(bs.isNaval||bs.isNavalStrike);
+
+if(bs.atk.isHuman&&bs.availableToStation>1){
+openGarrisonDialog(bs);
+}else{
+applyGarrison(bs,Math.max(1,Math.floor((bs.availableToStation||1)/2)));
+closeBattle();var w=checkWin();if(w)setTimeout(function(){showVictory(w);},400);
+}
+}
+
+function openGarrisonDialog(bs){
+var max=bs.availableToStation;
+el(‘unitsTitle’).textContent=‘Garrison ‘+cityD(bs.targetCityId).name;
+el(‘unitsSub’).textContent=‘Station units in ‘+cityD(bs.targetCityId).name+’? Rest return to ‘+(bs.fromCityId?cityD(bs.fromCityId).name:‘base’)+’.’;
+var html=’<div style="display:flex;flex-direction:column;gap:7px;margin-top:8px;">’;
+for(var i=1;i<=max;i++){
+var isHalf=i===Math.max(1,Math.floor(max/2));
+html+=’<button class="ab'+(isHalf?' p':'')+'" onclick="G.confirmGarrison('+i+')">Station ‘+i+’ unit’+(i>1?‘s’:’’)+’<span class="ab-sub">’+(max-i)+’ return to ‘+(bs.fromCityId?cityD(bs.fromCityId).name:‘base’)+’</span></button>’;
+}
+html+=’</div>’;el(‘unitsCont’).innerHTML=html;
+S._pendingGarrison=bs;openOv(‘ovUnits’);
+}
+
+function confirmGarrison(count){
+closeOv(‘ovUnits’);var bs=S._pendingGarrison;S._pendingGarrison=null;if(!bs)return;
+applyGarrison(bs,count);
+if(S.bst)closeBattle();else{renderGame();advPhase();}
+var w=checkWin();if(w)setTimeout(function(){showVictory(w);},400);
+}
+
+function applyGarrison(bs,count){
+count=Math.max(1,Math.min(count,bs.availableToStation));
+if(bs.stationIsNaval){
+setNavyAt(bs.targetCityId,bs.atk.id,count);
+if(bs.fromCityId)setNavyAt(bs.fromCityId,bs.atk.id,Math.max(0,getNavyAt(bs.fromCityId,bs.atk.id)-count));
+}else{
+setLandAt(bs.targetCityId,bs.atk.id,count);
+if(bs.fromCityId)setLandAt(bs.fromCityId,bs.atk.id,Math.max(0,getLandAt(bs.fromCityId,bs.atk.id)-count));
+}
+log(bs.atk.name+’ stations ‘+count+’ unit’+(count>1?‘s’:’’)+’ in ‘+cityD(bs.targetCityId).name+’.’,‘pl’);
+}
+
+function applyBattleLoss(){
+var bs=S.bst;
+if(bs.fromCityId){
+if(bs.isNaval||bs.isNavalStrike)setNavyAt(bs.fromCityId,bs.atk.id,Math.max(0,getNavyAt(bs.fromCityId,bs.atk.id)-bs.atkLost));
+else setLandAt(bs.fromCityId,bs.atk.id,Math.max(0,getLandAt(bs.fromCityId,bs.atk.id)-bs.atkLost));
+}
+if(bs.def)adjR(bs.atk.id,bs.def.id,-2);
+log(bs.atk.name+’ repelled at ‘+cityD(bs.targetCityId).name+’.’,‘ba’);
+closeBattle();
+}
+
+function closeBattle(){
+closeOv(‘ovBattle’);S.bst=null;
+if(isHT()){renderContent();advPhase();}else{renderGame();nextAiAction();}
+}
+
+function mkBtn(cont,label,cls,fn){
+var b=document.createElement(‘button’);
+b.className=‘ab’+(cls?’ ‘+cls:’’);b.textContent=label;b.onclick=fn;
+cont.appendChild(b);
+}
+
+/* ═══════════════════════════════════════════════
+XERXES SPECIAL ABILITIES
+═══════════════════════════════════════════════ */
+function openBribeMap(){
+var p=humanP();if(p.res.coin<8){toast(‘Need 8 coin to bribe.’);return;}
+var targets=[];var srcs=p.territories.concat([‘persian_fleet’]);
+srcs.forEach(function(cid){
+(LAND_ADJ[cid]||[]).forEach(function(t){if(!cityOwner(t)&&targets.indexOf(t)<0)targets.push(t);});
+(SEA_ADJ[cid]||[]).forEach(function(t){if(!cityOwner(t)&&t!==‘persian_fleet’&&targets.indexOf(t)<0)targets.push(t);});
+});
+if(!targets.length){toast(‘No neutral cities adjacent to your territory.’);return;}
+S.mapMode=‘bribe’;el(‘mapTitle’).textContent=‘Bribe City’;el(‘mapSub’).textContent=‘8 coin \u2014 claim neutral city’;el(‘mapLeg’).textContent=‘Gold = bribeable neutral cities’;
+drawMap(targets,[],null);openOv(‘ovMap’);setTimeout(function(){MapGestures.init();},50);
+}
+
+function openInsurrectionMap(){
+var p=humanP();if(p.res.coin<20){toast(‘Need 20 coin for insurrection.’);return;}
+var targets=[];var srcs=p.territories.concat([‘persian_fleet’]);
+srcs.forEach(function(cid){
+var check=function(t){
+var o=cityOwner(t);if(!o||o.id===p.id||o.side===‘persian’)return;
+if((totalLandAt(t)+totalNavyAt(t))>=2&&targets.indexOf(t)<0)targets.push(t);
+};
+(LAND_ADJ[cid]||[]).forEach(check);(SEA_ADJ[cid]||[]).forEach(check);
+});
+if(!targets.length){toast(‘No valid insurrection targets (need enemy city with 2+ units adjacent).’);return;}
+S.mapMode=‘insurrection’;el(‘mapTitle’).textContent=‘Incite Insurrection’;el(‘mapSub’).textContent=‘20 coin \u2014 half the defenders revolt’;el(‘mapLeg’).textContent=‘Red = insurrection targets’;
+drawMap([],targets,null);openOv(‘ovMap’);setTimeout(function(){MapGestures.init();},50);
+}
+
+function resolveInsurrection(cityId){
+var p=humanP();p.res.coin-=20;
+var def=cityOwner(cityId);var city=S.cities[cityId];
+var defLand=getLandAt(cityId,def.id),defNavy=getNavyAt(cityId,def.id);
+var total=defLand+defNavy,rebels=Math.floor(total/2),loyal=total-rebels;
+var takeL=Math.min(defLand,rebels),takeN=rebels-takeL;
+setLandAt(cityId,def.id,defLand-takeL);setNavyAt(cityId,def.id,defNavy-takeN);
+log(‘Xerxes insurrection in ‘+city.name+’! ‘+rebels+’ units revolt!’,‘ev’);
+var rr=d6()+Math.min(4,Math.floor(rebels/3)),lr=d6()+Math.min(4,Math.floor(loyal/3));
+el(‘bTitle’).textContent=‘Insurrection \u2014 ‘+city.name;
+el(‘bSub’).textContent=‘Rebels (’+rebels+’) vs Loyalists (’+loyal+’)’;
+el(‘bSides’).innerHTML=’<div class="bsd"><div class="bsd-who" style="color:var(--pcol)">Rebels</div><div class="bsd-u">’+rebels+’</div><div class="bsd-l">units</div></div>’
++’<div class="bvs">VS</div>’
++’<div class="bsd"><div class="bsd-who" style="color:'+def.color+'">Loyalists</div><div class="bsd-u">’+loyal+’</div><div class="bsd-l">defenders</div></div>’;
+el(‘bRoll’).innerHTML=’<div class="droll"><div class="dr-s"><div class="dr-face">’+face(Math.min(6,rr))+’</div><div class="dr-mod">Roll: ‘+rr+’</div></div><div class="bvs">VS</div><div class="dr-s"><div class="dr-face">’+face(Math.min(6,lr))+’</div><div class="dr-mod">Roll: ‘+lr+’</div></div></div>’;
+if(rr>lr){
+def.territories=def.territories.filter(function(c){return c!==cityId;});
+p.territories.push(cityId);city.owner=p.id;city.garrison=0;city.units={};
+setLandAt(cityId,p.id,rebels);adjR(p.id,def.id,-5);
+el(‘bRes’).innerHTML=’<div class="bres win">Insurrection SUCCESSFUL! ‘+city.name+’ falls to Xerxes!</div>’;
+S._aiBattleCb=function(){
+var w=checkWin();if(w){showVictory(w);return;}
+var src=null,srcMax=0;p.territories.forEach(function(cid){if(cid===cityId)return;var u=getLandAt(cid,p.id);if(u>srcMax){srcMax=u;src=cid;}});
+var fU=getLandAt(‘persian_fleet’,p.id);if(fU>srcMax){srcMax=fU;src=‘persian_fleet’;}
+if(src&&srcMax>0){var bs2={atk:p,def:null,targetCityId:cityId,fromCityId:src,availableToStation:srcMax,stationIsNaval:false};openGarrisonDialog(bs2);}
+else advPhase();
+};
+}else{
+var lostL=Math.max(0,Math.ceil((lr-rr)/2));setLandAt(cityId,def.id,Math.max(0,getLandAt(cityId,def.id)-lostL));
+el(‘bRes’).innerHTML=’<div class="bres lose">Insurrection FAILED! Rebels destroyed. ‘+city.name+’ holds.</div>’;
+S._aiBattleCb=function(){advPhase();};
+}
+el(‘bActs’).innerHTML=’<button class="ab p" style="margin-top:4px" onclick="G.continueAiBattle()">Continue</button>’;
+openOv(‘ovBattle’);
+}
+
+/* ═══════════════════════════════════════════════
+LEONIDAS SPECIAL ABILITIES
+═══════════════════════════════════════════════ */
+function openUltimatumDip(){
+var p=humanP();var targets=S.players.filter(function(x){return !x.isHuman&&x.side===‘greek’;});
+if(!targets.length){toast(‘No Greek players to ultimatum.’);return;}
+el(‘unitsTitle’).textContent=‘Spartan Ultimatum’;
+el(‘unitsSub’).textContent=‘Force a Greek player not to attack you for 2 rounds. Costs -2 rel with them, -1 with all Greeks.’;
+var html=’<div style="display:flex;flex-direction:column;gap:7px;margin-top:8px;">’;
+targets.forEach(function(t){var rel=getR(humanP().id,t.id);html+=’<button class="ab d" onclick="G.doUltimatum(\''+t.id+'\')">’+t.name+’<span class="ab-sub">Relations: ‘+(rel>0?’+’:’’)+rel+’</span></button>’;});
+html+=’<button class="ab" onclick="G.closeOv(\'ovUnits\')">Cancel</button></div>’;
+el(‘unitsCont’).innerHTML=html;openOv(‘ovUnits’);
+}
+
+function doUltimatum(targetId){
+closeOv(‘ovUnits’);var p=humanP();var target=S.players.find(function(x){return x.id===targetId;});if(!target)return;
+S.pacts[targetId]={blockedTarget:p.id,roundsLeft:2};
+adjR(p.id,targetId,-2);
+S.players.forEach(function(op){if(op.id!==p.id&&op.id!==targetId&&op.side===‘greek’)adjR(p.id,op.id,-1);});
+S.leonidasUltimatum=true;
+log(‘Leonidas issues the Spartan Ultimatum to ‘+target.name+’! 2-round non-aggression enforced.’,‘ev’);
+renderResBar();advPhase();
+}
+
+/* ═══════════════════════════════════════════════
+THEMISTOCLES SPECIAL ABILITIES
+═══════════════════════════════════════════════ */
+function openGreekFireMap(){
+var p=humanP();if(S.greekFireUsed){toast(‘Greek Fire already used this game.’);return;}
+var targets=getNavalStrikeTargets(p.id);
+if(!targets.length){toast(‘No valid naval targets for Greek Fire.’);return;}
+S.mapMode=‘greekfire’;el(‘mapTitle’).textContent=‘Greek Fire’;el(‘mapSub’).textContent=‘Automatic naval victory \u2014 tap target’;el(‘mapLeg’).textContent=‘Blue = valid targets’;
+drawMap([],targets,null);openOv(‘ovMap’);setTimeout(function(){MapGestures.init();},50);
+}
+
+function resolveGreekFire(cityId){
+var p=humanP();S.greekFireUsed=true;
+var def=cityOwner(cityId);var city=S.cities[cityId];
+if(def){
+setNavyAt(cityId,def.id,0);setLandAt(cityId,def.id,0);
+def.territories=def.territories.filter(function(c){return c!==cityId;});
+adjR(p.id,def.id,-5);var loot=Math.min(def.res.coin,rnd(1,4));def.res.coin-=loot;p.res.coin+=loot;
+}
+p.territories.push(cityId);city.owner=p.id;city.garrison=0;city.units={};
+log(‘Themistocles unleashes GREEK FIRE on ‘+city.name+’! Automatic victory!’,‘ev’);
+el(‘bTitle’).textContent=‘Greek Fire \u2014 ‘+city.name;
+el(‘bSub’).textContent=‘Themistocles vs ‘+(def?def.name:‘Garrison’)+’ \u2014 Automatic Victory’;
+el(‘bSides’).innerHTML=’<div class="bsd"><div class="bsd-who" style="color:'+p.color+'">Themistocles</div><div class="bsd-u">🔥</div><div class="bsd-l">Greek Fire</div></div>’
++’<div class="bvs">VS</div>’
++’<div class="bsd"><div class="bsd-who" style="color:'+(def?def.color:'#8a7a56')+'">’+(def?def.name:‘Garrison’)+’</div><div class="bsd-u">0</div><div class="bsd-l">survivors</div></div>’;
+el(‘bRoll’).innerHTML=’<div style="text-align:center;font-size:2.5rem;padding:10px">🔥</div>’;
+el(‘bRes’).innerHTML=’<div class="bres win">’+city.name+’ burns! Themistocles claims victory!</div>’;
+// Find naval source for garrison
+var gfSrc=null,gfMax=0;
+p.territories.forEach(function(cid){if(cid===cityId)return;var n=getNavyAt(cid,p.id);if(n>gfMax){gfMax=n;gfSrc=cid;}});
+if(gfSrc&&gfMax>0){setNavyAt(cityId,p.id,1);var gfBS={atk:p,def:null,targetCityId:cityId,fromCityId:gfSrc,availableToStation:gfMax,stationIsNaval:true};}
+else setNavyAt(cityId,p.id,1);
+S._aiBattleCb=function(){
+var w=checkWin();if(w){showVictory(w);return;}
+if(gfSrc&&gfMax>0)openGarrisonDialog(gfBS);else advPhase();
+};
+el(‘bActs’).innerHTML=’<button class="ab p" style="margin-top:4px" onclick="G.continueAiBattle()">Continue</button>’;
+openOv(‘ovBattle’);
+}
+
+function openMarathonMap(){
+var p=humanP();if(S.marathonUsed){toast(‘Marathon March already used this game.’);return;}
+var srcs=p.territories.filter(function(cid){return getLandAt(cid,p.id)>0;});
+if(!srcs.length){toast(‘No land units to march.’);return;}
+S.mapMode=‘marathon_src’;el(‘mapTitle’).textContent=‘Marathon \u2014 Step 1’;el(‘mapSub’).textContent=‘Select city to march FROM’;el(‘mapLeg’).textContent=‘Tap a city with your land units’;
+drawMap(srcs,[],null);openOv(‘ovMap’);setTimeout(function(){MapGestures.init();},50);
+}
+
+/* ═══════════════════════════════════════════════
+AI TURN
+═══════════════════════════════════════════════ */
+function runAiTurn(){var p=curP();if(!p||p.isHuman)return;S.aiQueue=[];buildAiActions(p);S.aiRunning=true;processAiQueue();}
+
+function buildAiActions(p){
+S.aiQueue.push({type:‘gather’,p:p},{type:‘trade’,p:p},{type:‘build’,p:p});
+if(p.side===‘greek’)S.aiQueue.push({type:‘diplomacy’,p:p});
+S.aiQueue.push({type:‘attack’,p:p},{type:‘end’,p:p});
+}
+
+function processAiQueue(){
+if(!S.aiQueue.length){S.aiRunning=false;return;}
+var action=S.aiQueue.shift();var p=action.p;
+
+if(action.type===‘gather’){
+var g=gatherFor(p);var pts=[];[‘grain’,‘timber’,‘coin’].forEach(function(k){if(g[k]>0)pts.push(’+’+g[k]+’ ‘+k);});if(g.bonus)pts.push(g.bonus);
+log(p.name+’ gathers: ‘+pts.join(’, ’),‘ai’);renderContent();setTimeout(processAiQueue,900);
+
+}else if(action.type===‘trade’){
+[‘grain’,‘timber’].forEach(function(k){var ex=Math.max(0,p.res[k]-10);if(!ex)return;p.res[k]-=ex;p.res.coin+=ex*MKT[k];});
+renderContent();setTimeout(processAiQueue,800);
+
+}else if(action.type===‘build’){
+var gc=p.id===‘leonidas’?1:2;var tc=p.id===‘pausanias’?2:3;var built=false;
+for(var i=0;i<4;i++){
+if(p.res.grain>=gc&&p.res.coin>=1){p.res.grain-=gc;p.res.coin-=1;var home=p.territories.length?p.territories[0]:‘persian_fleet’;setLandAt(home,p.id,getLandAt(home,p.id)+1);built=true;}
+}
+if(rnd(0,1)&&p.res.timber>=tc&&p.res.coin>=2){p.res.timber-=tc;p.res.coin-=2;var home2=p.territories.length?p.territories[0]:‘persian_fleet’;setNavyAt(home2,p.id,getNavyAt(home2,p.id)+1);}
+if(built)log(p.name+’ trains units.’,‘ai’);
+renderContent();setTimeout(processAiQueue,800);
+
+}else if(action.type===‘diplomacy’){
+if(rnd(0,2)===0&&p.res.coin>=2){
+var gts=S.players.filter(function(x){return x.side===‘greek’&&x.id!==p.id&&!allied(p.id,x.id);});
+if(gts.length){var gt=gts[rnd(0,gts.length-1)];p.res.coin-=2;adjR(p.id,gt.id,1);
+var nr=getR(p.id,gt.id);log(p.name+’ sends envoy to ‘+gt.name+’. Rel: ‘+(nr>0?’+’:’’)+nr,‘dp’);
+if(nr>=5&&!allied(p.id,gt.id)){S.alliances.push({a:p.id,b:gt.id});S.relations[rk(p.id,gt.id)]=5;log(‘Alliance: ‘+p.name+’ & ‘+gt.name+’!’,‘ev’);}
+}
+}
+renderContent();setTimeout(processAiQueue,900);
+
+}else if(action.type===‘attack’){
+var aOpts=[];
+p.territories.forEach(function(cid){
+if(getLandAt(cid,p.id)>0)getLandAttackTargets(cid,p.id).forEach(function(t){aOpts.push({from:cid,to:t,naval:false});});
+if(isCoastal(cid)&&getNavyAt(cid,p.id)>0)getSeaAttackTargets(cid,p.id).forEach(function(t){aOpts.push({from:cid,to:t,naval:true});});
+});
+CITY_DEFS.forEach(function(cd){
+if(getNavyAt(cd.id,p.id)>0)getSeaAttackTargets(cd.id,p.id).forEach(function(t){if(!aOpts.some(function(o){return o.from===cd.id&&o.to===t;}))aOpts.push({from:cd.id,to:t,naval:true,strike:true});});
+});
+if(!aOpts.length){renderContent();setTimeout(processAiQueue,800);return;}
+
+```
+// Score and sort targets
+aOpts.sort(function(a,b){
+  function sc(opt){var defP=cityOwner(opt.to);var defU=cityOwner(opt.to)?(opt.naval?totalNavalDefenders(opt.to):totalDefenders(opt.to)):NEUTRAL_GARRISON;var atkU=opt.naval?getNavyAt(opt.from,p.id):getLandAt(opt.from,p.id);var s=0;if(!defP)s+=3;if(defU<=2)s+=2;if(atkU>=defU*2)s+=2;var cd=cityDef(opt.to);if(cd&&cd.yld>=3)s+=1;if(cd&&cd.coastal)s+=1;return s;}
+  return sc(b)-sc(a);
+});
+
+var attacksLeft=2;
+function doNextAttack(){
+  if(!attacksLeft||!aOpts.length){renderContent();setTimeout(processAiQueue,800);return;}
+  var ac=null;
+  for(var ii=0;ii<aOpts.length;ii++){
+    var opt=aOpts[ii];var u=opt.naval?getNavyAt(opt.from,p.id):getLandAt(opt.from,p.id);
+    var tgtOwner=cityOwner(opt.to);
+    if(tgtOwner&&tgtOwner.id===p.id)continue;
+    if(p.side==='persian'&&tgtOwner&&tgtOwner.side==='persian')continue;
+    if(S.pacts[p.id]&&tgtOwner&&tgtOwner.id===S.pacts[p.id].blockedTarget)continue;
+    if(u>=1){ac=opt;aOpts.splice(ii,1);break;}
+  }
+  if(!ac){renderContent();setTimeout(processAiQueue,800);return;}
+  attacksLeft--;
+  var defP=cityOwner(ac.to);
+  var defUnits=defP?(ac.naval?totalNavalDefenders(ac.to):totalDefenders(ac.to)):NEUTRAL_GARRISON;
+  var atkU=ac.naval?getNavyAt(ac.from,p.id):getLandAt(ac.from,p.id);if(atkU<1){doNextAttack();return;}
+  var atkBonus=Math.min(4,Math.floor(atkU/3))+((ac.naval||ac.strike)&&p.id==='datis'?2:0)+(!ac.naval&&!ac.strike&&p.id==='mardonius'?1:0);
+  var defBonus=Math.min(4,Math.floor(defUnits/3));
+  var aiDefOwner=cityOwner(ac.to);if(aiDefOwner&&aiDefOwner.id==='leonidas'&&!ac.naval&&!ac.strike)defBonus+=(ac.to==='sparta'?3:1);
+  var ar=d6()+atkBonus,dr=d6()+defBonus;
+  var city2=S.cities[ac.to];
+  if(ar>dr){
+    var dmg=ar-dr,lost=dmg;
+    var gl=Math.min(city2.garrison,lost);city2.garrison=Math.max(0,city2.garrison-gl);lost-=gl;
+    if(defP&&lost>0){if(ac.naval||ac.strike){var nv2=getNavyAt(ac.to,defP.id);setNavyAt(ac.to,defP.id,Math.max(0,nv2-lost));}else{var lu2=getLandAt(ac.to,defP.id);setLandAt(ac.to,defP.id,Math.max(0,lu2-lost));}}
+    if(defP)defP.territories=defP.territories.filter(function(c){return c!==ac.to;});
+    p.territories.push(ac.to);city2.owner=p.id;city2.garrison=0;city2.units={};
+    if(ac.naval||ac.strike)setNavyAt(ac.to,p.id,1);else setLandAt(ac.to,p.id,1);
+    if(ac.from){if(ac.naval||ac.strike)setNavyAt(ac.from,p.id,Math.max(0,getNavyAt(ac.from,p.id)-Math.ceil(dmg/2)));else setLandAt(ac.from,p.id,Math.max(0,getLandAt(ac.from,p.id)-Math.ceil(dmg/2)));}
+    if(defP){var lo=Math.min(defP.res.coin,rnd(0,3));defP.res.coin-=lo;p.res.coin+=lo;adjR(p.id,defP.id,-5);}
+    log(p.name+(ac.naval||ac.strike?' fleet':'')+' attacks '+city2.name+(defP?' ('+defP.name+')':'')+': '+ar+' vs '+dr+' \u2014 VICTORY!','ba');
+    showAiBattleResult(p,defP,ac.to,ar,dr,true,atkU,defUnits,function(){var w3=checkWin();if(w3){showVictory(w3);return;}renderContent();setTimeout(doNextAttack,600);});
+  }else{
+    log(p.name+' attacks '+city2.name+': '+ar+' vs '+dr+' \u2014 repelled.','ai');
+    if(ac.from){var lose=Math.max(1,Math.ceil((dr-ar)/2));if(ac.naval||ac.strike)setNavyAt(ac.from,p.id,Math.max(0,getNavyAt(ac.from,p.id)-lose));else setLandAt(ac.from,p.id,Math.max(0,getLandAt(ac.from,p.id)-lose));}
+    if(defP)adjR(p.id,defP.id,-1);
+    showAiBattleResult(p,defP,ac.to,ar,dr,false,atkU,defUnits,function(){renderContent();setTimeout(doNextAttack,600);});
+  }
+}
+doNextAttack();
+```
+
+}else if(action.type===‘end’){
+S.aiRunning=false;setTimeout(endTurn,700);
+}
+}
+
+function showAiBattleResult(atk,def,cityId,ar,dr,win,atkUnits,defUnits,cb){
+var cityName=cityId?cityD(cityId).name:’?’;
+el(‘bTitle’).textContent=(win?‘Victory!’:‘Repelled!’)+’ \u2014 ‘+cityName;
+el(‘bSub’).textContent=atk.name+(def?’ vs ‘+def.name:’ vs Neutral Garrison’);
+el(‘bSides’).innerHTML=’<div class="bsd"><div class="bsd-who" style="color:'+atk.color+'">’+atk.name+’</div><div class="bsd-u">’+(atkUnits||’?’)+’</div><div class="bsd-l">units</div></div>’
++’<div class="bvs">VS</div>’
++’<div class="bsd"><div class="bsd-who" style="color:'+(def?def.color:'#8a7a56')+'">’+(def?def.name:‘Garrison’)+’</div><div class="bsd-u">’+(defUnits||’?’)+’</div><div class="bsd-l">defenders</div></div>’;
+el(‘bRoll’).innerHTML=’<div class="droll"><div class="dr-s"><div class="dr-face">’+face(Math.min(6,ar))+’</div><div class="dr-mod">Roll: ‘+ar+’</div></div><div class="bvs">VS</div><div class="dr-s"><div class="dr-face">’+face(Math.min(6,dr))+’</div><div class="dr-mod">Roll: ‘+dr+’</div></div></div>’;
+el(‘bRes’).innerHTML=’<div class="bres '+(win?'win':'lose')+'">’+(win?atk.name+’ captures ‘+cityName+’!’:‘Attack repelled at ‘+cityName+’.’)+’</div>’;
+S._aiBattleCb=cb;
+el(‘bActs’).innerHTML=’<button class="ab p" style="margin-top:4px" onclick="G.continueAiBattle()">Continue</button>’;
+openOv(‘ovBattle’);
+}
+
+function continueAiBattle(){var cb=S._aiBattleCb;S._aiBattleCb=null;closeOv(‘ovBattle’);if(cb)cb();}
+function nextAiAction(){processAiQueue();}
+
+/* ═══════════════════════════════════════════════
+PHASE / TURN PROGRESSION
+═══════════════════════════════════════════════ */
+function advPhase(){
+S.phDone.push(S.curPhase);S.curPhase++;
+if(S.curPhase>=phases().length){endTurn();return;}
+renderGame();
+}
+
+function endTurn(){
+S.curPhase=0;S.phDone=[];S.mapSel=null;S.undeployed={land:0,navy:0};
+S.curPIdx=(S.curPIdx+1)%S.players.length;
+if(S.curPIdx===0){
+S.round++;
+// Decrement pacts
+Object.keys(S.pacts).forEach(function(pid){
+S.pacts[pid].roundsLeft–;
+if(S.pacts[pid].roundsLeft<=0){
+delete S.pacts[pid];
+var pp=S.players.find(function(p){return p.id===pid;});
+log((pp?pp.name:‘A player’)+’ is no longer bound by the Spartan Ultimatum.’,‘ev’);
+}
+});
+// Relations decay (allied pairs frozen at 5)
+for(var i=0;i<S.players.length;i++){
+for(var j=i+1;j<S.players.length;j++){
+var a=S.players[i].id,b=S.players[j].id;
+if(allied(a,b)){S.relations[rk(a,b)]=5;continue;}
+var r=getR(a,b);if(r>0)adjR(a,b,-1);else if(r<0)adjR(a,b,1);
+}
+}
+log(’\u2014 Round ‘+S.round+’ begins \u2014’,‘ev’);
+var w=checkWin();if(w){showVictory(w);return;}
+}
+var p=curP();
+log(p.name+’\u2019s turn.’,p.isHuman?‘pl’:‘ai’);
+renderGame();
+if(!p.isHuman)setTimeout(runAiTurn,1000);
+}
+
+/* ═══════════════════════════════════════════════
+VICTORY
+═══════════════════════════════════════════════ */
+function showVictory(winningSide){
+var winners=S.players.filter(function(p){return p.side===winningSide;}).sort(function(a,b){return score(b)-score(a);});
+var losers=S.players.filter(function(p){return p.side!==winningSide;}).sort(function(a,b){return score(b)-score(a);});
+el(‘vTitle’).textContent=winningSide===‘greek’?‘Greece Triumphant!’:‘Persia Victorious!’;
+el(‘vTitle’).style.color=winningSide===‘greek’?‘var(–gcol)’:‘var(–pcol)’;
+var medals=[’\ud83c\udfc6’,’\ud83e\udd48’,’\ud83e\udd49’];
+var h=’’;
+winners.forEach(function(p,i){h+=’<div class="srow"><span style="color:'+p.color+'">’+(medals[i]||’\u2022’)+’ ‘+p.name+(p.isHuman?’ (You)’:’’)+’</span><span class="spts">’+score(p)+’ pts</span></div>’;});
+h+=’<div style="height:1px;background:var(--br);margin:4px 0;width:100%"></div>’;
+losers.forEach(function(p){h+=’<div class="srow"><span style="color:'+p.color+';opacity:.45">’+p.name+’</span><span class="spts" style="opacity:.45">’+score(p)+’ pts</span></div>’;});
+el(‘vScores’).innerHTML=h;
+showScr(‘sVictory’);
+}
+
+/* ═══════════════════════════════════════════════
+TOAST
+═══════════════════════════════════════════════ */
+function toast(msg){
+var t=document.createElement(‘div’);t.className=‘toast-el’;t.textContent=msg;
+document.body.appendChild(t);
+setTimeout(function(){t.style.opacity=‘0’;setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},300);},2500);
+}
+
+/* ═══════════════════════════════════════════════
+PUBLIC API
+═══════════════════════════════════════════════ */
+window.G={
+goSetup:goSetup,selChar:selChar,startGame:startGame,
+doGather:doGather,sellRes:sellRes,buyRes:buyRes,doBuild:doBuild,
+doneBuildingDeploy:doneBuildingDeploy,confirmDeploy:confirmDeploy,
+openDip:openDip,doDip:doDip,
+openMoveMap:openMoveMap,openAttackMap:openAttackMap,
+doMoveUnits:doMoveUnits,
+advPhase:advPhase,endTurn:endTurn,
+resolveBattleType:resolveBattleType,
+openInspectMap:openInspectMap,
+continueAiBattle:continueAiBattle,
+confirmGarrison:confirmGarrison,
+openBribeMap:openBribeMap,openInsurrectionMap:openInsurrectionMap,
+openUltimatumDip:openUltimatumDip,doUltimatum:doUltimatum,
+openGreekFireMap:openGreekFireMap,openMarathonMap:openMarathonMap,
+closeOv:closeOv,closeMap:closeMap
+};
+
+})();
+</script>
+
+</body>
+</html>
